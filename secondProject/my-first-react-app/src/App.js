@@ -15,7 +15,7 @@ const App = () => {
   const getStarWarsPerson = async ()=> {
   
     console.log("getting character")
-    let randID = Math.floor(Math.random(10) * 10) + 1
+    let randID = Math.floor(Math.random(30) * 10) + 1
     let res = await axios.get(`https://swapi.dev/api/people/${randID}`)
     console.log(res.data.name);
     setCharacter(res.data.name);
@@ -49,7 +49,7 @@ const App = () => {
 
         <p>
         <hr></hr>
-          {Date()}
+          {time}
           <hr></hr>
         </p>
       </div>
