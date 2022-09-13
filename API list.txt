@@ -1,0 +1,5 @@
+https://dummyapi.io/explorer 
+
+https://dash.fortnite-api.com/endpoints/stats
+
+https://weatherstack.com/dashboard?logged_in=1

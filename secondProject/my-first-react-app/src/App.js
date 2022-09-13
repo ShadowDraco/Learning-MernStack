@@ -47,6 +47,11 @@ const App = () => {
         <button onClick={() => getStarWarsPerson()}>Next Character</button>
       
 
+        <h1>Weather</h1>
+
+        <p> is the temperature</p>
+        <button onClick={() => console.log("check weather")}>Check</button>
+
         <p>
         <hr></hr>
           {time}

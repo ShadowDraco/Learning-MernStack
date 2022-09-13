@@ -2,12 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+
+// Add the fortnite stat tracker to the page
+import FortniteStatTracker from './Components/FortniteStats';
+
 import reportWebVitals from './reportWebVitals';
 <div className="0"></div>
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <App />
+
+    <FortniteStatTracker />
+
   </React.StrictMode>
 );
 
