@@ -1,0 +1,42 @@
+body {
+    background-color:rgb(133, 133, 133);
+}
+
+#todo-form {
+    border: 2px groove black;
+    padding-top:2%;
+    padding-left:2%;
+    padding-bottom:2%
+}
+
+#todo-list {
+    border:2px groove black;
+}
+
+#todo-list li {
+    margin-bottom:5px;
+}
+
+.centered {
+    text-align:center;
+    border-top: 1px dashed black;
+}
+
+.half-centered {
+    width:50%;
+    padding-left:15%;
+}
+
+.half-width {
+    width: 75%;
+}
+
+.wrapper {
+    width:fit-content;
+    border-top:3px double darkgoldenrod;
+    border-bottom:3px double darkgoldenrod;
+}
+
+.hidden {
+    display:none;
+}

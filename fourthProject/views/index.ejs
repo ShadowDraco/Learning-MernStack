@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form and user creation</title>
+
+    <!-- add script and stylesheets-->
+    <link rel="stylesheet" href="/stylesheets/mainStyles.css">
+    <script src="/scripts/formData.js" defer></script>
+</head>
+<body>
+    <!-- create a form -->
+    <form id="todo-form">
+        
+        <div class="wrapper">
+            <label for="item" name="item">Add Item:</label> 
+            <br>
+            <input type="text" value="" placeholder="task">
+            <br>
+
+            <small id="form-info"></small>
+            <br>
+            <input type="submit">
+        </div>
+    </form>
+    
+    <div id="todo-list">
+        <h1 class="centered">To-do list!</h1>
+
+        <hr class="half-width">
+            <ul class="half-centered">
+                <div class="wrapper">
+                    <!-- to do list-->
+                </div>
+            </ul>
+        <hr class="half-width"
+    </div>
+
+    <div id="signup-signin">
+
+        <form id="save-todo" action="/todo/save" method="post">
+            
+            <button type="submit"> Save! </button>
+        </form>
+    </div>
+</body>
+</html>
