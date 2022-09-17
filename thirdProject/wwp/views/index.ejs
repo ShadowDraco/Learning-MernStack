@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+        <title>World Dance Forum</title>
+
+        <!-- Main page style -->
+        <link rel="stylesheet" type="text/css" href="stylesheets/indexStyle.css"> 
+        <!-- Interactions and spacing etc stylesheet-->
+        <link rel="stylesheet" type="text/css" href="stylesheets/interactionStyle.css"> 
+        <!--Extra styling for anything -->
+        <link rel="stylesheet" type="text/css" href="stylesheets/extraStyles.css">
+
+        <!-- Scripts are added here and deffered so they could actually load faster -->
+
+        <!-- custom interactions I made-->
+        <script src="scripts/interactiveThings.js" defer></script>
+        <!-- Script for the signup and sign in form-->
+        <script src="scripts/formScript.js" defer></script>
+        <!-- node.js script -->
+        <script src="index.js" defer></script>
+</head>
+
+<!-- Body -->
+<body>
+
+    <!-- Header -->
+    <header>
+        <!-- make the stuff in the title area display in a grid format-->
+        <div id="header-grid">
+
+            <div id="title-div">
+                <h1>The Dance World</h1> 
+                <h4>Learn about dance, contribute, share your story!</h4>
+            </div>
+
+            <!-- signup sign in will display a log in or sign up based on if a local user is available -->
+            <div class="signup-signin">
+                <!-- whichever is active-->
+                <div class="click-reveal pretty-text">Want to be involved?
+
+                    <form id="signupForm" class="hideable hidden" action="/user/signup" method="post" autocomplete="off">
+                       
+                        <label for="id" class="hidden">ID:</label>
+                        <input type="text" id="id" name="id" class="hidden">
+                       
+                        <label for="username" class="hidden">Unique user!</label> 
+                        <input type="text" id="username" name="username" placeholder="User" value=""></label>
+                                
+                        <label for="password">Great password</label>
+                        <input type="text" id="password" name="password" placeholder="Pass" value="">
+                        
+                        <small id="info"></small>
+                        <input type="submit" value="Sign Up!">
+                    </form> 
+                    
+                </div>
+                
+                <p> or </p>
+
+                <!-- click reveal didn't work with a parageraph this time so it was substited for a div-->
+                <!-- the questions are click reveals for the forms-->
+                
+                    <div class="click-reveal">Sign in if you're ready!
+
+                        <form id="loginForm" class="hideable hidden">
+                            <label for="username">Your username!</label> 
+                            <input type="text" id="username" name="username" placeholder="User"></label>
+                                    
+                            <label for="password">That wonderful password</label>
+                            <input type="text" id="password" name="password" placeholder="Pass">
+            
+                            <input type="submit" value="Log in!">
+                        </form> 
+                        
+                    </div>
+            </div>
+
+        </div>
+        <!-- navigation links -->
+        <nav>
+            <ul class="nav-link-list">
+                <a href='index.html'>   <li>The Dance World</li>    </a>
+                <a href='ballet.html'>  <li>Ballet Dance</li>   </a>
+                <a href='jazz.html'>    <li>Jazz Dance</li> </a>
+                <a href='lyrical.html'> <li>Lyrical Dance</li>  </a>
+                <a href='breakdance.html'>  <li>Breakdance</li> </a>
+                <a href='about.html'>   <li>About</li>  </a>
+            </ul>
+        </nav>
+
+    </header>
+
+    <!--Body sections -->
+    <div class="spacer"></div>
+
+    <section>
+        
+        <!-- page explanation is the first thing on each page -->
+        <div class="page-explanation"> 
+
+            <h3>- The dance world is full of<em class="no-border">styles, people, and ideas</em>- </h3>
+            
+                <p>Dance styles each have their own stories, competitions, rules, and variations. 
+                    <br> Breakdance began with hip hop!
+                    <br> Ballet began with court dances for a king who liked dance.
+                    <br> However, it's more complex than that!
+                </p>
+
+                <p>Dancers can do a wide range of things, like content creation, competitions, and taking classes at studios</p>
+
+            <h3>- Dancers will work very hard to perfect their craft and make themselves stronger, faster, and cooler</h4>
+
+                <p>A dancer will learn new skills from other styles, and learn choreography from other dancers to improve.
+                    <br> Breakdancers will use acrobatic skills and jazz dancers will get groovy in their own way. 
+                    <br> both styles require high energy, confidence, and willingness to perform and not just move!
+                </p>
+
+            <h2>- Most dancers will develop their own<em class="no-border">style</em> through improvisation</h2>
+
+            <!-- hidden things with a 'click-reveal' will be toggleable items on a page -->
+                <div class="hidden-video">
+                    <p class="click-reveal">Click here to reveal a video! 
+                        <!-- the stuff that will be revealed-->
+                        <span class="hideable hidden">
+                            <br>
+                            <video class="hideable" width="320" height="240" controls> 
+                                <source src="assets/video/OnlyOneToBlame.mp4" type="video/mp4">
+                            </video>
+                            <!-- line break here allowes for the border to be in the correct place-->
+                            <br>
+                            <!-- pretty text will make things nice I hopeeee -->
+                            <span class="hideable pretty-text">
+                                I dance to Only One To Blame by Samm Henshaw! (with a little motion tracking ;)
+                                <br>
+                                This is one of many ways I incorporate my personal style and artistry.
+                                <br>
+                                Improvisiation and trying new ways to move.
+                            </span>
+                        </span>
+                    </p>
+                </div>
+
+        </div> <!-- end page explanation -->
+
+    </section>
+
+    <div class="spacer"></div>
+
+    <!-- Footer -->
+    <footer> 
+        blah blah written by, copyright, more links ahhahaha
+    </footer>
+
+
+</body>
+</html>
