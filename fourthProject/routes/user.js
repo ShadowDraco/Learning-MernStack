@@ -49,6 +49,12 @@ router.post('/signup', (req, res) => {
     })// end read file
 })
 
+/*
+save 
+todo
+list
+*/
+
 router.get('/save-todo', (req, res) => {
     res.send('saving items')
 })
@@ -91,7 +97,10 @@ router.post('/save-todo', (req, res) => {
     }
 })
 
-// Login 
+/*
+Login 
+route
+*/
 router.route("/:userID").get((req, res) => {
     res.render('index', { 
         loggedUser: currentLoggedUser,                          

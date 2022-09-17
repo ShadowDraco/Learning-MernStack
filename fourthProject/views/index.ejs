@@ -12,6 +12,7 @@
 </head>
 <body>
 
+    <!-- when a user logs in display their name at the top-->
     <% if (locals.loggedUser) { %>
     
     <div class="user-info">
@@ -42,6 +43,7 @@
             <ul class="half-centered">
                 <div class="wrapper">
                     <!-- to do list-->
+                    <!-- HOW DO I GET THE DATA FROM LOGGED IN USER AND CREATE THEY're TODO LIST?? -->
                     <%
                     if (locals.loggedUser) { 
                         let user = locals.loggedUser
@@ -58,6 +60,7 @@
         <hr class="half-width"
     </div>
 
+    <!-- form handles sign ups and sign ins-->
     <div id="signup-signin">
 
         <form id="signup" class="centered-wrapper" action="/user/signup" method="post" autocomplete='off'>
