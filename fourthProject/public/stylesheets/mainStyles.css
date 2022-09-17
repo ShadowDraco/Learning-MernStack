@@ -37,6 +37,25 @@ body {
     border-bottom:3px double darkgoldenrod;
 }
 
+.simple-wrapper {
+    margin-top:5px;
+    margin-bottom:5px;
+    padding:5px;
+    border-spacing:2px;   
+    border: 2px double rgb(59, 59, 59);
+}
+
 .hidden {
     display:none;
+}
+
+.centered-wrapper {
+    padding-top:5px;
+    text-align:center;
+    border-top: 1px dashed black;
+    border-bottom:3px double darkgoldenrod;
+}
+
+#signup-signin button {
+    width:54%;
 }
