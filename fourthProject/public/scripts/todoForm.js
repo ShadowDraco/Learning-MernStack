@@ -100,9 +100,13 @@ function userSignup(e) {
 }
 
 // info gathered from the ejs template < from the server > to be added to the script
+if (sessionStorage.getItem('signedIn')) {
+    console.log("loading user data from session storage")
+    userData = sessionStorage.getItem('currentUser')
+}
 
 if (userData) {
-    console.log('loading saved data')
+    console.log('loading saved data from server')
    
     if (userData.todo) {
         
@@ -115,4 +119,10 @@ if (userData) {
             todoList.insertAdjacentHTML("beforeend", newTask)
         }
     }
+}
+
+// Save to session storage if a user is found so that page refresh doesn't lose the logged in user
+if (userData) {
+    sessionStorage.setItem('signedIn', true)
+    sessionStorage.setItem('currentUser', userData)
 }
