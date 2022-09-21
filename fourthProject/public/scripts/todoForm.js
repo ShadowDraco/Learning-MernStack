@@ -1,3 +1,4 @@
+
 /* 
  To do form
  */
@@ -96,4 +97,22 @@ function userSignup(e) {
         return
     }
 
+}
+
+// info gathered from the ejs template < from the server > to be added to the script
+
+if (userData) {
+    console.log('loading saved data')
+   
+    if (userData.todo) {
+        
+        let todoList = document.querySelector('#todo-list ul .wrapper')
+        let userTodo = userData.todo
+        let listLength = Object.keys(userTodo).length
+
+        for (let i = 0; i < listLength; i++) {
+            let newTask = `<li> ${userTodo[`task ${i}`]} </li>`
+            todoList.insertAdjacentHTML("beforeend", newTask)
+        }
+    }
 }
