@@ -1,0 +1,197 @@
+/* Base styling for all pages
+
+/* define variables */
+:root { 
+    /* splash */ 
+    --navyblue: #05445E;
+    --bluegrotto: #189AB4;
+    --bluegreen: #75E6DA;
+    --babyblue: #D4F1F4;
+
+    /* surf */
+    --babyblue2: #D3F4FB;
+    --tiffanyblue: #9DE3F6;
+    --teal: #59D7EE;
+    --bluegreen2: #53DFD1;
+
+    /* pastel */
+    --rosequartz: #F0E1DE;
+    --seashell: #F7C9B6;
+    --bluegrotto2: #549BAD;
+    --tiffanyblue2: #83BDC0;
+
+    /* mine */
+    --tiffanyblue3: #3abbdf;
+}
+
+/* make everything on the page slightly faded until moused over */
+* {
+    opacity: 92%;
+    transition: opacity 1s;
+}
+
+*:hover {
+    opacity: 100%;
+}
+
+
+
+/* background color for the whole page */
+body { 
+    opacity:100%;
+    background-color:var(--tiffanyblue2);
+}
+
+/* The heading of the page */ 
+header {
+    background-color:var(--bluegrotto);
+
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:10px;
+
+    border:8px;
+    border-color:(var(--seashell));
+    border-style:outset;
+}
+
+
+
+header h1 {
+    border-left:6px;
+    border-top:6px;
+    border-bottom:0px;
+    border-right:0px;
+    
+    border-color:var(--bluegrotto2);
+    border-style:groove;
+
+    opacity: 80%;
+
+    transition: background-color 1s;
+
+}
+
+header h1:hover {
+    background-color:var(--tiffanyblue3);
+}
+
+header h4 {
+
+    margin-top:15px;
+
+    border-left:6px;
+    border-top:0px;
+    border-bottom:6px;
+    border-right:0px;
+    
+    border-color:var(--bluegrotto2);
+    border-style:groove;
+
+    opacity: 80%;
+
+    transition: background-color 1s;
+
+}
+
+header h4:hover {
+    background-color:var(--tiffanyblue3); 
+} 
+
+/* signup sign in styles */
+#header-grid {
+    grid-template-columns:repeat(2, 1fr);
+    grid-gap:15%;
+    display:grid;
+}
+
+/* everything for the nav */
+
+nav { 
+    background-color:var(--rosequartz);
+}
+
+.nav-link-list { 
+
+    /* make the list not show the bullet */
+    list-style-type: none;  
+
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3px;
+    display:grid;
+
+    padding:5px;
+
+    border:4px;
+    border-color:var(--navyblue);
+    border-style:inset;
+}
+
+.nav-link-list li {
+    background-color:var(--bluegrotto);
+    opacity: 80%;
+
+
+    border-top:4px;
+    border-left:4px;
+    border-bottom:0px;
+    border-right:0px;
+
+    border-color:var(--tiffanyblue2);
+    border-style:ridge;
+    border-spacing:3px;
+
+    transition: background-color 1s;
+}
+
+a {
+    color:var(--babyblue2);
+}
+
+.nav-link-list li:hover {
+    background-color:var(--seashell);
+    opacity: 100%;
+}
+
+a:hover {
+    color:var(--teal);
+}
+
+section {
+    background-color:var(--bluegrotto);
+}
+
+.page-explanation {
+    background-color:var(--bluegrotto);
+
+    padding-left:20px;
+
+    border-top:0x;
+    border-left:0px;
+    border-bottom:6px;
+    border-right:6px;
+
+    border-style:ridge;
+    border-color:var(--babyblue);
+}
+
+.page-explanation * {
+
+    padding-left: 10px;
+
+    border-left: 4px;
+    border-top:0px;
+    border-right:0px;
+    border-bottom:0px;
+
+    border-left-width:10px;
+    border-style:groove;
+    border-color:var(--seashell);
+
+    transition:background-color 1s;
+    transition:visibility 1s;
+}
+
+.page-explanation *:hover {
+    background-color:var(--bluegrotto2);
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form and user creation</title>
+
+    <!-- add script and stylesheets-->
+    <link rel="stylesheet" href="/stylesheets/mainStyles.css">
+    <script src="/scripts/todoForm.js" defer></script>
+</head>
+<body>
+
+    <!-- when a user logs in display their name at the top-->
+    <% if (locals.loggedUser) { %>
+    
+    <div class="user-info">
+        <h1>Signed in as: <%= locals.loggedUser.username %> </h1>
+    </div>
+
+    <% } %>
+
+    <!-- create a form -->
+    <form id="todo-form">
+        
+        <div class="wrapper">
+            <label for="item" name="item">Add Item:</label> 
+            <br>
+            <input type="text" value="" placeholder="task">
+            <br>
+
+            <small id="form-info"></small>
+            <br>
+            <input type="submit">
+        </div>
+    </form>
+    
+    <div id="todo-list">
+        <h1 class="centered">To-do list!</h1>
+
+        <hr class="half-width">
+            <ul class="half-centered">
+                <div class="wrapper">
+                    <!-- to do list-->
+                    <!-- HOW DO I GET THE DATA FROM LOGGED IN USER AND CREATE THEY're TODO LIST?? -->
+                    <%
+                    if (locals.loggedUser) { 
+                        let user = locals.loggedUser
+                        Array.from(user.todo).forEach(function(task) {
+                            console.log(task)
+                            todoList = document.querySelector('#todo-list ul .wrapper')
+                            todoList.insertAdjacentHTML("beforeend", `<li>${task}</li>`)
+                        })
+                    }
+                   %>
+
+                </div>
+            </ul>
+        <hr class="half-width"
+    </div>
+
+    <!-- form handles sign ups and sign ins-->
+    <div id="signup-signin">
+
+        <form id="signup" class="centered-wrapper" action="/user/signup" method="post" autocomplete='off'>
+            <div class="simple-wrapper">
+
+                <p>Sign up to save your data!</p>
+                <hr>
+
+                <label for="id" class="hidden">ID:</label>
+                <input type="text" id="id" name="id" class="hidden">
+
+                <label for="username" name="user">Your username:</label>
+                <input type="text" name="username" value="" placeholder="user">
+
+                <br>
+                <label for="password" name="pass"> Your password: </label>
+                <input type="text" name="password" value="" placeholder="pass">
+
+                <br>
+                <small></small>
+                <br>
+                <button type="submit">Sign Up!</button>
+
+            </div>
+        </form>
+
+        <form id="login" class="centered-wrapper" action="/user/login" method="post">
+            <div class="simple-wrapper">
+                <p>Log in to save your data!</p>
+                <hr>
+                
+                <label for="username" name="user">Your username:</label>
+                <input type="text" name="username" value="" placeholder="user">
+
+                <br>
+                <label for="password" name="pass"> Your password: </label>
+                <input type="text" name="password" value="" placeholder="pass">
+
+                <br>
+
+                <small></small>
+                <br>
+                <button type="submit">Log in!</button>
+            </div>
+        </form>
+
+        <br>
+
+    </div>
+
+     <!-- save the elements from the page to the todo list object in the user's JSON-->
+     <form id="save-todo" action="/user/save-todo" method="post" class="centered">
+
+        <!-- the todolist will be turned into a string and placed in the label to be submitted as JSON -->
+        <label for="todo-list" class="hidden"></label>
+
+        <button type="submit"> Save! </button>
+    </form>
+
+</body>
+</html>
