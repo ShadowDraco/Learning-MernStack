@@ -9,6 +9,7 @@
     <!-- add script and stylesheets-->
     <link rel="stylesheet" href="/stylesheets/mainStyles.css">
     <script src="/scripts/todoForm.js" defer></script>
+    <script src="/scripts/interactions.js" defer></script>
 </head>
 <body>
     
@@ -56,46 +57,52 @@
     <div id="signup-signin">
 
         <form id="signup" class="centered-wrapper" action="/user/signup" method="post" autocomplete='off'>
-            <div class="simple-wrapper">
+
+            <div class="simple-wrapper click-reveal">
 
                 <p>Sign up to save your data!</p>
                 <hr>
 
-                <label for="id" class="hidden">ID:</label>
-                <input type="text" id="id" name="id" class="hidden">
+                <div class="reveal-me hidden">
+                    <label for="id" class="hidden">ID:</label>
+                    <input type="text" id="id" name="id" class="hidden">
 
-                <label for="username" name="user">Your username:</label>
-                <input type="text" name="username" value="" placeholder="user">
+                    <label for="username" name="user">Your username:</label>
+                    <input type="text" name="username" value="" placeholder="user">
 
-                <br>
-                <label for="password" name="pass"> Your password: </label>
-                <input type="text" name="password" value="" placeholder="pass">
+                    <br>
+                    <label for="password" name="pass"> Your password: </label>
+                    <input type="text" name="password" value="" placeholder="pass">
 
-                <br>
-                <small></small>
-                <br>
-                <button type="submit">Sign Up!</button>
+                    <br>
+                    <small></small>
+                    <br>
+                    <button type="submit">Sign Up!</button>
+                </div>
 
             </div>
         </form>
 
         <form id="login" class="centered-wrapper" action="/user/login" method="post">
-            <div class="simple-wrapper">
+            <div class="simple-wrapper click-reveal">
                 <p>Log in to save your data!</p>
                 <hr>
                 
-                <label for="username" name="user">Your username:</label>
-                <input type="text" name="username" value="" placeholder="user">
+                <div class="reveal-me hidden">
+                    <label for="username" name="user">Your username:</label>
+                    <input type="text" name="username" value="" placeholder="user">
 
-                <br>
-                <label for="password" name="pass"> Your password: </label>
-                <input type="text" name="password" value="" placeholder="pass">
+                    <br>
+                    <label for="password" name="pass"> Your password: </label>
+                    <input type="text" name="password" value="" placeholder="pass">
 
-                <br>
+                    <br>
 
-                <small></small>
-                <br>
-                <button type="submit">Log in!</button>
+                    <small></small>
+                    <br>
+                    <button type="submit">Log in!</button>
+                </div>
+
             </div>
         </form>
 

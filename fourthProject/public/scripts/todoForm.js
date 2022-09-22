@@ -1,3 +1,4 @@
+checkSignedInUser()
 
 /* 
  To do form
@@ -99,30 +100,43 @@ function userSignup(e) {
 
 }
 
-// info gathered from the ejs template < from the server > to be added to the script
-if (sessionStorage.getItem('signedIn')) {
-    console.log("loading user data from session storage")
-    userData = sessionStorage.getItem('currentUser')
-}
-
-if (userData) {
-    console.log('loading saved data from server')
-   
-    if (userData.todo) {
-        
-        let todoList = document.querySelector('#todo-list ul .wrapper')
-        let userTodo = userData.todo
-        let listLength = Object.keys(userTodo).length
-
-        for (let i = 0; i < listLength; i++) {
-            let newTask = `<li> ${userTodo[`task ${i}`]} </li>`
-            todoList.insertAdjacentHTML("beforeend", newTask)
+// take the data from the ejs template or the session storage and make the todo list
+function setUserTodo() {
+    
+    if (userData) {
+        console.log('loading saved data from server')
+       
+        console.log(userData)
+        if (userData.todo) {
+            
+            let todoList = document.querySelector('#todo-list ul .wrapper')
+            let userTodo = userData.todo
+            let listLength = Object.keys(userTodo).length
+    
+            for (let i = 0; i < listLength; i++) {
+                let newTask = `<li> ${userTodo[`task ${i}`]} </li>`
+                todoList.insertAdjacentHTML("beforeend", newTask)
+            }
         }
     }
 }
 
 // Save to session storage if a user is found so that page refresh doesn't lose the logged in user
-if (userData) {
-    sessionStorage.setItem('signedIn', true)
-    sessionStorage.setItem('currentUser', userData)
+
+function checkSignedInUser() {
+
+    console.log('checking for user')
+
+    // check if userData was passed to the template
+    if (userData) {
+        sessionStorage.setItem('signedIn', true)
+        sessionStorage.setItem('currentUser', JSON.stringify(userData))
+        setUserTodo()
+
+        // if no data was passed check if there was data from the session
+    } else if (sessionStorage.getItem('signedIn') == true) {
+        console.log("loading user data from session storage")
+        userData = sessionStorage.getItem('currentUser')
+        setUserTodo()
+    }
 }

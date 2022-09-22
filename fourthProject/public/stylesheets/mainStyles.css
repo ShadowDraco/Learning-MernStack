@@ -49,6 +49,16 @@ body {
     display:none;
 }
 
+.click-reveal {
+   opacity:80;
+   background-color:inherit;
+}
+
+.click-reveal:hover {
+    opacity:100;
+    background-color: darkgray;
+}
+
 .centered-wrapper {
     padding-top:5px;
     text-align:center;
