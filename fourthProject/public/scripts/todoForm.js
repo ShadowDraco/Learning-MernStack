@@ -80,6 +80,7 @@ function userSignup(e) {
     let formFields = signupForm.getElementsByTagName('input')
     // give the user a unique id
     let id = Math.random(1000);
+    console.log('new user id', id)
     formFields[0].value = id;
     // get the username and password and check if its not null
     let username = formFields[1].value ?? null
