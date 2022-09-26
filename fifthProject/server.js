@@ -14,9 +14,6 @@ mongoose.connect(mongoURI, { useNewUrlParser: true,
 useUnifiedTopology: true })
 
 const db = mongoose.connection // get the default connection
-// define mongoose Schemas
-const Schema = mongoose.Schema
-
 
 
 // allow the server to have a default file path
@@ -33,15 +30,14 @@ app.get('/', (req, res) => {
 app.listen(port, (req, res) => {
     console.log('DB URI:\n', `${mongoURI}`.green)
     console.log('Listening on port', `${port}`.blue)
-    userCreate(0.3422343, 'bobby', 'smells')
 })
 
 
 const User = require('./models/user')
 
-
 function userCreate(id, user, pass) {
     console.log('creating user')
+    
     userdetail = {
         id: id,
         username: user,
@@ -52,7 +48,7 @@ function userCreate(id, user, pass) {
 
     user.save(function (err) {
         if (err) throw err
-        console.log('new user', user)
+        console.log('new user', `${user}`.blue)
     })
     mongoose.connection.close()
 }
