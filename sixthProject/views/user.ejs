@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User name</title>
+
+    <script src="/scripts/user.js" defer></script>
+</head>
+<body>
+    
+    <% if (locals.currentUser) {%>
+    <% user = locals.currentUser %>
+
+    <% console.log(user)%>
+    <h1> Welcome to <em>Your</em> page <%- user.username %>!</h1>
+    <h3 class="user-color">Theme color: <%- user.color %></h3>
+    <hr>
+    <p class="user-color">Make a to-do list!</p>
+    <script>let currentUser = <%- JSON.stringify(user) %></script>
+    <% } %>
+</body>
+</html>
