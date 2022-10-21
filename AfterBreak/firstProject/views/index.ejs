@@ -7,10 +7,47 @@
     <title>Document</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous" defer></script>
  
 </head>
 <body>
-    <h1>Hello welcome!</h1>
+
+    <div class="container pt-2">
+        
+        <!-- useless button and header-->
+        <h1 class="pt-2 c">Hello welcome!</h1>
+        <button type="button" class="btn btn-primary px-4" onclick="alert">Press this button forrrrr no reason?</button>
+
+        <!-- grid with 3 columns-->
+        <div class="container my-lg-5 my-3"> 
+            <div class="row">
+                <div class="col-sm text-bg-primary bg-dark">One of three columns</div>
+                <div class="col-md bg-light text-danger">one of three</div>
+                <div class="col-lg p-3 bg-gradient bg-info text-bg-success">one of three</div> 
+            </div>
+        </div> <!--end grid-->
+        
+        <!-- button to put up an alert-->
+        <button class="btn btn-success text" data-toggle="collapse" data-target="#collapseAlert" aria-expanded="false" aria-controls="collapseAlert">Click Me!</button>
+
+        <div class="collapse" id="collapseAlert">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>You toggled this alert</strong> You should check in on some of those fields below.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        </div>
+        
+        <div class="card mt-4" style="width: 18rem;">
+            <img src="/assets/images/download.jpg" class="card-img-top" alt="image of a programmer">
+            <div class="card-body bg-dark bg-gradient border-2 border-info text-light">
+                <div class="card-title">Programmers are:</div>
+                <p class="card-text">... very lacking in posture skills. Though great at the eye doctor!</p>
+            </div>
+        </div>
+        
+    </div>
 </body>
 </html>
