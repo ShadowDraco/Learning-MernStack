@@ -5,7 +5,8 @@ if (currentUser) {
     let themedEls = document.querySelectorAll('.user-color')
     themedEls.forEach(function (el) {
         // change the color of those elements
-        el.style.backgroundColor = `${curentUser.color}`
+        console.log(currentUser)
+        el.style.backgroundColor = currentUser.color
         console.log(el)   
     })       
 }

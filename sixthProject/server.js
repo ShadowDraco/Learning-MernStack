@@ -29,10 +29,7 @@ server.use('/user', userRoute)
 const signupRoute = require('./routes/signup')
 server.use('/signup', signupRoute)
 
-const loginRoute = require('./routes/login')
-server.use('/login', loginRoute)
 
 server.listen(port, (req, res) => {
     console.log("Server started on port: ".blue, `${port}`.green)
-    console.log("Connected to DB @".green, `${mongoURI}`.gray)
 })
