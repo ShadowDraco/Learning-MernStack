@@ -4,27 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Practicing BootSTRAP</title>
 
+    <!--include bootstrap css and js-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous" defer></script>
- 
+    
+    <!-- include my scripts-->
+    <link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray">
+
+    <nav class="m-3 bg-dark bg-gradient" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" area-current="page"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Random</li>
+        </ol>
+    </nav>
 
     <div class="container pt-2">
         
         <!-- useless button and header-->
         <h1 class="pt-2 c">Hello welcome!</h1>
-        <button type="button" class="btn btn-primary px-4" onclick="alert">Press this button forrrrr no reason?</button>
+        <button type="button" class="btn btn-primary px-4">Press this button forrrrr no reason?</button>
 
         <!-- grid with 3 columns-->
         <div class="container my-lg-5 my-3"> 
             <div class="row">
-                <div class="col-sm text-bg-primary bg-dark">One of three columns</div>
+                <div class="col-sm text-bg-primary bg-dark border-1 border-light bg-gradient">One of three columns</div>
                 <div class="col-md bg-light text-danger">one of three</div>
-                <div class="col-lg p-3 bg-gradient bg-info text-bg-success">one of three</div> 
+                <div class="col-lg p-3 bg-gradient text-bg-success">one of three</div> 
             </div>
         </div> <!--end grid-->
         
