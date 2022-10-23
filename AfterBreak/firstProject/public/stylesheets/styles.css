@@ -1,3 +1,30 @@
 .bg-gray {
     background-color: rgb(121, 121, 121);
 }
+
+.centered {
+    left:50%;
+    transform: translateX(-50%)
+}
+
+#text-stuff {
+    overflow:auto;
+    overflow-y:hidden
+    
+}
+#text-stuff:hover {
+    overflow-y:visible;
+}
+
+::-webkit-scrollbar {
+    width:10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color:rgb(44, 44, 44);
+}
+
+
+::-webkit-scrollbar-thumb {
+    background-color:rgb(103, 103, 155);
+}
