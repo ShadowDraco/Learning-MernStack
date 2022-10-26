@@ -15,10 +15,6 @@ app.use(express.static('public'))
 // allow express templates to be used
 app.set('view engine', 'ejs')
 
-
-io.on('connection', (socket) => {
-    console.log("hello World!!!")
-})
 // home page
 app.get('/', (req, res) => {
     res.render('index')
@@ -29,6 +25,9 @@ const chat = require('./routes/chat')
 app.use('/chat',  chat)
 
 
+io.on('connection', (socket) => {
+    console.log("hello World!!!")
+})
 
 // listen for req and res
 app.listen(port, (req, res) => {
