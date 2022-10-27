@@ -56,7 +56,7 @@
             <img src="/images/cloudy-sky.jpg" class="background" id="background-image" alt="pretty sky background">
             <!-- message of the day-->
             <div class="container foreground px-5 d-flex justify-content-center">
-                <h1 class="text-dark-50 p-3 border-bottom-only border-hover mx-sm-5">
+                <h1 class="text-dark-50 px-5 border-bottom-only border-hover mx-5 text-center">
                     Message of the day: 
                     <% if (locals.motd) { %>
                         <%= locals.motd %> 
@@ -99,7 +99,7 @@
                 <div class="card card-width">
                     <img src="/images/rod-long-unsplash.jpg" class="card-img-top card-img" alt="bible">
                     <div class="card-body bg-gray text-white-50">
-                        <div class="card-title"> Search scripture!</div>
+                        <div class="card-title text-black-50"> <strong>Search scripture!</strong></div>
                         <div class="card-text mb-2"> Search through the bible and recieve a random quote each session</div>
                         <a class="btn btn-success" href="/bible">See bible verses!</a>
                     </div>
@@ -109,7 +109,7 @@
                 <div class="card card-width bg-body">
                     <img src="/images/cloudy-sky.jpg" class="card-img-top card-img">
                     <div class="card-body bg-gray text-white-50">
-                        <div class="card-title"> Find songs!</div>
+                        <div class="card-title text-black-50"> <strong>Find songs!</strong></div>
                         <div class="card-text mb-2"> Search through a messianic and christian playlist on spotify
                         </div>
                         <a class="btn btn-success" href="/music">Find songs!</a>
@@ -120,7 +120,7 @@
                 <div class="card card-width bg-body">
                     <img src="/images/adonai.jpg" class="card-img-top card-img">
                     <div class="card-body bg-gray bg-gradient text-white-50">
-                        <div class="card-title"> Learn more!</div>
+                        <div class="card-title text-black-50"> <strong>Learn more!</strong></div>
                         <div class="card-text mb-2"> Learn about The Faith, The Messiah, and what it all means for you</div>
                         <a class="btn btn-success w-75" href="/faith">Find Jesus!</a>
                     </div>
