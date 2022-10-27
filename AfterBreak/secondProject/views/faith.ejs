@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <link rel="icon" type="image/x-icon" href="/images/cloudy-sky.jpg"
+    <!-- link my stylesheet-->
+    <link href="/stylesheets/myStyle.css" rel="stylesheet">
+
+    <!-- link the npm installed bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body class="bg-dark">
+
+    <!-- page nav bar-->
+    <nav class="navbar navbar-expand navbar-dark bg-gray">
+
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#">Praise Adonai!</a>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item border-bottom-only border-hover">
+                        <a class="nav-link active" href="/" aria-current="page">Home</a>
+                    </li>
+                    <li class="nav-item border-bottom-only border-hover">
+                        <a class="nav-link" href="/bible" aria-current="page">Bible</a>
+                    </li>
+                    <li class="nav-item border-bottom-only border-hover">
+                        <a class="nav-link" href="/music">Music</a>
+                    </li>
+
+                    <li class="nav-item border-bottom-only border-hover">
+                        <a class="nav-link active" href="/faith">Faith</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </nav>
+    <!-- message of the day-->
+    <h1 class="text-white-50 p-3 border-bottom-only">
+        Message of the day: 
+        <% if (locals.motd) { %>
+            <%= locals.motd %> 
+        <% } else { %>            
+             Welcome to <i>your</i> home page!
+        <% } %>
+
+    </h1>
+
+    <!-- page content-->
+    <div class="mt-5 container">
+        <h1 class="d-flex justify-content-center bg-dark text-light mb-3">Learn about The Faith!</h1>
+
+        <div class="container d-flex gap-3">
+
+            <div class="card card-width">
+                <img src="/images/rod-long-unsplash.jpg" class="card-img-top card-img" alt="bible">
+                <div class="card-body bg-gray text-white-50">
+                    <div class="card-title"> Card title</div>
+                    <div class="card-text mb-2"> Search through the bible and recieve a random quote each session</div>
+                    <a class="btn btn-success" href="/bible">See bible verses!</a>
+                </div>
+            </div>
+
+            <div class="card card-width bg-body">
+                <img src="/images/cloudy-sky.jpg" class="card-img-top card-img">
+                <div class="card-body bg-gray text-white-50">
+                    <div class="card-title"> Find songs!</div>
+                    <div class="card-text mb-2"> Search through a messianic playlist
+                    </div>
+                    <a class="btn btn-success" href="/music">Find songs!</a>
+                </div>
+            </div>
+
+            <div class="card card-width bg-body">
+                <img src="/images/adonai.jpg" class="card-img-top card-img">
+                <div class="card-body bg-gray bg-gradient text-white-50">
+                    <div class="card-title"> Learn more!</div>
+                    <div class="card-text mb-2"> Learn about The Faith</div>
+                    <a class="btn btn-success w-75" href="/faith">Find Jesus!</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    
+    
+    <!-- use the bootstrap script installed by npm-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
