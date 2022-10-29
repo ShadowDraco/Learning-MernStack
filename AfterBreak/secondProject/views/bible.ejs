@@ -27,34 +27,42 @@
         <script> let apiBooks = <%- JSON.stringify(locals.books) %></script>
     <% } %>
 
-    <!-- some test spacing-->
+    <!-- Page content-->
     <div class="container text-light">
-        <h1> Helloooooooooooooooo</h1>
+        <h1 class="mt-2 text-center border-bottom-only border-hover"> Read from the bible by pressing search and then choosing your book!</h1>
         <br>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-            Esse delectus perferendis unde debitis molestias, sapiente eius 
-            voluptatibus ducimus suscipit quae corrupti at possimus.
-            Nesciunt odio, porro ratione optio sit repudiandae.
+        <p>God's word is unchanging and forever true. There are some versions of the bible 
+            that are written without the truth present. However there are many studies that 
+            will prove and give credential to the authenticity of each translation!
+            Rest assured that the bible <i>is and will remain true.</i>
         </p>
-        <a class='btn btn-primary m-5' href="/bible/search/">Search the bible!</a>
+       
+    </div>
+
+    <div class="container d-flex justify-content-center">
+        <a class='btn btn-primary mx-0 my-3 w-50' href="/bible/search/">Search the bible!</a>
     </div>
 
     <!-- verse of the day-->
-    <div class="container bg-gray bg-gradient">
+    <div class="container bg-gray bg-gradient text-center">
         <p id="votd" class="text-white">
-            <% if (locals.votd) { %>
+            Verse of the day: <br>
+            <% if (locals.votd) { %> 
                 <%= locals.votd %>
 
             <% } else { %>
+                 
                 The fruits of the spirit are virtues even to non-believers.
             <%} %>
         </p>
     </div>
 
     <!-- display everything from the bible api-->
-    <div id='bible-area' class="container bg-dark">
-        <div class="container d-flex g-1 gap-2 justify-content-evenly bg-secondary" id="bookList">
-        
+    <div id='bible-area' class="bg-dark d-flex justify-content-center">
+       
+        <!-- Books of the bible-->
+        <div class="container mx-0 mt-2 w-100 d-grid gap-2 justify-content-evenly bg-secondary" id="bookList">
+            
         </div>
     </div>
     
