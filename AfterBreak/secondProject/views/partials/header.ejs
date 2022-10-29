@@ -1,0 +1,87 @@
+ <!-- page nav bar-->
+ <nav class="navbar navbar-expand navbar-dark bg-gray">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">Praise Adonai!</a>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item border-bottom-only border-hover">
+                    <a class="nav-link" href="/" aria-current="page">Home</a>
+                </li>
+                <li class="nav-item border-bottom-only border-hover">
+                    <a class="nav-link active" href="/bible" aria-current="page">Bible</a>
+                </li>
+                <li class="nav-item border-bottom-only border-hover">
+                    <a class="nav-link" href="/music">Music</a>
+                </li>
+
+                <li class="nav-item border-bottom-only border-hover">
+                    <a class="nav-link" href="/faith">Faith</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</nav>
+<!-- message of the day-->
+<h1 class="text-white-50 p-3 border-bottom-only text-center">
+    Message of the day: 
+    <% if (locals.motd) { %>
+        <%= locals.motd %> 
+    <% } else { %>            
+         Welcome to <i>your</i> home page!
+    <% } %>
+
+</h1>
+
+<!-- page content-->
+<div class="mt-5 container">
+    <!-- page title -->
+    <h1 class="d-flex justify-content-center bg-dark text-light mb-3">
+        <% if (locals.pageTitle) { %>
+            <%= locals.pageTitle %>
+        <% } else { %>
+            Looking for a page?
+        <% } %>
+    </h1>
+
+    <!-- card container-->
+    <div class="container d-flex gap-3"> 
+
+        <div class="card card-width">
+            <img src="/images/rod-long-unsplash.jpg" class="card-img-top card-img" alt="bible">
+            <div class="card-body bg-gray text-white-50">
+                <div class="card-title"> Search scripture!</div>
+                <div class="card-text mb-2"> Search through the bible and recieve encouragement</div>
+                <a class="btn btn-success" href="/bible">See bible verses!</a>
+            </div>
+        </div>
+
+        <div class="card card-width bg-body">
+            <img src="/images/cloudy-sky.jpg" class="card-img-top card-img" alt="pretty sky">
+            <div class="card-body bg-gray text-white-50">
+                <div class="card-title"> Find songs!</div>
+                <div class="card-text mb-2"> Search through a messianic and christian playlist on spotify
+                </div>
+                <a class="btn btn-success" href="/music">Find songs!</a>
+            </div>
+        </div>
+
+        <div class="card card-width bg-body">
+            <img src="/images/adonai.jpg" class="card-img-top card-img" alt="adonai">
+            <div class="card-body bg-gray bg-gradient text-white-50">
+                <div class="card-title"> Learn more!</div>
+                <div class="card-text mb-2"> Learn about The Faith, The Messiah, and what it all means for you</div>
+                <a class="btn btn-success w-75" href="/faith">Find Jesus!</a>
+            </div>
+        </div>
+
+    </div> <!-- end card container-->
+
+</div> <!-- end content-->
+
+<div >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam, mollitia. Quasi nihil ex doloribus tempore. Debitis iusto assumenda culpa quod.</div>
