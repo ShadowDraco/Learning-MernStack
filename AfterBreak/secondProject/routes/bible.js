@@ -2,6 +2,8 @@ const axios = require('axios')
 const express = require('express')
 const router = express.Router()
 
+require('dotenv').config()
+
 // books from the bible api
 var books = null 
 
@@ -17,7 +19,7 @@ router.get('/search', (req, res) => {
     console.log('searching!')
     books = axios.get("https://api.scripture.api.bible/v1/bibles/f72b840c855f362c-04/books", {
         headers: {
-            'api-key': '49717c29fce053944feb32f14a3bb9b3'
+            'api-key': ` ${process.env.BIBL_-API}`
         }   
     }).then (function(response) {
         res.render('bible', { 
