@@ -1,0 +1,99 @@
+:root {
+    --bg: rgb(129, 162, 189);
+    --bg-hover: rgb(116, 161, 199);
+
+    --bg-dark: rgb(59, 58, 58);
+    --bg-dark-gradient: rgb(75, 75, 75);
+
+    --text-light: rgb(190, 190, 190);
+
+    --standard-padding: 3px;
+}
+
+/* 
+
+========= General page styles
+
+*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:large;
+
+    background-color: var(--bg);
+}
+
+.container {
+    padding:var(--standard-padding);
+}
+
+.nav {
+    padding:var(--standard-padding);
+    display:flex;
+    justify-content: space-between;
+    position:sticky;
+    background-color: inherit;
+}
+
+.nav-brand {
+    font-size: x-large;
+    padding:var(--standard-padding)
+}   
+
+.list-group {
+    padding:var(--standard-padding);
+    display:flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: stretch;
+    border: var(--bg) 1px solid;
+
+    list-style:none;
+}
+
+.list-group-item {
+    padding-left:var(--standard-padding);
+    padding-right:var(--standard-padding);
+    margin-top: 1px;
+    padding-top: 1px;
+    
+}
+
+.list-group-item:hover {
+    background-color: var(--bg-dark-gradient);
+}
+
+.list-group-item a {
+    text-decoration: none;
+    color:var(--text-light)
+}
+
+.list-group-item a:visited {
+    text-decoration: none;
+    color:var(--text-light)
+}
+/* 
+
+========= Utility styles
+
+*/
+
+.bg-dark {
+    background-color:var(--bg-dark);
+}
+
+.bg-gradient {
+    background-image:-webkit-linear-gradient(var(--bg), var(--bg-hover))
+}
+
+.bg-dark-gradient {
+    background-image: -webkit-linear-gradient(var(--bg-dark), var(--bg-dark-gradient));
+}
+
+.text-light {
+    color: var(--text-light)
+}
+
+.nav li:active {
+    background-color: var(--bg);
+}
