@@ -1,0 +1,23 @@
+:root {
+  --blue: rgb(60, 134, 160);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: rgb(62, 70, 69);
+}
+
+.container {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.btn.btn-blue {
+  background-color: var(--blue)
+}
+
+.word-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
