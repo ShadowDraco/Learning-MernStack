@@ -73,3 +73,19 @@ header {
     object-fit: cover;
     z-index: -1;
 }
+
+/* bible links */ 
+
+.bible-link a:link {
+    text-decoration-line: none;
+    color:rgb(47, 44, 43);
+}
+
+.bible-link a:visited {
+    text-decoration-line: none;
+    color:rgb(252, 176, 0);
+}
+
+.bible-link a:hover {
+    color: rgb(252, 176, 0);
+}
