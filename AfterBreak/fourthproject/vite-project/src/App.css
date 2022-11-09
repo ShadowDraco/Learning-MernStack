@@ -1,0 +1,21 @@
+body {
+  margin:0;
+  padding:0;
+}
+
+.wrapper {
+  margin:inherit;
+  padding:inherit;
+}
+
+.container {
+  margin:1rem;
+  padding: 1rem;
+
+  border:2px solid gray; 
+}
+
+.btn {
+  background-color: dodgerblue;
+}
+
