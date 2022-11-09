@@ -9,15 +9,38 @@ body {
   background-color: rgb(62, 70, 69);
 }
 
+/* containers */
+
 .container {
   margin: 0.5rem;
   padding: 0.5rem;
 }
 
+/* keyboard grid */
+
+#keyboard-grid {
+  display:grid;
+  grid-template-columns: repeat(10, 5em);
+
+}
+
+.keyboard-grid-box {
+
+  border: 2px solid bisque;
+  font-family:fantasy;
+  color:rgb(236, 182, 115);
+  text-align:center;
+
+  font-size:5em;
+  width:1em;
+}
+
+/* Small Stuff */ 
+
 .btn.btn-blue {
   background-color: var(--blue)
 }
 
-.word-grid {
-  grid-template-columns: repeat(5, 1fr);
+.pressed {
+  background-color: var(--blue) 
 }
