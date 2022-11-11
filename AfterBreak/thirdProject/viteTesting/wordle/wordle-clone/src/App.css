@@ -45,6 +45,10 @@ nav h1 {
   text-align: center;
 }
 
+/*
+  Keyboard logic
+*/
+
 .keyboard {
   margin-top:2em;
   display:flex;
@@ -75,4 +79,33 @@ nav h1 {
   width:inherit;
   height:inherit;
   padding-top:0.6em;
+}
+
+/*
+  word logic
+*/
+
+#correct {
+  background-color: rgba(13, 252, 13, 0.5);
+}
+
+#almost {
+  background-color: rgba(237, 241, 8, 0.705)
+}
+
+#wrong {
+  background-color: rgba(117, 117, 117)
+}
+
+#disabled {
+  background-color: inherit;
+}
+
+/* game over */
+
+.gameOver {
+  display:flex;
+  flex-direction: column;
+  color:white;
+  text-align:center;
 }
