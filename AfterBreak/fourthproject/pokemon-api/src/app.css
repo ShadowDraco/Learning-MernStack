@@ -1,0 +1,58 @@
+:root {
+    --black: rgb(55, 55, 55)
+}
+
+body { 
+    margin: 0;
+    padding: 0;
+    display:block;
+    
+    font-size:large;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:rgb(184, 155, 111);
+
+    background-color: var(--black);
+}
+
+.wrapper {
+    display:flex;
+    justify-content: center;
+}
+
+.container {
+    padding:1em;
+}
+
+.poke-container {
+    width:max-content;
+    display:flex;
+}
+
+button {
+    font-size:larger;
+    width: 3em;
+
+}
+
+#pokemon-list {
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+
+    border:0.5em ridge rgb(160, 131, 160);
+    width:fit-content+1em;
+}
+
+.pokemon {
+    display:flex;
+    width:100%;
+    font-size: larger;
+    margin:0.2em;
+    padding-bottom:0.25em;
+    padding-top:0.25em;
+    border-bottom:0.1em groove thistle;
+}
+
+.pokemon:last-child {
+    border-bottom:none;
+}
