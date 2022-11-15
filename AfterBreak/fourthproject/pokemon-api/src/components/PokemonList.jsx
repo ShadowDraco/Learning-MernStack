@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 
 import PokeEntry from './PokeEntry'
 
-export default function PokemonList({ pokemon, setLoading }) {
-  
-  const [images, setImages] = useState([])
+export default function PokemonList({ pokemon, images }) {
 
   return (
     <div className="container" id='pokemon-list'>
@@ -15,16 +12,11 @@ export default function PokemonList({ pokemon, setLoading }) {
       
       {
         pokemon.map((pokemon, i) => {
-          console.log(i)
-          axios.get(pokemon.url)
-          .then(res => {
-            setImages([...images, res.data.sprites.front_default])
-          })
           return (
-            <PokeEntry key={`${pokemon.name}-container`} pokemon={pokemon.name} image={images[i-1]} />
+            <PokeEntry key={`${pokemon.name}-container`} pokemon={pokemon.name} image={images[i]} />
           )
         })
       }
     </div>
   )
-}
+  }

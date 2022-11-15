@@ -9,6 +9,7 @@ import axios from 'axios'
 
 function App() {
   const [pokemon, setPokemon] = useState([])
+  const [images, setImages] = useState([])
   const [currentPageUrl, setCurrentPageUrl] = useState('https://pokeapi.co/api/v2/pokemon')
   const [nextPageUrl, setNextPageUrl] = useState()
   const [prevPageUrl, setPrevPageUrl] = useState()
@@ -32,14 +33,20 @@ function App() {
       setPrevPageUrl(res.data.previous)
 
       setPokemon(res.data.results.map(pokemon => pokemon))
-
-      setLoading(false)
     })
+    pokemon.map((pokemon) => {
+      axios.get(pokemon.url)
+      .then(res => {
+        setImages([...images, res.data.sprites.front_default])
+      })
+    })
+
+    setLoading(false)
      // if the user makes multiple requests in a row cancel the old one
     return () => cancel()
     // Empty array means no rerender
     // this arrray means rerender every time the currentPAgeUrl changes
-  }, [currentPageUrl])
+  }, [currentPageUrl, images])
 
   // pagination controls
   function gotoNextPage() {
@@ -55,7 +62,7 @@ function App() {
     <div className='wrapper'>
       { loading ? <Loading /> :
         <div className="container">
-            <PokemonList pokemon={pokemon} setLoading={setLoading} />
+            <PokemonList pokemon={pokemon} images={images} />
             <Pagination 
               gotoNextPage={nextPageUrl ? gotoNextPage : null}
               gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
