@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(26, 24, 24);
+}
+
+.app {
+    width: 100%;
+    display:flex;
+    justify-content: center;
+}
+
+.meme-list {
+    display:block;
+    width: 50vw;
+    height: 50vh;
+    object-fit: cover;
+    object-position: center;
+}
+
+.meme-container {
+}
