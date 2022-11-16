@@ -1,23 +1,24 @@
 import React from 'react'
 
-export default function MemeContainer( { meme, nextMeme, prevMeme }) {
+export default function MemeContainer( { meme, nextMeme, prevMeme, submitMeme, handleTopText, handleBottomText, topText, bottomText, saveMemes }) {
 
-  
   return (
     <div key={meme.id} className="meme-container">
       
-      <div class="meme">
-        <textarea className="top-text"></textarea>
+      <div className="meme">
+        
+        { handleTopText ? <textarea key="topText" className="top-text" onChange={handleTopText} value={topText}></textarea> : '' }
         <div className="meme-image">
           <img src={meme.url}></img>
-        </div>
-        <textarea className="bottom-text"></textarea>
+        </div> 
+        { handleBottomText ? <textarea key="bottomText" className="bottom-text" onChange={handleBottomText} value={bottomText}></textarea>  : '' }
       </div>
       
       <div className="buttons">
         <button onClick={prevMeme}>Previous</button>
         <button onClick={nextMeme}>Next</button>
-        <button onClick={submitMeme}>Submit</button>
+        { submitMeme ? <button onClick={submitMeme}>Submit</button> : ''} 
+        { saveMemes ? <button onClick={saveMemes}>Save!</button> : ''}
       </div>
 
     </div>
