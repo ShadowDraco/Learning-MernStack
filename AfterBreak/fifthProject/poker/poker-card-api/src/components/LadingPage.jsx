@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, createRef } from 'react'
 import { GameContext } from '../App'
 
 export default function LandingPage() {
+
     const { numberOfPlayers, setNumberOfPlayers, players, setPlayers, minBet, setMinBet, maxBet, setMaxBet, startingMoney, setStartingMoney } = useContext(GameContext)
    
     function changePlayerNumber(e) {
