@@ -1,0 +1,56 @@
+:root {
+  --black: rgb(45, 45, 45);
+  --black2: rgb(55, 55, 55);
+  --gray: rgb(65, 65, 65);
+  --gray2: rgb(70, 70, 70);
+  --feltGreen: rgb(49, 167, 49);
+  --feltGreen2: rgb(31, 146, 31);
+  --gold: rgb(212, 216, 152);
+  --gold2: rgb(183, 165, 0);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: block;
+  background-color: var(--black);
+}
+
+.landing-page {
+  margin:2rem;
+  background-color: var(--black2);
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding:1rem;
+}
+
+.page-title {
+  font-size:50px;
+  background: -webkit-linear-gradient(var(--gold), var(--gold2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-page input {
+  padding-left:0.5em;
+  max-width: 2rem;
+  padding-right:0;
+}
+
+.landing-page p {
+  text-align: center;
+}
+
+.get-players, .min-bet, .max-bet, .starting-money {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  gap:0.5rem;
+
+  background: -webkit-linear-gradient(var(--black2), var(--gray));
+  color:var(--gold);
+
+}
