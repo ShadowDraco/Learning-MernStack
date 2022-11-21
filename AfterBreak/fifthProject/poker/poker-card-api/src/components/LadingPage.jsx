@@ -1,9 +1,12 @@
-import React, { useContext, useState, createRef } from 'react'
+import React, { useContext, useState } from 'react'
 import { GameContext } from '../App'
 
 export default function LandingPage() {
 
-    const { numberOfPlayers, setNumberOfPlayers, players, setPlayers, minBet, setMinBet, maxBet, setMaxBet, startingMoney, setStartingMoney } = useContext(GameContext)
+    const { numberOfPlayers, setNumberOfPlayers, minBet, setMinBet, 
+            maxBet, setMaxBet, startingMoney, setStartingMoney, smallBlind, setSmallBlind, 
+            bigBlind, setBigBlind, setReviewingGame, setGameStarted 
+    } = useContext(GameContext)
    
     function changePlayerNumber(e) {
         // set the number of players each time they change so they persist on page reload
@@ -41,12 +44,19 @@ export default function LandingPage() {
     function changeStartingMoney(e) {
         // set the number of players each time they change so they persist on page reload
         setStartingMoney(e.target.value)
+        setSmallBlind(Math.ceil(startingMoney / 50))
+        setBigBlind(smallBlind * 2)
     }
 
     function submitStartingMoney(e) {
         // disable the inputs when submitted 
         e.target.disabled = true
         e.target.previousElementSibling.disabled = true
+    }
+
+    function submitAllReviewGame() {
+        // submit values, create players, start the game
+        setReviewingGame(true)
     }
 
     return (
@@ -85,9 +95,20 @@ export default function LandingPage() {
 
                 <div className="starting-money">
                     <label htmlFor='min-bet'>Starting money: </label>
-                    <input className="startingMoney-input" type="number" min={100} max={1000} value={startingMoney} onChange={changeStartingMoney}></input>
+                    <input id="starting-money-input" type="number" min={100} max={1000} value={startingMoney} onChange={changeStartingMoney}></input>
                     <button onClick={submitStartingMoney}>Enter</button>
                 </div>
+                
+                <br></br>
+
+                <div className="blind-values">
+                    <textarea disabled={true} value={`Small blind: ${smallBlind}\nBig blind: ${bigBlind}`}></textarea>
+                </div>
+
+                <div className="review-game"> 
+                    <button onClick={submitAllReviewGame}>Ready!</button>
+                </div>
+
             </div>
 
         </div>

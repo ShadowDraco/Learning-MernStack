@@ -16,6 +16,9 @@ body {
   background-color: var(--black);
 }
 
+/* ======= LANDING PAGE ========= */
+/* ======= LANDING PAGE ========= */
+
 .landing-page {
   margin:2rem;
   background-color: var(--black2);
@@ -29,6 +32,7 @@ body {
 
 .page-title {
   font-size:50px;
+  
   background: -webkit-linear-gradient(var(--gold), var(--gold2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,22 +44,33 @@ body {
   padding-right:0;
 }
 
+#starting-money-input {
+  min-width: 3rem;
+}
+
 .landing-page p {
   text-align: center;
 }
 
-.get-players, .min-bet, .max-bet, .starting-money {
+.get-players, .min-bet, .max-bet, .starting-money, .start-game, .blind-values, .review-game, .game-values {
   display:flex;
   justify-content: center;
   align-items: center;
   gap:0.5rem;
 
-  background: -webkit-linear-gradient(var(--black2), var(--gray));
+  background: -webkit-linear-gradient(var(--black), var(--gray2));
   color:var(--gold);
+  font-size:larger;
 
 }
 
 .get-bet-values p {
   color: var(--gold2);
-  font-size:20px;
+  font-size:xx-large;
 }
+
+
+/* ======= Review PAGE ========= */
+/* ======= Review PAGE ========= */
+
+
