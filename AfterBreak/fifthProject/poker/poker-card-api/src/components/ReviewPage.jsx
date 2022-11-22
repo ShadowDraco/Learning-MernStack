@@ -25,11 +25,16 @@ export default function ReviewPage() {
         setCurrentPlayerName(e.target.value)
     }
 
+    function addNewPlayer(newPlayer) {
+        setPlayersCreated(playersCreated + 1)
+        setPlayers(players => {
+            setPlayers([...players, newPlayer])
+        })
+    }
+
     function submitCurrentPlayer(e) {
 
         console.log(players, numberOfPlayers, playersCreated)
-
-        setPlayersCreated(playersCreated + 1)
 
         const newPlayer = {
             name: currentPlayerName,
@@ -38,9 +43,8 @@ export default function ReviewPage() {
             currentMoney: startingMoney,
         }
 
-        setPlayers([...players, newPlayer])
-        
-        setPlayers(players => ([...players, newPlayer]))
+        addNewPlayer(newPlayer)
+        e.target.previousElementSibling.value = ""
 
         if (playersCreated === numberOfPlayers) { 
             
@@ -72,7 +76,9 @@ export default function ReviewPage() {
 
             <textarea disabled={true} 
                 value={
-                    players
+                    players.map((player, i) => {
+                        return(`${i > 0 ? '\n' : ''}Player ${i+1}: ${player.name}`)
+                    })
                 }
             >
                 
