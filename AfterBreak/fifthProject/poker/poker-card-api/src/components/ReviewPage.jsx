@@ -19,18 +19,6 @@ export default function ReviewPage() {
     }, [])
 
 */
-// When a new player is created by the submit button do this
-    useEffect(() => {
-
-        const newPlayer = {
-            name: currentPlayerName,
-            hand: '',
-            currentBet: 0,
-            currentMoney: startingMoney,
-        }
-        
-        setPlayers([...players, newPlayer])
-    }, [playersCreated])
 
 
     function changeCurrentPlayerName(e) {
@@ -39,7 +27,20 @@ export default function ReviewPage() {
 
     function submitCurrentPlayer(e) {
 
+        console.log(players, numberOfPlayers, playersCreated)
+
         setPlayersCreated(playersCreated + 1)
+
+        const newPlayer = {
+            name: currentPlayerName,
+            hand: '',
+            currentBet: 0,
+            currentMoney: startingMoney,
+        }
+
+        setPlayers([...players, newPlayer])
+        
+        setPlayers(players => ([...players, newPlayer]))
 
         if (playersCreated === numberOfPlayers) { 
             
@@ -47,6 +48,8 @@ export default function ReviewPage() {
             e.target.previousElementSibling.disabled = true
 
         }
+
+        console.log(players, numberOfPlayers, playersCreated)
 
     }
 
@@ -69,9 +72,7 @@ export default function ReviewPage() {
 
             <textarea disabled={true} 
                 value={
-                    players.map((player, i) => {
-                        return(`${i > 0 ? '\n' : ''}Player ${i+1}: ${player.name}`)
-                    })
+                    players
                 }
             >
                 
