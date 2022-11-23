@@ -29,15 +29,15 @@ export default function ReviewPage() {
         // load the previous game deck
         setGameDeck(JSON.parse(sessionStorage.getItem('gameDeck')))
 
-        let loadedPlayers = sessionStorage.getItem('players')
+        let loadedPlayers = JSON.parse(sessionStorage.getItem('players'))
         // if the players didn't get set before page reload skip this
         if(loadedPlayers) {
-            setPlayers(JSON.parse(loadedPlayers))
+            setPlayers(loadedPlayers)
 
-            loadedPlayers.length >= numberOfPlayers - 1 ? setLoadedFromSession(true) : setPlayersCreated(sessionStorage.getItem('players').length)
+            loadedPlayers.length >= numberOfPlayers ? setLoadedFromSession(true) : setPlayersCreated(sessionStorage.getItem('players').length)
         } 
         else { console.log('name players to continue')  }
-        
+
     }
 
 
