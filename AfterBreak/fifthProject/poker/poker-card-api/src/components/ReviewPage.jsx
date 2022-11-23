@@ -5,20 +5,49 @@ import { GameContext } from '../App'
 
 export default function ReviewPage() {
 
-    const { numberOfPlayers, players, setPlayers, startingMoney } = useContext(GameContext)
+    const { numberOfPlayers, players, setPlayers, startingMoney, setReviewingGame, setGameStarted, gameDeck, setGameDeck } = useContext(GameContext)
 
     const [currentPlayerName, setCurrentPlayerName] = useState('')
     const [playersCreated, setPlayersCreated] = useState(0)
-    const [gameDeck, setGameDeck] = useState({})
-/*
+    const [loadedFromSession, setLoadedFromSession] = useState(false)
+
     useEffect(() => {
-        axios.get("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+        // check if a deck already exists this session
+        sessionStorage.getItem('gameDeck') ? loadSessionGame() :
+
+        // create a new deck
+        axios.get("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
         .then(res => {
             console.log(res)
-        })
+            setGameDeck(res.data)
+            sessionStorage.setItem('gameDeck', JSON.stringify(res.data))
+        })  
     }, [])
 
-*/
+    function loadSessionGame() {
+        console.log('loading session game')
+        // load the previous game deck
+        setGameDeck(JSON.parse(sessionStorage.getItem('gameDeck')))
+
+        let loadedPlayers = sessionStorage.getItem('players')
+        // if the players didn't get set before page reload skip this
+        if(loadedPlayers) {
+            setPlayers(JSON.parse(loadedPlayers))
+
+            loadedPlayers.length >= numberOfPlayers - 1 ? setLoadedFromSession(true) : setPlayersCreated(sessionStorage.getItem('players').length)
+        } 
+        else { console.log('name players to continue')  }
+        
+    }
+
+
+    function startGame(e) {
+
+        sessionStorage.setItem('players', JSON.stringify(players))
+
+        setReviewingGame(false)
+        setGameStarted(true)
+    }
 
 
     function changeCurrentPlayerName(e) {
@@ -27,14 +56,12 @@ export default function ReviewPage() {
 
     function addNewPlayer(newPlayer) {
         setPlayersCreated(playersCreated + 1)
-        setPlayers(players => {
-            setPlayers([...players, newPlayer])
-        })
+        setPlayers([...players, newPlayer])
     }
 
     function submitCurrentPlayer(e) {
 
-        console.log(players, numberOfPlayers, playersCreated)
+        console.log('naming player')
 
         const newPlayer = {
             name: currentPlayerName,
@@ -46,14 +73,12 @@ export default function ReviewPage() {
         addNewPlayer(newPlayer)
         e.target.previousElementSibling.value = ""
 
-        if (playersCreated === numberOfPlayers) { 
+        if (playersCreated === numberOfPlayers - 1) { 
             
             e.target.disabled = true
             e.target.previousElementSibling.disabled = true
 
         }
-
-        console.log(players, numberOfPlayers, playersCreated)
 
     }
 
@@ -68,7 +93,8 @@ export default function ReviewPage() {
             <p>Name yourselves</p>
             {/* get the names of players */}
             <input className="name-player" type="text" onChange={changeCurrentPlayerName}></input>
-            <button onClick={submitCurrentPlayer}>Enter</button>
+            {/* if Enought players are loaded from the session disable the submit button */}
+            <button onClick={submitCurrentPlayer} disabled={loadedFromSession}>Enter</button>
         </div>
 
         <div className="game-values">
@@ -79,10 +105,10 @@ export default function ReviewPage() {
                     players.map((player, i) => {
                         return(`${i > 0 ? '\n' : ''}Player ${i+1}: ${player.name}`)
                     })
-                }
-            >
-                
+                }>   
             </textarea>
+
+            <button onClick={startGame}>Start the Game!</button>
         </div>
 
     </div>

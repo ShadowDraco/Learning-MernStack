@@ -24,7 +24,7 @@ function App() {
   const [reviewingGame, setReviewingGame] = useState(false)
   // STORES ALL PLAYERS AND IMPORTANT GAME STATE
   //
-  const [GAME, setGAME] = useState({})
+  const [gameDeck, setGameDeck] = useState()
 
 
   return (
@@ -47,7 +47,9 @@ function App() {
         bigBlind,
         setBigBlind,
         setReviewingGame,
-        setGameStarted
+        setGameStarted,
+        gameDeck, 
+        setGameDeck
       }}
       >
       { gameStarted ? <GamePage /> : reviewingGame ? <ReviewPage /> : <LandingPage />
