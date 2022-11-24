@@ -4,7 +4,7 @@ import { GameContext } from '../App'
 
 export default function GamePage() {
 
-    const {players, startingMoney, gameDeck, numberOfPlayers, minBet, maxBet, smallBlind, bigBlind } = useContext(GameContext)
+    const {players, startingMoney, gameDeck, numberOfPlayers, minBet, maxBet, smallBlind, bigBlind, dealer } = useContext(GameContext)
 
     const [smallBlindPosition, setsmallBlindPosition] = useState(0)
     const [bigBlindPosition, setBigBlindPosition] = useState(1)
@@ -44,11 +44,6 @@ export default function GamePage() {
             setCurrentPlayer(players[turn])
             setDrewHand(players[turn].drewHand)
     }, [turn])
-
-    useEffect(() => {
-        console.log(round)
-        console.log(board)
-    }, [round])
 
     function nextAnte() {
         setsmallBlindPosition(smallBlindPosition + 1)
@@ -198,11 +193,12 @@ export default function GamePage() {
         .then(res => {
             setDrawnCards(res.data.cards)
             console.log('the dealer places the flop cards')
+            console.log(res.data)
 
-            setBoard([...board, drawnCards])
+            setBoard([...board, res.data.cards])
+            dealer.hand = res.data.cards
         })
 
-        console.log(board)
     }
 
     function placeTurn() {
@@ -211,7 +207,8 @@ export default function GamePage() {
             setDrawnCards(res.data.cards)
             console.log('the dealer places the turn card')
 
-            setBoard([...board, drawnCards])
+            setBoard([...board, res.data.cards])
+            dealer.hand = res.data.cards
         })
     }
 
@@ -221,7 +218,8 @@ export default function GamePage() {
             setDrawnCards(res.data.cards)
             console.log('the dealer places the river card')
 
-            setBoard([...board, drawnCards])
+            setBoard([...board, res.data.cards])
+            dealer.hand = res.data.cards
         })
     }
 
@@ -240,26 +238,30 @@ export default function GamePage() {
                 <p>Current Bet: {currentBet}</p>
                 <p>Your Bet: {currentPlayer.currentBet}</p>
             </div>
-        </div>
 
         { playerNeedsToRaise ?
         <div className="bet-raiser"> 
             <p>{currentRaiser.name} please raise your bet to {currentBet} or fold</p>
-            <button onClick={raiserRaisesBet}>Stay in!</button>
-            <button onClick={foldHand}>Fold out!</button>
+            <div className="buttons">
+                <button onClick={raiserRaisesBet}>Stay in!</button>
+                <button onClick={foldHand}>Fold out!</button>
+            </div>
         </div>
         : console.log('') }
 
+        </div>
+
         <div className="game-board">
             {
-                board.map(card => {
+               dealer.hand ? dealer.hand.map(card => {
                     console.log(card)
                     return(
-                        <div key={card.code} className="board-card">
-                            <img src={card.image}></img>
+                        <div key={`${card.code}-${Math.random(10)}` } className="board-card">
+                            <img src={card.image} className="board-card-img"></img>
                         </div>
                     )
                 })
+                : console.log('')
             }
         </div>
         
@@ -269,8 +271,8 @@ export default function GamePage() {
             currentPlayer.hand ? 
             currentPlayer.hand.map(card => {
                 return(
-                    <div key={card.code} className="player-card">
-                        <img src={card.image}></img>
+                    <div key={`${card.code}-${Math.random(10)}`} className="player-card">
+                        <img src={card.image} className="player-card-img"></img>
                     </div>
                 )
             })
@@ -279,21 +281,24 @@ export default function GamePage() {
         </div>
 
         <div className="bottom-bar">
+
+            <div className="ante-button">
+                <button onClick={anteUp} disabled={antedUp}>Ante Up</button>
+            </div>
+
+            <div className="draw-hand">
+                { drewHand ? console.log('') : <button onClick={drawHand}>Draw Hand</button> }
+            </div>
+
             <div className="betting-buttons">
                 <input type='number' onChange={changeProspectiveBet} value={prospectiveBet} min={currentBet}></input>
                 <button onClick={raiseBet} disabled={didBetAction}>Raise</button>
                 <button onClick={callBet} disabled={didBetAction}>Call</button>
                 <button onClick={checkBet} disabled={didBetAction}>Check</button>
             </div>
-            <div className="ante-buttons">
-                <button onClick={anteUp} disabled={antedUp}>Ante Up</button>
-            </div>
-            <div className="end-turn">
-                <button onClick={readyNextPlayer}>End turn</button>
-            </div>
 
-            <div className="draw-hand">
-                { drewHand ? console.log('player already drew their hand') : <button onClick={drawHand}>Draw Hand</button> }
+            <div className="end-turn">
+                <button onClick={readyNextPlayer} disabled={!(didBetAction && antedUp && drewHand)}>End turn</button>
             </div>
         </div>
     </div>

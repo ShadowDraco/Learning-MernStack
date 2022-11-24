@@ -33,9 +33,9 @@ export default function ReviewPage() {
         // if the players didn't get set before page reload skip this
         if(loadedPlayers) {
             setPlayers(loadedPlayers)
-            setNumberOfPlayers(loadedPlayers.length)
             setPlayersCreated(loadedPlayers.length)
             loadedPlayers.length >= numberOfPlayers ? setLoadedFromSession(true) : console.log('name more players')
+            setNumberOfPlayers(loadedPlayers.length)
         } 
         else { console.log('name players to continue')  }
 

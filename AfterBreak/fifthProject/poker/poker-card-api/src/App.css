@@ -3,8 +3,10 @@
   --black2: rgb(55, 55, 55);
   --gray: rgb(65, 65, 65);
   --gray2: rgb(70, 70, 70);
-  --feltGreen: rgb(49, 167, 49);
-  --feltGreen2: rgb(31, 146, 31);
+  --feltGreen: rgb(56, 189, 56);
+  --feltGreen2: rgb(23, 104, 23);
+  --feltGreen3: rgb(21, 75, 21);
+  --cornFlower2: rgb(109, 151, 230);
   --gold: rgb(212, 216, 152);
   --gold2: rgb(183, 165, 0);
 }
@@ -58,7 +60,7 @@ body {
   align-items: center;
   gap:0.5rem;
 
-  background: -webkit-linear-gradient(var(--black), var(--gray2));
+  background:-webkit-linear-gradient( var(--black), var(--gray2));
   color:var(--gold);
   font-size:larger;
 
@@ -76,6 +78,142 @@ body {
 
 /* ======= Game PAGE ========= */
 /* ======= Game PAGE ========= */
+
+.wrapper {
+  margin: 0;
+  padding: 0;
+  display: block;
+  background-color: var(--black2);
+}
+
+.top-bar {
+  font-size:x-large;
+  padding-top:1rem;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color:var(--cornFlower2);
+  background-color: rgba(0, 0, 0, 0.411);
+}
+
+.bottom-bar {
+  display:flex;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+}
+
+.
+
+.bet-raiser {
+  padding:0;
+  margin:0.5rem;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color:var(--cornFlower2);
+  border-radius: 1em;
+  width:50%;
+  background-color: rgba(40, 74, 136, 0.137);
+}
+
+.buttons {
+  display:flex;
+  gap:2rem;
+  padding-bottom:1rem;
+}
+
+button {
+  width:6rem;
+  height:2rem;
+  font-size: 0.7em;
+  background-color: var(--black2);
+  color:cornflowerblue;
+  transition: 300ms;
+}
+
+button:hover {
+  background-color:var(--black2);
+}
+
+.player-stats {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  gap:1em;
+  background-color:rgba(97, 137, 212, 0.068);
+  border-radius: 1em;
+  width:75%;
+}
+
+.game-board {
+  background: -webkit-linear-gradient(var(--black2), var(--feltGreen), var(--feltGreen2));
+  justify-content: center;
+  align-items: center;
+
+  padding-top:5em;
+  border-top:5px groove var(--black2);
+  border-bottom: none;
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2rem;
+}
+
+.player-hand {
+  background: -webkit-linear-gradient(var(--feltGreen2), var(--black2));
+  margin-bottom: 2rem;
+  
+  border-bottom:5px groove var(--black2);
+  border-top: none;
+  border-bottom-left-radius: 2em;
+  border-bottom-right-radius: 2rem;
+
+  padding-bottom:2em;
+
+}
+
+.player-hand::before {
+  content: 'Your hand:';
+  position:relative;
+  left:4.5em;
+  bottom:1.5em;
+  color:cornflowerblue;
+  background-color: rgba(0, 0, 0, 0.5);
+  max-height: 1em;
+  opacity:0%;
+  transition: 600ms;
+}
+
+.player-hand:hover::before {
+  opacity:100%;
+}
+
+.game-board::before {
+  content: 'Game board:';
+  position:relative;
+  left:5.3em;
+  bottom:7rem;
+  color:cornflowerblue;
+  background-color: rgba(0, 0, 0, 0.5);
+  max-height: 1em;
+  opacity:0%;
+  transition: 600ms;
+}
+
+.game-board:hover::before {
+  opacity:100%;
+}
+
+.player-hand, .game-board {
+  display:flex;
+}
+
+.player-card-img {
+  max-height: 15vh;
+}
+.board-card-img {
+  max-height: 20vh;
+}
 
 .player-card, .board-card {
   width:5em;

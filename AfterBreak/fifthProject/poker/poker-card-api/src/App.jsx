@@ -22,8 +22,7 @@ function App() {
   /* Game variables */
   const [gameStarted, setGameStarted] = useState(false)
   const [reviewingGame, setReviewingGame] = useState(false)
-  // STORES ALL PLAYERS AND IMPORTANT GAME STATE
-  //
+  const [dealer, setDealer] = useState({hand: ''})
   const [gameDeck, setGameDeck] = useState()
 
 
@@ -49,7 +48,8 @@ function App() {
         setReviewingGame,
         setGameStarted,
         gameDeck, 
-        setGameDeck
+        setGameDeck,
+        dealer
       }}
       >
       { gameStarted ? <GamePage /> : reviewingGame ? <ReviewPage /> : <LandingPage />
