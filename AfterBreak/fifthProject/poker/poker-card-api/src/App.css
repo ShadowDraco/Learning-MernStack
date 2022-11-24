@@ -98,12 +98,11 @@ body {
 }
 
 .bottom-bar {
-  display:flex;
-  grid-template-columns: repeat(2, 1fr);
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width:fit-content;
   justify-content: center;
 }
-
-.
 
 .bet-raiser {
   padding:0;
@@ -124,6 +123,13 @@ body {
   padding-bottom:1rem;
 }
 
+.betting-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
   width:6rem;
   height:2rem;
@@ -134,7 +140,13 @@ button {
 }
 
 button:hover {
-  background-color:var(--black2);
+  background-color:var(--black);
+}
+
+input {
+  background-color: var(--black);
+  color:var(--gold2);
+  width:4rem;
 }
 
 .player-stats {
