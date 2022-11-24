@@ -5,7 +5,7 @@ import { GameContext } from '../App'
 
 export default function ReviewPage() {
 
-    const { numberOfPlayers, players, setPlayers, startingMoney, setReviewingGame, setGameStarted, gameDeck, setGameDeck } = useContext(GameContext)
+    const { numberOfPlayers, setNumberOfPlayers, players, setPlayers, startingMoney, setReviewingGame, setGameStarted, gameDeck, setGameDeck } = useContext(GameContext)
 
     const [currentPlayerName, setCurrentPlayerName] = useState('')
     const [playersCreated, setPlayersCreated] = useState(0)
@@ -33,8 +33,9 @@ export default function ReviewPage() {
         // if the players didn't get set before page reload skip this
         if(loadedPlayers) {
             setPlayers(loadedPlayers)
-
-            loadedPlayers.length >= numberOfPlayers ? setLoadedFromSession(true) : setPlayersCreated(sessionStorage.getItem('players').length)
+            setNumberOfPlayers(loadedPlayers.length)
+            setPlayersCreated(loadedPlayers.length)
+            loadedPlayers.length >= numberOfPlayers ? setLoadedFromSession(true) : console.log('name more players')
         } 
         else { console.log('name players to continue')  }
 
@@ -65,9 +66,9 @@ export default function ReviewPage() {
 
         const newPlayer = {
             name: currentPlayerName,
-            hand: '',
             currentBet: 0,
             currentMoney: startingMoney,
+            firstTurn: false,
         }
 
         addNewPlayer(newPlayer)
@@ -77,7 +78,6 @@ export default function ReviewPage() {
             
             e.target.disabled = true
             e.target.previousElementSibling.disabled = true
-
         }
 
     }

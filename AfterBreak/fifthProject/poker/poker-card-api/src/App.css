@@ -74,3 +74,9 @@ body {
 /* ======= Review PAGE ========= */
 
 
+/* ======= Game PAGE ========= */
+/* ======= Game PAGE ========= */
+
+.player-card, .board-card {
+  width:5em;
+}
