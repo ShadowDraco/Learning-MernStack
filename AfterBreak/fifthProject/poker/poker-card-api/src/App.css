@@ -72,10 +72,6 @@ body {
 }
 
 
-/* ======= Review PAGE ========= */
-/* ======= Review PAGE ========= */
-
-
 /* ======= Game PAGE ========= */
 /* ======= Game PAGE ========= */
 
@@ -306,5 +302,24 @@ input {
 .player-card, .board-card {
   width:5em;
 }
+
+.chip-container {
+  margin-left:5rem;
+  max-width: 20rem;
+
+  display:grid;
+  grid-template-columns:repeat(4, 1fr)
+}
+
+.chip {
+  width:2rem;
+}
+.chip img {
+  width:100%;
+}
+
+
+
+
 
 /* ======= End game board ========= */

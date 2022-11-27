@@ -1,23 +1,26 @@
 import axios from 'axios'
 import React, { useState, useContext, useEffect} from 'react'
+import {v4 as uuid} from 'uuid'
 import { GameContext } from '../App'
 
 export default function GamePage() {
 
     const {players, startingMoney, gameDeck, numberOfPlayers, minBet, maxBet, smallBlind, bigBlind, dealer } = useContext(GameContext)
 
-    const [smallBlindPosition, setsmallBlindPosition] = useState(0)
+    const [smallBlindPosition, setSmallBlindPosition] = useState(0)
     const [bigBlindPosition, setBigBlindPosition] = useState(1)
 
     // ante-up, draw-hand, betting, place-flop, place-turn, place-river, showdown, next-player 
     const [gameState, setGameState] = useState(['ante-up'])
-
+    const [thePot, setThePot] = useState([])
+    
     // how many times around the table 
     const [round, setRound] = useState(0)
     // who's turn is it
     const [turn, setTurn] = useState(0)
     // which actions they have completed on their turn
     const [antedUp, setAntedUp] = useState(false)
+    const [firstAnte, setFirstAnte] = useState(false)
     const [drewHand, setDrewHand] = useState(false)
     // did this player call, check, or raise yet
     const [didBetAction, setDidBetAction] = useState(false)
@@ -43,6 +46,7 @@ export default function GamePage() {
 
     useEffect(() => {
         setCurrentInformation(['Game Just Started'])
+        createNewChips(1)
     }, [])
 
     useEffect(() => {  
@@ -56,11 +60,30 @@ export default function GamePage() {
     }
 
     function nextAnte() {
-        setsmallBlindPosition(smallBlindPosition + 1)
+        setSmallBlindPosition(smallBlindPosition + 1)
         setBigBlindPosition(bigBlindPosition + 1)
 
-        smallBlindPosition > numberOfPlayers ? setsmallBlindPosition(0) : addInformation('moving little blind to next person')
-        bigBlindPosition > numberOfPlayers ? setBigBlindPosition(0) : addInformation('moving big blind to next person')
+        smallBlindPosition === numberOfPlayers ? setSmallBlindPosition(0) : addInformation('moving little blind to beginning')
+        bigBlindPosition === numberOfPlayers ? setBigBlindPosition(0) : addInformation('moving big blind to beginning')
+    }
+
+    function createNewChips(amount) {
+        console.log(amount)
+        let newChips = []
+
+        for(let i = 0; i < amount; i++) {
+            let chipType = Math.floor(Math.random(2) * 10)
+            chipType <= 6 ? chipType = 'red-chip' : chipType = 'black-chip'
+            
+            let newChip = {
+                type: chipType,
+                id: uuid()
+            }
+            newChips.push(...newChips, newChip)
+            console.log(newChips)
+        } 
+        setThePot([...thePot, ...newChips])
+
     }
 
     function anteUp() {
@@ -72,10 +95,12 @@ export default function GamePage() {
                 if (p.currentMoney > bigBlind) { 
                     if (i === smallBlindPosition) {
                         p.currentMoney -= smallBlind
+                        createNewChips(smallBlind)
                         addInformation(`player ${p.name} gave little blind`)
 
                     } else if(i === bigBlindPosition) {
                         p.currentMoney -= bigBlind
+                        createNewChips(bigBlind)
                         addInformation(`player ${p.name} gave big blind`)
 
                     } else {
@@ -83,7 +108,7 @@ export default function GamePage() {
                     }
 
                     setAntedUp(true)
-                    addInformation(`${currentPlayer.name} anted up`)
+                    setFirstAnte(true)
                 } else {
                     addInformation(`${currentPlayer.name} is out of money`)
                 }
@@ -271,6 +296,18 @@ export default function GamePage() {
                 })
                 : console.log('')
             }
+
+            <div className="chip-container">
+            {
+                thePot ? thePot.map(chip => {
+                    return(
+                        <div key={`chip ${chip.id}`} className='chip'>
+                            <img src={`./src/images/${chip.type}.png`}></img>
+                        </div>
+                    )
+                }) : console.log('no chips')
+            }
+            </div>
         </div>
         
 
