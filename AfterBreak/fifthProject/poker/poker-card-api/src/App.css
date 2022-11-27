@@ -98,10 +98,11 @@ body {
 }
 
 .bottom-bar {
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  max-width:fit-content;
+  display:flex;
   justify-content: center;
+  align-items: center;
+  padding:1rem;
+  border:6px black double;
 }
 
 .bet-raiser {
@@ -123,13 +124,6 @@ body {
   padding-bottom:1rem;
 }
 
-.betting-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 button {
   width:6rem;
   height:2rem;
@@ -148,6 +142,88 @@ input {
   color:var(--gold2);
   width:4rem;
 }
+
+/* ======= End general ========= */
+
+.ante-button {
+  margin-right:2rem;
+  border-top: 4px var(--gold2) groove;
+}
+
+.draw-hand {
+  border-bottom: 4px var(--gold2) groove;
+  margin-right:2rem;
+}
+
+.betting-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 4px var(--gold2) groove;
+}
+
+.raise-button {
+  display: flex;
+  justify-content: inherit;
+  align-items: inherit;
+
+}
+
+.raise-button {
+  margin-right:2rem;
+}
+
+.raise-button input {
+  opacity:15%;
+  transition: 400ms;
+  height:1.5rem;
+}
+
+.raise-button input:hover {
+  opacity:100%;
+}
+
+.end-turn {
+  margin-left: 2rem;
+  border-bottom: 4px var(--gold2) groove;
+}
+
+/* ======= End buttons ========= */
+
+.information-bar {
+  margin-top:2rem;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  max-height:10rem;
+  overflow-clip-margin:calc(0px);
+  overflow:hidden;
+}
+
+.information {
+  border: 4px var(--gray) groove;
+  padding:2rem;
+  width:50%;
+  max-height:100%;
+
+  display:flex;
+  flex-direction: column-reverse;
+  
+  justify-content: center;
+  align-items: center;
+
+  background: -webkit-linear-gradient(var(--black2), var(--feltGreen2));
+}
+
+.info {
+  margin: 0.2rem;
+  padding:0.2rem;
+  background-color: rgba(30, 1, 161, 0.342);
+  color:var(--cornFlower2)
+
+}
+
+/* ======= End information ========= */
 
 .player-stats {
   display:flex;
@@ -230,3 +306,5 @@ input {
 .player-card, .board-card {
   width:5em;
 }
+
+/* ======= End game board ========= */

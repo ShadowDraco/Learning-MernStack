@@ -39,18 +39,28 @@ export default function GamePage() {
     const [readyForNextPlayer, setReadyForNextPlayer] = useState(false)
     const [betweenTurns, setBetweenTurns] = useState(false)
 
+    const [currentInformation, setCurrentInformation] = useState([])
+
+    useEffect(() => {
+        setCurrentInformation(['Game Just Started'])
+    }, [])
+
     useEffect(() => {  
         players[turn].folded ? nextPlayer :
             setCurrentPlayer(players[turn])
             setDrewHand(players[turn].drewHand)
     }, [turn])
 
+    function addInformation(newInformation) {
+        setCurrentInformation([...currentInformation, newInformation])
+    }
+
     function nextAnte() {
         setsmallBlindPosition(smallBlindPosition + 1)
         setBigBlindPosition(bigBlindPosition + 1)
 
-        smallBlindPosition > numberOfPlayers ? setsmallBlindPosition(0) : console.log('moving little blind to next person')
-        bigBlindPosition > numberOfPlayers ? setBigBlindPosition(0) : console.log('moving big blind to next person')
+        smallBlindPosition > numberOfPlayers ? setsmallBlindPosition(0) : addInformation('moving little blind to next person')
+        bigBlindPosition > numberOfPlayers ? setBigBlindPosition(0) : addInformation('moving big blind to next person')
     }
 
     function anteUp() {
@@ -62,20 +72,20 @@ export default function GamePage() {
                 if (p.currentMoney > bigBlind) { 
                     if (i === smallBlindPosition) {
                         p.currentMoney -= smallBlind
-                        console.log(`player ${p.name} gave little blind`)
+                        addInformation(`player ${p.name} gave little blind`)
 
                     } else if(i === bigBlindPosition) {
                         p.currentMoney -= bigBlind
-                        console.log(`player ${p.name} gave big blind`)
+                        addInformation(`player ${p.name} gave big blind`)
 
                     } else {
-                        console.log(`player ${p.name} has no blind`)
+                        addInformation(`player ${p.name} has no blind`)
                     }
 
                     setAntedUp(true)
-                    console.log(currentPlayer.name, 'anted up')
+                    addInformation(`${currentPlayer.name} anted up`)
                 } else {
-                    console.log(`${currentPlayer.name} is out of money`)
+                    addInformation(`${currentPlayer.name} is out of money`)
                 }
                  
             }
@@ -87,14 +97,14 @@ export default function GamePage() {
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=2`)
         .then(res => {
             setDrawnCards(res.data.cards)
-            console.log(`${currentPlayer.name} drew cards`)
+            addInformation(`${currentPlayer.name} drew cards`)
 
             currentPlayer.hand = res.data.cards
             currentPlayer.drewHand = true
             setDrewHand(true)
         })
         :
-        console.log('ante up first')
+        addInformation('ante up first')
     }
 
     function disableBets(e) {
@@ -102,13 +112,13 @@ export default function GamePage() {
     }
 
     function checkBet(e) {
-        console.log(`${currentPlayer.name} checks`)
+        addInformation(`${currentPlayer.name} checks`)
         disableBets(e)
     }
 
     function callBet(e) {
         currentPlayer.currentBet = currentBet
-        console.log(`${currentPlayer.name} matched bet`)
+        addInformation(`${currentPlayer.name} matched bet`)
         disableBets(e)
     }
 
@@ -117,7 +127,7 @@ export default function GamePage() {
         currentPlayer.currentBet = bet
         setCurrentBet(bet)
         setBetStarted(true)
-        console.log(`${currentPlayer.name} raised bet`)
+        addInformation(`${currentPlayer.name} raised bet`)
         disableBets(e)
     }
 
@@ -129,7 +139,7 @@ export default function GamePage() {
     function raiserRaisesBet() {
         currentRaiser.currentBet = currentBet
         setPlayerNeedsToRaise(false)
-        console.log(`${currentRaiser.name} updated their bet`)
+        addInformation(`${currentRaiser.name} updated their bet`)
     }
 
     function changeProspectiveBet(e) {
@@ -139,7 +149,7 @@ export default function GamePage() {
     function makePlayerRaiseBet(raiser) {
         setCurrentRaiser(players[raiser])
         setPlayerNeedsToRaise(true)
-        console.log(`${players[raiser].name} needs to up their bet!`)
+        addInformation(`${players[raiser].name} needs to up their bet!`)
     }   
 
     function readyNextPlayer() {
@@ -154,7 +164,7 @@ export default function GamePage() {
         }
         if (!betStarted && antedUp && drewHand && didBetAction) {
 
-            console.log(`${currentPlayer.name} ending turn`)
+            addInformation(`${currentPlayer.name} ending turn`)
             
             setReadyForNextPlayer(true)
             
@@ -165,9 +175,9 @@ export default function GamePage() {
         
             nextPlayer()
         } else {
-            antedUp ? '' : console.log('ante up')
-            drewHand ? '' : console.log('draw your hand')
-            didBetAction ? '' : console.log('make or pass your bet!')
+            antedUp ? '' : addInformation('Please ante up')
+            drewHand ? '' : addInformation('Please draw your hand')
+            didBetAction ? '' : addInformation('Please make or pass your bet!')
         }
     }
 
@@ -192,8 +202,7 @@ export default function GamePage() {
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=3`)
         .then(res => {
             setDrawnCards(res.data.cards)
-            console.log('the dealer places the flop cards')
-            console.log(res.data)
+            addInformation('The dealer places the flop cards')
 
             setBoard([...board, res.data.cards])
             dealer.hand = res.data.cards
@@ -205,10 +214,10 @@ export default function GamePage() {
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=1`)
         .then(res => {
             setDrawnCards(res.data.cards)
-            console.log('the dealer places the turn card')
+            addInformation('The dealer places the turn card')
 
             setBoard([...board, res.data.cards])
-            dealer.hand = res.data.cards
+            dealer.hand.push(res.data.cards[0])
         })
     }
 
@@ -216,15 +225,15 @@ export default function GamePage() {
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=1`)
         .then(res => {
             setDrawnCards(res.data.cards)
-            console.log('the dealer places the river card')
+            addInformation('The dealer places the river card')
 
             setBoard([...board, res.data.cards])
-            dealer.hand = res.data.cards
+            dealer.hand.push(res.data.cards[0])
         })
     }
 
     function showDown() {
-        console.log('all players show their cards')
+        addInformation('All players show their cards for the showdown')
     }
 
 
@@ -254,7 +263,6 @@ export default function GamePage() {
         <div className="game-board">
             {
                dealer.hand ? dealer.hand.map(card => {
-                    console.log(card)
                     return(
                         <div key={`${card.code}-${Math.random(10)}` } className="board-card">
                             <img src={card.image} className="board-card-img"></img>
@@ -291,14 +299,37 @@ export default function GamePage() {
             </div>
 
             <div className="betting-buttons">
-                <input type='number' onChange={changeProspectiveBet} value={prospectiveBet} min={currentBet}></input>
-                <button onClick={raiseBet} disabled={didBetAction}>Raise</button>
-                <button onClick={callBet} disabled={didBetAction}>Call</button>
-                <button onClick={checkBet} disabled={didBetAction}>Check</button>
+                <div className='raise-button'>
+                    <input type='number' onChange={changeProspectiveBet} value={prospectiveBet} min={currentBet}></input>
+                    <button onClick={raiseBet} disabled={didBetAction}>Raise</button>
+                </div>
+                <div className='call-check'>
+                    <button className='call-bet' onClick={callBet} disabled={didBetAction}>Call</button>
+                    <button className='check-bet' onClick={checkBet} disabled={didBetAction}>Check</button>
+                </div>
             </div>
 
             <div className="end-turn">
                 <button onClick={readyNextPlayer} disabled={!(didBetAction && antedUp && drewHand)}>End turn</button>
+            </div>
+        </div>
+
+        <div className="information-bar">
+            <div className="information">
+                {
+                    currentInformation ? (currentInformation.length < 6) ? 
+                        currentInformation.map(info => {
+                            return ( 
+                                <div key={`info ${Math.random(10)}`} className='info'>{info}</div>
+                            )
+                        })
+                    : currentInformation.slice(-5).map((info) => {
+                        return ( 
+                            <div key={`info ${Math.random(10)}`} className='info'>{info}</div>
+                        )
+                    })
+                    : console.log('')
+                }
             </div>
         </div>
     </div>
