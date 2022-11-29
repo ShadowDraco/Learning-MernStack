@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react'
-import { GameContext } from '../App'
+import { AppContext } from '../App'
 
 export default function LandingPage() {
 
     const { numberOfPlayers, setNumberOfPlayers, minBet, setMinBet, 
             maxBet, setMaxBet, startingMoney, setStartingMoney, smallBlind, setSmallBlind, 
             bigBlind, setBigBlind, setReviewingGame, setGameStarted 
-    } = useContext(GameContext)
+    } = useContext(AppContext)
    
     function changePlayerNumber(e) {
         // set the number of players each time they change so they persist on page reload
@@ -57,6 +57,10 @@ export default function LandingPage() {
     function submitAllReviewGame() {
         // submit values, create players, start the game
         setReviewingGame(true)
+    }
+
+    function gotoLoadGame() {
+
     }
 
     return (

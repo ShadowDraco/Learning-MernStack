@@ -1,11 +1,16 @@
 import axios from 'axios'
-import React, { useState, useContext, useEffect} from 'react'
-import {v4 as uuid} from 'uuid'
-import { GameContext } from '../App'
+import React, { useState, useContext, useEffect, createContext} from 'react'
+import {v4 as uuidv4} from 'uuid'
+import { AppContext } from '../App'
+
+import DuringGame from './DuringGame'
+import GameEnd from './GameEnd'
+
+export const GameContext = createContext()
 
 export default function GamePage() {
 
-    const {players, startingMoney, gameDeck, numberOfPlayers, minBet, maxBet, smallBlind, bigBlind, dealer } = useContext(GameContext)
+    const {players, setPlayers, startingMoney, setStartingMoney, gameDeck, setGameDeck, numberOfPlayers, setNumberOfPlayers, minBet, setMinBet, maxBet, setMaxBet, smallBlind, setSmallBlind, bigBlind, setBigBlind, dealer, setDealer, GAMESAVE, setGAMESAVE } = useContext(AppContext)
 
     const [smallBlindPosition, setSmallBlindPosition] = useState(0)
     const [bigBlindPosition, setBigBlindPosition] = useState(1)
@@ -43,13 +48,20 @@ export default function GamePage() {
     const [betweenTurns, setBetweenTurns] = useState(false)
 
     const [currentInformation, setCurrentInformation] = useState([])
+    // end game variables
+    const [readyForShowDown, setReadyForShowDown] = useState(false)
+    const [inShowDown, setInShowDown] = useState(false)
 
+    // set the state arrays to be non-empty to avoid errors 
     useEffect(() => {
         setCurrentInformation(['Game Just Started'])
         createNewChips(1)
+        
+        GAMESAVE ? LOADGAMESAVE() : console.log('starting new game')
     }, [])
 
     useEffect(() => {  
+        // when a new player's turn is started change the variables related to the turn
         players[turn].folded ? nextPlayer :
             setCurrentPlayer(players[turn])
             setDrewHand(players[turn].drewHand)
@@ -68,7 +80,7 @@ export default function GamePage() {
     }
 
     function createNewChips(amount) {
-        console.log(amount)
+
         let newChips = []
 
         for(let i = 0; i < amount; i++) {
@@ -77,11 +89,12 @@ export default function GamePage() {
             
             let newChip = {
                 type: chipType,
-                id: uuid()
+                id: uuidv4()
             }
-            newChips.push(...newChips, newChip)
-            console.log(newChips)
+
+            newChips.push(newChip)
         } 
+
         setThePot([...thePot, ...newChips])
 
     }
@@ -96,15 +109,15 @@ export default function GamePage() {
                     if (i === smallBlindPosition) {
                         p.currentMoney -= smallBlind
                         createNewChips(smallBlind)
-                        addInformation(`player ${p.name} gave little blind`)
+                        addInformation(`Player ${p.name} gave little blind`)
 
                     } else if(i === bigBlindPosition) {
                         p.currentMoney -= bigBlind
                         createNewChips(bigBlind)
-                        addInformation(`player ${p.name} gave big blind`)
+                        addInformation(`Player ${p.name} gave big blind`)
 
                     } else {
-                        addInformation(`player ${p.name} has no blind`)
+                        addInformation(`Player ${p.name} has no blind`)
                     }
 
                     setAntedUp(true)
@@ -129,7 +142,7 @@ export default function GamePage() {
             setDrewHand(true)
         })
         :
-        addInformation('ante up first')
+        addInformation('Please ante up first')
     }
 
     function disableBets(e) {
@@ -137,23 +150,45 @@ export default function GamePage() {
     }
 
     function checkBet(e) {
-        addInformation(`${currentPlayer.name} checks`)
-        disableBets(e)
+        if (antedUp && drewHand) {
+            addInformation(`${currentPlayer.name} checks`)
+            disableBets(e)
+        } else {
+            antedUp ? console.log('') : addInformation('Please ante up')
+            drewHand ? console.log('') : addInformation('Please draw your hand')
+        }
     }
 
     function callBet(e) {
-        currentPlayer.currentBet = currentBet
-        addInformation(`${currentPlayer.name} matched bet`)
-        disableBets(e)
+        if (antedUp && drewHand) {
+            currentPlayer.currentBet = currentBet
+            addInformation(`${currentPlayer.name} matched bet`)
+            disableBets(e)
+        } else {
+            antedUp ? console.log('') : addInformation('Please ante up')
+            drewHand ? console.log('') : addInformation('Please draw your hand')
+        }
     }
 
     function raiseBet(e) {
         let bet = e.target.previousElementSibling.value
-        currentPlayer.currentBet = bet
-        setCurrentBet(bet)
-        setBetStarted(true)
-        addInformation(`${currentPlayer.name} raised bet`)
-        disableBets(e)
+        
+        if (bet > currentBet) {
+
+            if (antedUp && drewHand) {
+                currentPlayer.currentBet = bet
+                setCurrentBet(bet)
+                setBetStarted(true)
+                addInformation(`${currentPlayer.name} raised bet`)
+                disableBets(e) 
+            } else {
+                antedUp ? console.log('') : addInformation('Please ante up')
+                drewHand ? console.log('') : addInformation('Please draw your hand')
+            }
+        }
+        else {
+            addInformation('please place a higher bet')
+        }
     }
 
     function foldHand(e) {
@@ -214,7 +249,7 @@ export default function GamePage() {
         round === 0 ? placeFlop() : console.log('') 
         round === 1 ? placeTurn() : console.log('')
         round === 2 ? placeRiver() : console.log('')
-        round === 3 ? showDown() : console.log('')
+        round === 3 ? beginShowDown() : console.log('')
     }
 
     function nextPlayer() {
@@ -257,118 +292,105 @@ export default function GamePage() {
         })
     }
 
-    function showDown() {
+    function beginShowDown() {
         addInformation('All players show their cards for the showdown')
+        setReadyForShowDown(true)
+    }
+
+    function gotoShowDown() {
+        setInShowDown(true)
+    }
+
+    function saveGame() {
+        const GAMESAVE = {
+            players: players,
+            currentBet: currentBet,
+            currentInformation: currentInformation,
+            antedUp: antedUp, 
+            drawnCards: drawnCards,
+            gameDeck: gameDeck, 
+            board: board,
+            inShowDown: inShowDown,
+            playerNeedsToRaise: playerNeedsToRaise,
+            currentRaiser: currentRaiser,
+            drewHand: drawHand,
+            didBetAction: didBetAction, 
+            thePot: thePot,
+            prospectiveBet: prospectiveBet,
+            readyForShowDown: readyForShowDown,
+            readyForNextPlayer: readyForNextPlayer,
+            round: round, 
+            turn: turn,
+            betStarted: betStarted,
+            smallBlindPosition: smallBlindPosition,
+            bigBlindPosition: bigBlindPosition,
+            betweenTurns: betweenTurns,
+            firstAnte: firstAnte,
+            startingMoney: startingMoney,
+            minBet: minBet,
+            maxBet: maxBet,
+            smallBlind: smallBlind,
+            bigBlind: bigBlind,
+            dealer: dealer
+        }
+        localStorage.setItem('GAMESAVE', JSON.stringify(GAMESAVE))
+        setGAMESAVE(GAMESAVE)
+    }
+
+    function LOADGAMESAVE() {
+        const GAMESAVE = JSON.parse(localStorage.getItem('GAMESAVE'))
+        console.log('loading game save!')
+        setPlayers(GAMESAVE.players)
+        setCurrentBet(GAMESAVE.currentBet)
+        setCurrentInformation(GAMESAVE.currentInformation)
+        setAntedUp(GAMESAVE.antedUp)
+        setDrawnCards(GAMESAVE.drawnCards)
+        setGameDeck(GAMESAVE.gameDeck)
+        setBoard(GAMESAVE.board)
+        setInShowDown(GAMESAVE.inShowDown)
+        setPlayerNeedsToRaise(GAMESAVE.playerNeedsToRaise)
+        setCurrentRaiser(GAMESAVE.currentRaiser)
+        setDrewHand(GAMESAVE.drewHand)
+        setDidBetAction(GAMESAVE.didBetAction)
+        setThePot(GAMESAVE.thePot)
+        setProspectiveBet(GAMESAVE.prospectiveBet)
+        setReadyForShowDown(GAMESAVE.readyForShowDown)
+        setReadyForNextPlayer(GAMESAVE.readyForNextPlayer)
+        setRound(GAMESAVE.round)
+        setTurn(GAMESAVE.turn)
+        setBetStarted(GAMESAVE.betStarted)
+        setSmallBlindPosition(GAMESAVE.smallBlindPosition)
+        setBigBlindPosition(GAMESAVE.bigBlindPosition)
+        setBetweenTurns(GAMESAVE.betweenTurns)
+        setFirstAnte(GAMESAVE.firstAnte)
+        setStartingMoney(GAMESAVE.startingMoney)
+        setMinBet(GAMESAVE.minBet)
+        setMaxBet(GAMESAVE.maxBet)
+        setSmallBlind(GAMESAVE.smallBlind)
+        setBigBlind(GAMESAVE.bigBlind)
+        setDealer(GAMESAVE.dealer)
+
+        addInformation('Loaded saved game!')
     }
 
 
   return (
-    <div className='wrapper'>
-        
-        <div className="top-bar">
-            <div className="player-stats">
-                <p>{currentPlayer.name}</p>
-                <p>Money: {currentPlayer.currentMoney}</p>
-                <p>Current Bet: {currentBet}</p>
-                <p>Your Bet: {currentPlayer.currentBet}</p>
-            </div>
 
-        { playerNeedsToRaise ?
-        <div className="bet-raiser"> 
-            <p>{currentRaiser.name} please raise your bet to {currentBet} or fold</p>
-            <div className="buttons">
-                <button onClick={raiserRaisesBet}>Stay in!</button>
-                <button onClick={foldHand}>Fold out!</button>
-            </div>
-        </div>
-        : console.log('') }
+    <div className='wrapper'> 
 
-        </div>
-
-        <div className="game-board">
-            {
-               dealer.hand ? dealer.hand.map(card => {
-                    return(
-                        <div key={`${card.code}-${Math.random(10)}` } className="board-card">
-                            <img src={card.image} className="board-card-img"></img>
-                        </div>
-                    )
-                })
-                : console.log('')
-            }
-
-            <div className="chip-container">
-            {
-                thePot ? thePot.map(chip => {
-                    return(
-                        <div key={`chip ${chip.id}`} className='chip'>
-                            <img src={`./src/images/${chip.type}.png`}></img>
-                        </div>
-                    )
-                }) : console.log('no chips')
-            }
-            </div>
-        </div>
-        
-
-        <div className="player-hand">
+    <GameContext.Provider 
+    value={{
+        antedUp, currentBet, currentInformation,
+        currentPlayer, drewHand, didBetAction, currentRaiser,
+        playerNeedsToRaise, prospectiveBet, thePot,
+        readyForShowDown,
+        anteUp, readyNextPlayer, raiseBet, raiserRaisesBet, callBet, checkBet, 
+        changeProspectiveBet, drawHand, gotoShowDown, foldHand, saveGame
+    }}>
         {
-            currentPlayer.hand ? 
-            currentPlayer.hand.map(card => {
-                return(
-                    <div key={`${card.code}-${Math.random(10)}`} className="player-card">
-                        <img src={card.image} className="player-card-img"></img>
-                    </div>
-                )
-            })
-            : console.log('')
+            !inShowDown ? <DuringGame /> : <GameEnd />
         }
-        </div>
-
-        <div className="bottom-bar">
-
-            <div className="ante-button">
-                <button onClick={anteUp} disabled={antedUp}>Ante Up</button>
-            </div>
-
-            <div className="draw-hand">
-                { drewHand ? console.log('') : <button onClick={drawHand}>Draw Hand</button> }
-            </div>
-
-            <div className="betting-buttons">
-                <div className='raise-button'>
-                    <input type='number' onChange={changeProspectiveBet} value={prospectiveBet} min={currentBet}></input>
-                    <button onClick={raiseBet} disabled={didBetAction}>Raise</button>
-                </div>
-                <div className='call-check'>
-                    <button className='call-bet' onClick={callBet} disabled={didBetAction}>Call</button>
-                    <button className='check-bet' onClick={checkBet} disabled={didBetAction}>Check</button>
-                </div>
-            </div>
-
-            <div className="end-turn">
-                <button onClick={readyNextPlayer} disabled={!(didBetAction && antedUp && drewHand)}>End turn</button>
-            </div>
-        </div>
-
-        <div className="information-bar">
-            <div className="information">
-                {
-                    currentInformation ? (currentInformation.length < 6) ? 
-                        currentInformation.map(info => {
-                            return ( 
-                                <div key={`info ${Math.random(10)}`} className='info'>{info}</div>
-                            )
-                        })
-                    : currentInformation.slice(-5).map((info) => {
-                        return ( 
-                            <div key={`info ${Math.random(10)}`} className='info'>{info}</div>
-                        )
-                    })
-                    : console.log('')
-                }
-            </div>
-        </div>
+    </GameContext.Provider>
     </div>
   )
 }

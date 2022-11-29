@@ -6,7 +6,7 @@ import LandingPage from './components/LadingPage'
 import './App.css'
 
 
-export const GameContext = createContext()
+export const AppContext = createContext()
 
 function App() {
   
@@ -24,12 +24,13 @@ function App() {
   const [reviewingGame, setReviewingGame] = useState(false)
   const [dealer, setDealer] = useState({hand: ''})
   const [gameDeck, setGameDeck] = useState()
+  const [GAMESAVE, setGAMESAVE] = useState()
 
 
   return (
     <div className="App">
 
-      <GameContext.Provider
+      <AppContext.Provider
       value={{
         players,
         setPlayers,
@@ -49,13 +50,16 @@ function App() {
         setGameStarted,
         gameDeck, 
         setGameDeck,
-        dealer
+        dealer,
+        setDealer,
+        GAMESAVE,
+        setGAMESAVE
       }}
       >
       { gameStarted ? <GamePage /> : reviewingGame ? <ReviewPage /> : <LandingPage />
       }
       
-      </GameContext.Provider>
+      </AppContext.Provider>
 
     </div>
   )

@@ -71,6 +71,16 @@ body {
   font-size:xx-large;
 }
 
+.blind-values {
+  margin-bottom:1rem;
+}
+
+.load-game {
+  display:flex;
+  justify-content: center;
+  margin-top:2rem;
+}
+
 
 /* ======= Game PAGE ========= */
 /* ======= Game PAGE ========= */
@@ -99,6 +109,8 @@ body {
   align-items: center;
   padding:1rem;
   border:6px black double;
+  flex-wrap:wrap;
+  gap:1em;
 }
 
 .bet-raiser {
@@ -162,6 +174,7 @@ input {
   display: flex;
   justify-content: inherit;
   align-items: inherit;
+  flex-wrap:wrap;
 
 }
 

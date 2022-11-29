@@ -1,11 +1,11 @@
 import axios from 'axios'
 import React, { useState, useContext, useEffect } from 'react'
-import { GameContext } from '../App'
+import { AppContext } from '../App'
 
 
 export default function ReviewPage() {
 
-    const { numberOfPlayers, setNumberOfPlayers, players, setPlayers, startingMoney, setReviewingGame, setGameStarted, gameDeck, setGameDeck } = useContext(GameContext)
+    const { numberOfPlayers, setNumberOfPlayers, players, setPlayers, startingMoney, setReviewingGame, setGameStarted, gameDeck, setGameDeck, GAMESAVE, setGAMESAVE } = useContext(AppContext)
 
     const [currentPlayerName, setCurrentPlayerName] = useState('')
     const [playersCreated, setPlayersCreated] = useState(0)
@@ -82,6 +82,10 @@ export default function ReviewPage() {
 
     }
 
+    function loadGame() {
+        localStorage.getItem('GAMESAVE') ? setGAMESAVE(localStorage.getItem('GAMESAVE')) : console.log('no game saved')
+    }
+
   return (
     <div className="review-page">
 
@@ -109,6 +113,10 @@ export default function ReviewPage() {
             </textarea>
 
             <button onClick={startGame}>Start the Game!</button>
+
+            <div className="load-game">
+                    <button onClick={loadGame}>Load Game!</button>
+            </div>
         </div>
 
     </div>
