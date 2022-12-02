@@ -103,6 +103,27 @@ body {
   background-color: rgba(0, 0, 0, 0.411);
 }
 
+.top-bar-game-end {
+  display:flex;
+  flex-wrap: wrap;
+  padding-left:1rem;
+  color:var(--cornFlower2);
+  background-color: rgba(0, 0, 0, 0.611);
+}
+
+
+.player-hand-game-end {
+  display:flex;
+  background: -webkit-linear-gradient(var(--feltGreen2), var(--feltGreen3));
+  
+  border-radius: 2em;
+  border:5px groove var(--black2);
+  border-top: none;
+
+  padding:2em;
+
+}
+
 .bottom-bar {
   display:flex;
   justify-content: center;
@@ -241,7 +262,9 @@ input {
   gap:1em;
   background-color:rgba(97, 137, 212, 0.068);
   border-radius: 1em;
-  width:75%;
+  width:fit-content;
+  margin:1em;
+  padding:1em;
 }
 
 .game-board {
@@ -306,14 +329,15 @@ input {
 }
 
 .player-card-img {
-  max-height: 15vh;
+  max-width: 10vh;
 }
 .board-card-img {
-  max-height: 20vh;
+  max-width: 15vh;
+  margin:1em;
 }
 
 .player-card, .board-card {
-  width:5em;
+  width: fit-content;
 }
 
 .chip-container {
@@ -336,3 +360,17 @@ input {
 
 
 /* ======= End game board ========= */
+
+.who-won {
+  display:flex;
+  font-size: xx-large;
+  justify-content: center;
+  align-items: center;
+  color:var(--gold2);
+}
+
+.who-won select {
+  max-height: 2em;
+  font-size:inherit;
+  margin-right:1em;
+}

@@ -56,13 +56,14 @@ export default function GamePage() {
     useEffect(() => {
         setCurrentInformation(['Game Just Started'])
         createNewChips(1)
+        currentPlayer.drewHand ? setDrewHand(true) : console.log('player did not draw hand')
         
         GAMESAVE ? LOADGAMESAVE() : console.log('starting new game')
     }, [])
 
     useEffect(() => {  
         // when a new player's turn is started change the variables related to the turn
-        players[turn].folded ? nextPlayer :
+        players[turn].folded ? nextPlayer() :
             setCurrentPlayer(players[turn])
             setDrewHand(players[turn].drewHand)
     }, [turn])
@@ -313,7 +314,7 @@ export default function GamePage() {
             inShowDown: inShowDown,
             playerNeedsToRaise: playerNeedsToRaise,
             currentRaiser: currentRaiser,
-            drewHand: drawHand,
+            drewHand: drewHand,
             didBetAction: didBetAction, 
             thePot: thePot,
             prospectiveBet: prospectiveBet,
@@ -331,7 +332,7 @@ export default function GamePage() {
             maxBet: maxBet,
             smallBlind: smallBlind,
             bigBlind: bigBlind,
-            dealer: dealer
+            dealer: dealer,
         }
         localStorage.setItem('GAMESAVE', JSON.stringify(GAMESAVE))
         setGAMESAVE(GAMESAVE)

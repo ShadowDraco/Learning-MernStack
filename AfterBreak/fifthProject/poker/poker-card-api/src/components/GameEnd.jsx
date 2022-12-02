@@ -7,19 +7,52 @@ export default function GameEnd() {
     const { players, dealer } = useContext(AppContext)
     const { currentBet, currentInformation, currentPlayer, thePot } = useContext(GameContext)
 
+    /* get the select's current value and set the player's condition */ 
+    function changeWinCondition(e, player) {
+        console.log(player)
+        player.winCondition = e.target.value
+    }
+
+    function makePlayerWin(e) {
+        let winner = e.target.previousElementSibling.value
+        winner.money += thePot
+        winner.winCount++
+        
+    }
+
   return (
     <>
-        <div className="top-bar">
+        <div className="top-bar-game-end">
 
             { 
             players.map(player => {
                 return (
                     <div className="player-stats">
-                        <p>{player.name}</p>
-                        <p>Money: {player.currentMoney}</p>
-                        <p>Current Bet: {currentBet}</p>
+                        <div className='stats'>
+                            <p>{player.name}</p>
+                            <p>Money: {player.currentMoney}</p>
+                            <p>Current Bet: {currentBet}</p>
 
-                        <div className="player-hand">
+                            <div className="selectHand">
+                                <select onChange={(e) => {
+                                    changeWinCondition(e, player)
+                                }}>
+                                    <option value="high-card">High Card</option>
+                                    <option value="pair">Pair</option>
+                                    <option value="two-pair">Two pair</option>
+                                    <option value="three-kind">Three of a kind</option>
+                                    <option value="straight">Straight</option>
+                                    <option value="flush">Flush</option>
+                                    <option value="full-house">Full House</option>
+                                    <option value="four-kind">Four of a kind</option>
+                                    <option value="straight-flush">Straight Flush</option>
+                                    <option value="royal-flush">Royal Flush</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div className="player-hand-game-end">
                             {
                                 player.hand.map(card => {
                                     return(
@@ -66,7 +99,21 @@ export default function GameEnd() {
     
 
         <div className="bottom-bar">
+            <div className="who-won">
+                <select className='winner-list'>
+                    {
+                        players.map(player => {
+                            return (
+                                <option value={player}>{player.name}</option>
+                            )
+                        })
+                    }
+                </select>
 
+                <p>I WONN!!</p>
+
+                <button onClick={makePlayerWin}>Submit</button>
+            </div>
         </div>
 
         <div className="information-bar">
