@@ -55,12 +55,8 @@ export default function LandingPage() {
     }
 
     function submitAllReviewGame() {
-        // submit values, create players, start the game
+        // submit values, create players, start the game by changing state and therefore pages
         setReviewingGame(true)
-    }
-
-    function gotoLoadGame() {
-
     }
 
     return (

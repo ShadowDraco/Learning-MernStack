@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState, useContext, useEffect, createContext} from 'react'
-import {v4 as uuidv4} from 'uuid'
+import {v4 as uuidv4} from 'uuid' // uuid generates unique key id's for child react components
 import { AppContext } from '../App'
 
 import DuringGame from './DuringGame'
@@ -12,12 +12,13 @@ export default function GamePage() {
 
     const {players, setPlayers, startingMoney, setStartingMoney, gameDeck, setGameDeck, numberOfPlayers, setNumberOfPlayers, minBet, setMinBet, maxBet, setMaxBet, smallBlind, setSmallBlind, bigBlind, setBigBlind, dealer, setDealer, GAMESAVE, setGAMESAVE } = useContext(AppContext)
 
+    // the index of the blinds to trrack which player needs to give an ante
     const [smallBlindPosition, setSmallBlindPosition] = useState(0)
     const [bigBlindPosition, setBigBlindPosition] = useState(1)
 
     // ante-up, draw-hand, betting, place-flop, place-turn, place-river, showdown, next-player 
-    const [gameState, setGameState] = useState(['ante-up'])
-    const [thePot, setThePot] = useState([])
+    const [gameState, setGameState] = useState(['ante-up']) // unused was mostly a thought process which helped me decide how to actually manage the state of my game. I realized that state was managing itself... hahaha
+    const [thePot, setThePot] = useState([]) // all the chips on the board
     
     // how many times around the table 
     const [round, setRound] = useState(0)
@@ -25,7 +26,7 @@ export default function GamePage() {
     const [turn, setTurn] = useState(0)
     // which actions they have completed on their turn
     const [antedUp, setAntedUp] = useState(false)
-    const [firstAnte, setFirstAnte] = useState(false)
+    const [firstAnte, setFirstAnte] = useState(false) // an extra variable to prevent possible first turn errors
     const [drewHand, setDrewHand] = useState(false)
     // did this player call, check, or raise yet
     const [didBetAction, setDidBetAction] = useState(false)
@@ -34,9 +35,9 @@ export default function GamePage() {
     // the person who needs to raise their bet
     const [currentRaiser, setCurrentRaiser] = useState(0)
     const [playerNeedsToRaise, setPlayerNeedsToRaise] = useState(false)
-    const [currentBet, setCurrentBet] = useState(0)
+    const [currentBet, setCurrentBet] = useState(0) // the current amount of chips that have been bet on top of the ante this game
     // if the player is trying to raise the bet
-    const [prospectiveBet, setProspectiveBet] = useState(currentBet)
+    const [prospectiveBet, setProspectiveBet] = useState(currentBet) // variable to store onChange of the raise bet input
 
     // the current drawn cards for a player
     const [drawnCards, setDrawnCards] = useState ([])
@@ -44,8 +45,8 @@ export default function GamePage() {
     const [board, setBoard] = useState([])
     // current player 
     const [currentPlayer, setCurrentPlayer] = useState(players[turn])
-    const [readyForNextPlayer, setReadyForNextPlayer] = useState(false)
-    const [betweenTurns, setBetweenTurns] = useState(false)
+    const [readyForNextPlayer, setReadyForNextPlayer] = useState(false) // when switching turns hide cards behind a button
+    const [betweenTurns, setBetweenTurns] = useState(false) // ^ some way to allow people to 'pass' the screen around
 
     const [currentInformation, setCurrentInformation] = useState([])
     // end game variables
@@ -54,10 +55,11 @@ export default function GamePage() {
 
     // set the state arrays to be non-empty to avoid errors 
     useEffect(() => {
+        // set important beginning content so the game doesn't break
         setCurrentInformation(['Game Just Started'])
         createNewChips(1)
-        currentPlayer.drewHand ? setDrewHand(true) : console.log('player did not draw hand')
         
+        // if there is a game save just load that over top
         GAMESAVE ? LOADGAMESAVE() : console.log('starting new game')
     }, [])
 
@@ -68,10 +70,12 @@ export default function GamePage() {
             setDrewHand(players[turn].drewHand)
     }, [turn])
 
+    // update the bottom information textbox
     function addInformation(newInformation) {
         setCurrentInformation([...currentInformation, newInformation])
     }
 
+    // move the blinds around the table
     function nextAnte() {
         setSmallBlindPosition(smallBlindPosition + 1)
         setBigBlindPosition(bigBlindPosition + 1)
@@ -80,6 +84,7 @@ export default function GamePage() {
         bigBlindPosition === numberOfPlayers ? setBigBlindPosition(0) : addInformation('moving big blind to beginning')
     }
 
+    // add chips to the board without breaking state by setting to an array and then updating the state after
     function createNewChips(amount) {
 
         let newChips = []
@@ -87,6 +92,7 @@ export default function GamePage() {
         for(let i = 0; i < amount; i++) {
             let chipType = Math.floor(Math.random(2) * 10)
             chipType <= 6 ? chipType = 'red-chip' : chipType = 'black-chip'
+            // create a random red or black chip and give it an id
             
             let newChip = {
                 type: chipType,
@@ -95,7 +101,7 @@ export default function GamePage() {
 
             newChips.push(newChip)
         } 
-
+        // add the variable list to the state because state can't update in a loop
         setThePot([...thePot, ...newChips])
 
     }
@@ -106,7 +112,9 @@ export default function GamePage() {
         players.map((p, i) => {
             if (p === currentPlayer) {
 
+                // if the player has enough money
                 if (p.currentMoney > bigBlind) { 
+                    // if the current index is equal to the blind position make them pay
                     if (i === smallBlindPosition) {
                         p.currentMoney -= smallBlind
                         createNewChips(smallBlind)
@@ -132,6 +140,7 @@ export default function GamePage() {
     }
 
     function drawHand(e) {
+        // if the player is anted up let them draw cards
         antedUp ? 
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=2`)
         .then(res => {
@@ -146,10 +155,14 @@ export default function GamePage() {
         addInformation('Please ante up first')
     }
 
+    // disable the betting buttons all at once with state
     function disableBets(e) {
         setDidBetAction(true)
     }
 
+    /* 
+        List of BET actions 
+    */
     function checkBet(e) {
         if (antedUp && drewHand) {
             addInformation(`${currentPlayer.name} checks`)
@@ -192,37 +205,42 @@ export default function GamePage() {
         }
     }
 
+
+    // if the player doesn't want to raise their bet they are skipped until the game ends and that's it
     function foldHand(e) {
         setPlayerNeedsToRaise(false)
         currentRaiser.folded = true
     }
-
+    // ask players to raise their bet without forcing the screen to be passed around by prompting the current Player
     function raiserRaisesBet() {
         currentRaiser.currentBet = currentBet
         setPlayerNeedsToRaise(false)
         addInformation(`${currentRaiser.name} updated their bet`)
     }
-
+    // raise bet input's onChange function  
     function changeProspectiveBet(e) {
         setProspectiveBet(e.target.value)
     }
-
+    // button onClick for stay in and raise the bet
     function makePlayerRaiseBet(raiser) {
         setCurrentRaiser(players[raiser])
         setPlayerNeedsToRaise(true)
         addInformation(`${players[raiser].name} needs to up their bet!`)
     }   
 
+    // when end turn is pressed see what needs to be done
     function readyNextPlayer() {
 
+        // if a bet is started check who needs to raise
         if (betStarted) {
             let goodBets = 0
             players.map((p, i) => {
                 p.currentBet === currentBet || p.folded === true ? goodBets++ : makePlayerRaiseBet(i)
             })
-            console.log(goodBets, numberOfPlayers)
-            goodBets === numberOfPlayers ? setBetStarted(false) : console.log('more players should update their bets')
+
+            goodBets === numberOfPlayers ? setBetStarted(false) : addInformation('More players should update their bets')
         }
+        // if everything else is done then reset the start for the turn and move to the next Player
         if (!betStarted && antedUp && drewHand && didBetAction) {
 
             addInformation(`${currentPlayer.name} ending turn`)
@@ -242,6 +260,7 @@ export default function GamePage() {
         }
     }
 
+    // when all players have their turn the dealer does theirs
     function increaseRound() {
         setRound(round + 1)
         setTurn(0)
@@ -253,12 +272,17 @@ export default function GamePage() {
         round === 3 ? beginShowDown() : console.log('')
     }
 
+    // increase the turn and check the round
     function nextPlayer() {
         setBetweenTurns(true)
         turn + 1 === numberOfPlayers ? increaseRound() : setTurn(turn + 1)
         console.log('between turns')
     }
 
+    /*
+        List of DEALER actions
+    */
+   // mostly just place cards and keep track of them
     function placeFlop() {
         axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/draw/?count=3`)
         .then(res => {
@@ -292,6 +316,10 @@ export default function GamePage() {
             dealer.hand.push(res.data.cards[0])
         })
     }
+
+    /* 
+        End GAME things
+    */
 
     function beginShowDown() {
         addInformation('All players show their cards for the showdown')
@@ -335,7 +363,9 @@ export default function GamePage() {
             dealer: dealer,
         }
         localStorage.setItem('GAMESAVE', JSON.stringify(GAMESAVE))
+        sessionStorage.setItem('players', JSON.stringify(players))
         setGAMESAVE(GAMESAVE)
+        addInformation('Saved - ')
     }
 
     function LOADGAMESAVE() {
@@ -374,6 +404,38 @@ export default function GamePage() {
         addInformation('Loaded saved game!')
     }
 
+    function savePlayersResetGame() {
+
+        players.map(player => {
+            player.hand = ''
+            player.drewHand = ''
+            player.currentbet = ''
+        })
+
+        dealer.hand = ''
+
+        axios.get(`https://www.deckofcardsapi.com/api/deck/${gameDeck.deck_id}/shuffle/`)
+        .then(res => {
+            setGameDeck(res.data)
+            sessionStorage.setItem('gameDeck', JSON.stringify(res.data))
+        })  
+
+        const GAMESAVE = {
+            players: players,
+            minBet: minBet,
+            maxBet: maxBet,
+            smallBlind: smallBlind,
+            bigBlind: bigBlind,
+            dealer: dealer,
+        }
+
+        localStorage.setItem('GAMESAVE', JSON.stringify(GAMESAVE))
+        sessionStorage.setItem('players', JSON.stringify(players))
+        setGAMESAVE(GAMESAVE)
+
+        addInformation('Saved - Start a fresh game!')
+
+    }
 
   return (
 
@@ -386,7 +448,7 @@ export default function GamePage() {
         playerNeedsToRaise, prospectiveBet, thePot,
         readyForShowDown,
         anteUp, readyNextPlayer, raiseBet, raiserRaisesBet, callBet, checkBet, 
-        changeProspectiveBet, drawHand, gotoShowDown, foldHand, saveGame
+        changeProspectiveBet, drawHand, gotoShowDown, foldHand, saveGame, savePlayersResetGame
     }}>
         {
             !inShowDown ? <DuringGame /> : <GameEnd />

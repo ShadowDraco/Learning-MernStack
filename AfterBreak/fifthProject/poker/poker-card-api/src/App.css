@@ -78,7 +78,10 @@ body {
 .load-game {
   display:flex;
   justify-content: center;
-  margin-top:2rem;
+}
+
+.green {
+  border: 2px solid green;
 }
 
 
@@ -268,6 +271,7 @@ input {
 }
 
 .game-board {
+  display:flex;
   background: -webkit-linear-gradient(var(--black2), var(--feltGreen), var(--feltGreen2));
   justify-content: center;
   align-items: center;

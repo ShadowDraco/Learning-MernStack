@@ -5,7 +5,7 @@ import { AppContext } from '../App'
 export default function GameEnd() {
 
     const { players, dealer } = useContext(AppContext)
-    const { currentBet, currentInformation, currentPlayer, thePot } = useContext(GameContext)
+    const { currentBet, currentInformation, currentPlayer, thePot, savePlayersResetGame } = useContext(GameContext)
 
     /* get the select's current value and set the player's condition */ 
     function changeWinCondition(e, player) {
@@ -14,10 +14,13 @@ export default function GameEnd() {
     }
 
     function makePlayerWin(e) {
-        let winner = e.target.previousElementSibling.value
-        winner.money += thePot
+        let winner = players[e.target.previousElementSibling.value]
+        console.log(winner, thePot)
+
+        winner.currentMoney += thePot.length
         winner.winCount++
-        
+
+        savePlayersResetGame()
     }
 
   return (
@@ -102,17 +105,15 @@ export default function GameEnd() {
             <div className="who-won">
                 <select className='winner-list'>
                     {
-                        players.map(player => {
+                        players.map((player, i) => {
                             return (
-                                <option value={player}>{player.name}</option>
+                                <option value={i}>{player.name}</option>
                             )
                         })
                     }
                 </select>
 
-                <p>I WONN!!</p>
-
-                <button onClick={makePlayerWin}>Submit</button>
+                <button onClick={makePlayerWin}>Submit Winner!</button>
             </div>
         </div>
 

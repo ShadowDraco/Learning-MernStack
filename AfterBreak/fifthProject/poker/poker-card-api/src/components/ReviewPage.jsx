@@ -35,7 +35,6 @@ export default function ReviewPage() {
             setPlayers(loadedPlayers)
             setPlayersCreated(loadedPlayers.length)
             loadedPlayers.length >= numberOfPlayers ? setLoadedFromSession(true) : console.log('name more players')
-            setNumberOfPlayers(loadedPlayers.length)
         } 
         else { console.log('name players to continue')  }
 
@@ -43,7 +42,7 @@ export default function ReviewPage() {
 
 
     function startGame(e) {
-
+        // save the players that  were named then start the game
         sessionStorage.setItem('players', JSON.stringify(players))
 
         setReviewingGame(false)
@@ -70,12 +69,12 @@ export default function ReviewPage() {
             currentMoney: startingMoney,
             firstTurn: false,
         }
-
+        // function used because state doesn't refresh and functions are more versatile
         addNewPlayer(newPlayer)
         e.target.previousElementSibling.value = ""
 
         if (playersCreated === numberOfPlayers - 1) { 
-            
+            // if the right number of players is created disable the inputs
             e.target.disabled = true
             e.target.previousElementSibling.disabled = true
         }
@@ -84,6 +83,11 @@ export default function ReviewPage() {
 
     function loadGame() {
         localStorage.getItem('GAMESAVE') ? setGAMESAVE(localStorage.getItem('GAMESAVE')) : console.log('no game saved')
+    }
+
+    function refreshGame() {
+        sessionStorage.clear()
+        setReviewingGame(false)
     }
 
   return (
@@ -99,6 +103,10 @@ export default function ReviewPage() {
             <input className="name-player" type="text" onChange={changeCurrentPlayerName}></input>
             {/* if Enought players are loaded from the session disable the submit button */}
             <button onClick={submitCurrentPlayer} disabled={loadedFromSession}>Enter</button>
+
+            <div className="refresh-game">
+                    <button onClick={refreshGame}>Refresh</button>
+            </div>
         </div>
 
         <div className="game-values">
@@ -106,15 +114,16 @@ export default function ReviewPage() {
 
             <textarea disabled={true} 
                 value={
-                    players.map((player, i) => {
+                    loadedFromSession || playersCreated ? players.map((player, i) => {
                         return(`${i > 0 ? '\n' : ''}Player ${i+1}: ${player.name}`)
                     })
+                    : ''
                 }>   
             </textarea>
+            {/* if a gamesave is loaded or the correct number of players is loaded then show the user */ }
+            <button onClick={startGame}  className={GAMESAVE || playersCreated == numberOfPlayers ? 'green' : 'none'}>Start the Game!</button>
 
-            <button onClick={startGame}>Start the Game!</button>
-
-            <div className="load-game">
+            <div className="load-game" disabled={GAMESAVE}>
                     <button onClick={loadGame}>Load Game!</button>
             </div>
         </div>
