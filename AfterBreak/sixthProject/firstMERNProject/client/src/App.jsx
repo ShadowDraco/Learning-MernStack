@@ -10,7 +10,7 @@ function App() {
   }
 
   function submitUsername(e) {
-    axios.post('/api', username).then(console.log(res))
+    axios.post('/api', { name: username })
   }
 
   return (

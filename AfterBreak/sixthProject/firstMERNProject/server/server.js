@@ -1,3 +1,4 @@
+const { default: axios } = require('axios')
 const express = require('express')
 const app = express()
 const port = 5000
@@ -19,7 +20,8 @@ async function createUserCollection() {
 }
 
 async function createNewUser(username) {
-    new User({name: username}).save()
+   await new User({name: username}).save()
+   console.log('created new user')
 }
 
 // await the connection because it can take some time
@@ -40,13 +42,14 @@ async function connect() {
 
 connect()
 
+// allow the server to recieve json from the front end
+app.use(express.json())
+
 app.post('/api', (req, res) => {
-
+    console.log('posted')
+    createNewUser(req.body.name)
 })
 
-app.get('/api', (req, res) => {
-   
-})
 
 app.listen(port, (req, res) => {
     console.log('listening on port', port)
