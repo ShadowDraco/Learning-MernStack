@@ -33,8 +33,6 @@ async function connect() {
 
         User.collection ? console.log('user collection already established') : createUserCollection()
 
-        const users = User.find()
-
     } catch(err) {
         console.error(err)
     }
@@ -45,9 +43,14 @@ connect()
 // allow the server to recieve json from the front end
 app.use(express.json())
 
-app.post('/api', (req, res) => {
+app.post('/api/newUser', (req, res) => {
     console.log('posted')
     createNewUser(req.body.name)
+})
+
+app.get('/api/getUsers', async (req, res) => {
+    const allUsers = await User.find()
+    res.json(allUsers)
 })
 
 
