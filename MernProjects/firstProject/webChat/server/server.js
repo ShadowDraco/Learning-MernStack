@@ -29,6 +29,7 @@ app.use('/user', userRouter)
 
 app.listen(port, (req, res) => {
     console.log('listening on port', port)
+    connect()
 })
 
 exports.db = db
