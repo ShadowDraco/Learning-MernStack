@@ -55,7 +55,30 @@ router.post('/add-friend', async (req, res) => {
 
     const added = await User.updateOne(currentUser, { $push: {friendList: friend } })
     const adding = await User.updateOne(friend, { $push: {friendList: currentUser } })
-    res.send('updated')
+    res.send('updated friends list')
+})
+
+router.post('/:id/:code/:message/', async (req, res) => {
+    let userId = req.params.id
+    let friendCode = req.params.code
+    let message = req.params.message
+
+    let user = await User.findOne({_id: userId})
+    let friend = await User.findOne({ friendCode: friendCode})
+    let messageToSend = { from: friend.username, message: message }
+
+    User.updateOne( { user }, { $push: { messages: messageToSend } })
+    User.updateDone( { friend }, { $push: { messages: messageToSend }})
+
+    res.send('updated messages')
+
+
+})
+
+router.get('/friend/:code', async (req, res) => {
+    console.log('getting a friend to chat')
+    let friendCode = req.params.code
+    res.json(await User.findOne( { friendCode: friendCode }))
 })
 
 router.get('/:id', async (req, res) => {

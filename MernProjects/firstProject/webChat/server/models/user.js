@@ -6,6 +6,7 @@ const User = new Schema({
     password: String,
     friendCode: Number, 
     friendList: Array,
+    messages: Array,
 })
 
 module.exports = mongoose.model('User', User)
