@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../../App'
 import { ChatContext } from '../Pages/UserPage'
+import axios from 'axios'
 
 export default function Chatbox() {
 
@@ -10,7 +11,7 @@ export default function Chatbox() {
     const [messageToSend, setMessageToSend] = useState('')
 
     useEffect(() => {
-        currentChatter ? console.log(currentChatter) : console.log('no chatter yet')
+        currentChatter ? console.log('successful getting chatter') : console.log('no chatter yet')
     }, [currentChatter])
 
     function updateMessageToSend(e) {
@@ -19,7 +20,10 @@ export default function Chatbox() {
 
     function sendMessage(e) {
         console.log('sending message')
-        axios.post(`/${currentUser._id}/${currentChatter.friendCode}/${messageToSend}`)
+        axios.post(`/api/user/message`, { user: currentUser._id, friend: currentChatter.friendCode, message: messageToSend })
+        .then(res => {
+            console.log(res.data)
+        })
     }
 
   return (
@@ -28,16 +32,16 @@ export default function Chatbox() {
             <div> 
                 <p>Chat with selected user: { currentChatter.username  } </p>
                 <div>
-                <ul>
-                { currentUser.messages ? 
-                    currentUser.messages.map(message => {
-                        return(
-                            <li>{message.from} ': ' {message.text}</li>
-                        )
-                    })
-                    : ''
-                }
-                </ul>
+                    <ul>
+                    { currentUser.messages ? 
+                        currentUser.messages.map(message => {
+                            return(
+                                <li>{message.from} ': ' {message.text}</li>
+                            )
+                        })
+                        : ''
+                    }
+                    </ul>
                 </div>
 
                 <div>

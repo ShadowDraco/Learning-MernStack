@@ -24,11 +24,10 @@ export default function FriendList() {
 
   function updateCurrentChatter(e) {
     console.log('setting currentChatter')
-    console.log(e.target)
-    axios.get(`/api/user/friend/${e.target.value}`)
+    
+    axios.get(`/api/user/friend/${friends[e.target.value].friendCode}`)
     .then(res => {
       console.log('got chatter')
-      console.log(res.data)
       setCurrentChatter(res.data)
     })
   }
@@ -37,10 +36,10 @@ export default function FriendList() {
     <div>
       <ul>
         { friends ? 
-          friends.map(friend => {
+          friends.map((friend, i) => {
             if (friend.username && friend.friendCode) {
               return ( 
-                <li key={friend.friendCode} onClick={updateCurrentChatter}>{friend.username} <p style={{display: "none"}} value={friend.friendCode}>{friend.friendCode}</p></li>
+                <li key={friend.friendCode} value={i} onClick={updateCurrentChatter}> {friend.username} </li>
               )
             }
           })

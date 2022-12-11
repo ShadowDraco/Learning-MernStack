@@ -58,17 +58,20 @@ router.post('/add-friend', async (req, res) => {
     res.send('updated friends list')
 })
 
-router.post('/:id/:code/:message/', async (req, res) => {
-    let userId = req.params.id
-    let friendCode = req.params.code
-    let message = req.params.message
+router.post('/message', async (req, res) => {
+    console.log('sending message')
+    let userId = req.body.user
+    let friendCode = req.body.friend
+    let message = req.body.message
 
     let user = await User.findOne({_id: userId})
     let friend = await User.findOne({ friendCode: friendCode})
     let messageToSend = { from: friend.username, message: message }
 
+    console.log(user, friend, messageToSend)
+
     User.updateOne( { user }, { $push: { messages: messageToSend } })
-    User.updateDone( { friend }, { $push: { messages: messageToSend }})
+    User.updateOne( { friend }, { $push: { messages: messageToSend }})
 
     res.send('updated messages')
 
