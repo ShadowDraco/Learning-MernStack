@@ -1,0 +1,44 @@
+:root {
+    --black: rgb(40, 40, 40);
+    --black2: rgb(50, 50, 50);
+    --black3: rgb(60, 60, 60);
+
+    --gray: rgb(75, 75, 75);
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: block; 
+    background-color: var(--black3);
+}
+
+.container {
+    padding: 1em;
+    margin: 1em;
+    background-color: var(--black2);
+}
+
+.small-container {
+    padding:0.5em;
+    margin:0.5em;
+    background-color: var(--black3);
+}
+
+.messages {
+    background-color:  var(--gray);
+    color:gold;
+}
+
+.flex {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}

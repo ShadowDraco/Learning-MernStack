@@ -33,8 +33,11 @@ export default function FriendList() {
   }
 
   return (
-    <div>
-      <ul>
+    <div className="container">
+      Friends: 
+      <br></br>
+      <ul className="friend-list flex small-container">
+    
         { friends ? 
           friends.map((friend, i) => {
             if (friend.username && friend.friendCode) {

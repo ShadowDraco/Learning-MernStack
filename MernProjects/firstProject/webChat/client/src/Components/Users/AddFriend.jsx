@@ -22,9 +22,9 @@ export default function AddFriend() {
     }
 
   return (
-    <div>
+    <div className="container">
         <p>Add Friends by ID:</p>
-        <div>
+        <div className="small-container">
             <input type="text" onChange={updateFriendCode}></input>
             <button onClick={submitFriendCode}>Add Friend</button>
         </div>

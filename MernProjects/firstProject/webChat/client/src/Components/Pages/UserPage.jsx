@@ -12,7 +12,7 @@ export default function UserPage() {
     const [currentChatter, setCurrentChatter] = useState()
 
   return (
-    <div>
+    <div className="container flex column center">
         <h1> Welcome! { currentUser.username } </h1>
 
         <ChatContext.Provider value={{ currentChatter, setCurrentChatter}}>

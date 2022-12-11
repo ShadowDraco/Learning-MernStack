@@ -34,12 +34,12 @@ export default function Chatbox() {
     }
 
   return (
-    <div>
+    <div className="container">
         { currentChatter ? 
-            <div> 
+            <div className="container"> 
                 <p>Chat with selected user: { currentChatter.username  } </p>
-                <div>
-                    <ul>
+                <div className="small-container">
+                    <ul className="messages flex">
                     { currentUser.messages ? 
                     currentUser.messages.map(message => {
                         return(
@@ -51,7 +51,7 @@ export default function Chatbox() {
                     </ul>
                 </div>
 
-                <div>
+                <div className="small-container">
                     <p>Send message: </p>
                     <input onChange={updateMessageToSend} value={messageToSend}></input>  
                     <button onClick={sendMessage}>Send!</button>              
