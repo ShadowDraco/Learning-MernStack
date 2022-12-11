@@ -18,7 +18,7 @@ export default function FriendList() {
   function updateFriends() {
     axios.get(`/api/user/${currentUser._id}`)
     .then(res => {
-      setFriends(res.data)
+      setFriends(res.data.friendList)
     })
   }
 

@@ -6,12 +6,16 @@ import axios from 'axios'
 export default function Chatbox() {
 
     const { currentChatter } = useContext(ChatContext)
-    const { currentUser } = useContext(UserContext)
+    const { currentUser, setCurrentUser } = useContext(UserContext)
 
     const [messageToSend, setMessageToSend] = useState('')
 
     useEffect(() => {
         currentChatter ? console.log('successful getting chatter') : console.log('no chatter yet')
+        axios.get(`/api/user/${currentUser._id}`)
+        .then(res => {
+            setCurrentUser(res.data)
+        })
     }, [currentChatter])
 
     function updateMessageToSend(e) {
@@ -22,7 +26,10 @@ export default function Chatbox() {
         console.log('sending message')
         axios.post(`/api/user/message`, { user: currentUser._id, friend: currentChatter.friendCode, message: messageToSend })
         .then(res => {
-            console.log(res.data)
+            axios.get(`/api/user/${currentUser._id}`)
+            .then(res => {
+                setCurrentUser(res.data)
+            })
         })
     }
 
@@ -34,12 +41,12 @@ export default function Chatbox() {
                 <div>
                     <ul>
                     { currentUser.messages ? 
-                        currentUser.messages.map(message => {
-                            return(
-                                <li>{message.from} ': ' {message.text}</li>
-                            )
-                        })
-                        : ''
+                    currentUser.messages.map(message => {
+                        return(
+                            <li key={message.message}>{message.from}: {message.message}</li>
+                        )
+                    })
+                    : ''
                     }
                     </ul>
                 </div>

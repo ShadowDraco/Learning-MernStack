@@ -22,7 +22,7 @@ async function createNewUser(username, password) {
     friendCode + Math.random(10)  
 
     try {
-        await new User({username: username, password: password, friendCode: friendCode, friendList: {}}).save()
+        await new User({username: username, password: password, friendCode: friendCode, friendList: {}, messages: {}}).save()
         console.log('user created')
         return(true)
     } catch(err) {
@@ -66,13 +66,13 @@ router.post('/message', async (req, res) => {
 
     let user = await User.findOne({_id: userId})
     let friend = await User.findOne({ friendCode: friendCode})
-    let messageToSend = { from: friend.username, message: message }
+    let messageToSend = { from: user.username, message: message }
 
-    console.log(user, friend, messageToSend)
+    let userMessage = await User.updateOne( { _id: user._id }, { $push: { messages: messageToSend }})
 
-    User.updateOne( { user }, { $push: { messages: messageToSend } })
-    User.updateOne( { friend }, { $push: { messages: messageToSend }})
-
+    let friendMessage = await User.updateOne( { _id: friend._id }, { $push: { messages: messageToSend }})
+    console.log(friend)
+ 
     res.send('updated messages')
 
 
@@ -87,7 +87,7 @@ router.get('/friend/:code', async (req, res) => {
 router.get('/:id', async (req, res) => {
     console.log('displaying friends list')
     let user = await User.find({ _id: req.params.id})
-    res.json(user[0].friendList)
+    res.json(user[0])
     
 })
 
