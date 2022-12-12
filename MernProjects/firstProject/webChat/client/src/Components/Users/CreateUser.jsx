@@ -27,10 +27,16 @@ export default function () {
 
   return (
     <div>
-        <div>
-            <p>Sign up!</p>
-            <input type='text' value={username} onChange={updateUsername}></input>
-            <input type='password' value={password} onChange={updatePassword}></input>
+        <div className="container flex column">
+            <p className="flex center">Sign up!</p>
+            <div className="flex center">
+                <p>Username:</p>
+                <input type='text' value={username} onChange={updateUsername}></input>
+            </div>
+            <div className="flex center">
+                <p>Password:</p>
+                <input type='password' value={password} onChange={updatePassword}></input>
+            </div>
             <button onClick={submitNewUser}>Submit!</button>
         </div>
         <div>

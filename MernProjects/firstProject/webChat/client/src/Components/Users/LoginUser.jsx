@@ -36,10 +36,16 @@ export default function LoginUser() {
 
   return (
     <div>
-        <div>
-            <p>Log In!</p>
-            <input type='text' value={username} onChange={updateUsername}></input>
-            <input type='password' value={password} onChange={updatePassword}></input>
+        <div className="container flex column">
+            <p className="flex center">Log In!</p>
+            <div className="flex center">
+                <p>Username:</p>
+                <input type='text' value={username} onChange={updateUsername}></input>
+            </div>
+            <div className="flex center">
+                <p>Password:</p>
+                <input type='password' value={password} onChange={updatePassword}></input>
+            </div>
             <button onClick={submitLoginUser}>Submit!</button>
         </div>
         <div>

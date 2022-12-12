@@ -6,7 +6,7 @@ export default function LoginPage() {
 
 
   return (
-    <div className="container flex center">
+    <div className="container flex column center">
         <CreateUser />
         <LoginUser /> 
     </div>
