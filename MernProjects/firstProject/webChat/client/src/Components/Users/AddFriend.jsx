@@ -22,7 +22,7 @@ export default function AddFriend() {
     }
 
   return (
-    <div className="container">
+    <div className="container flex column">
         <p>Add Friends by ID:</p>
         <div className="small-container">
             <input type="text" onChange={updateFriendCode}></input>

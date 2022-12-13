@@ -13,9 +13,13 @@ body {
     background-color: var(--black3);
 }
 
+ul {
+    list-style-type: none;
+}
+
 .container {
     padding: 1em;
-    margin: 1em;
+    margin: 0.5em;
     background-color: var(--black2);
 }
 
@@ -26,8 +30,30 @@ body {
 }
 
 .messages {
+    padding-left:0;
     background-color:  var(--gray);
     color:gold;
+}
+
+.messages li {
+    width: 100%;
+    background-color: var(--black3);
+}
+
+.messages li p {
+    background-color: var(--black2);
+    border-radius: 0.5em;
+    width:fit-content;
+}
+
+.my-message {
+    text-align: right;
+    padding-right:0.5em;
+}
+
+.friend-message {
+    justify-content: left;
+    padding-left:0.5em;
 }
 
 .flex {
@@ -41,4 +67,8 @@ body {
 .center {
     align-items: center;
     justify-content: center;
+}
+
+.chatbox {
+    width:75%;
 }

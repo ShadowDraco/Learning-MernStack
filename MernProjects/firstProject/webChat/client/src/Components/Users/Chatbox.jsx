@@ -34,16 +34,19 @@ export default function Chatbox() {
     }
 
   return (
-    <div className="container">
+    <div className="container chatbox">
         { currentChatter ? 
             <div className="container"> 
-                <p>Chat with selected user: { currentChatter.username  } </p>
+
                 <div className="small-container">
-                    <ul className="messages flex">
+                    
+                    <p>Chat with selected user: { currentChatter.username  } </p>
+
+                    <ul className="messages">
                     { currentUser.messages ? 
                     currentUser.messages.map(message => {
                         return(
-                            <li key={message.message}>{message.from}: {message.message}</li>
+                            <li key={`${Math.random(10)} ${message.message}`} className={message.from === currentUser.username ? 'my-message' : 'friend-message'}><p>{message.message}</p></li>
                         )
                     })
                     : ''

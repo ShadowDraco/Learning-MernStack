@@ -16,9 +16,11 @@ export default function UserPage() {
         <h1> Welcome! { currentUser.username } </h1>
 
         <ChatContext.Provider value={{ currentChatter, setCurrentChatter}}>
-
-          <FriendsList />    
-          <AddFriend />
+          
+          <div className="small-container flex center">
+            <AddFriend />
+            <FriendsList />
+          </div>
 
           <Chatbox />
 

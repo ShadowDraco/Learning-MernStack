@@ -33,11 +33,12 @@ export default function FriendList() {
   }
 
   return (
-    <div className="container">
-      Friends: 
-      <br></br>
-      <ul className="friend-list flex small-container">
-    
+    <div className="container flex column">
+      
+      <p>Friends: </p>
+
+      <ul className="friend-list flex small-container center">
+
         { friends ? 
           friends.map((friend, i) => {
             if (friend.username && friend.friendCode) {
@@ -48,8 +49,8 @@ export default function FriendList() {
           })
           : console.log('no users to display')
         }
-        <button onClick={updateFriends}>Refresh</button>
       </ul>
+      <button onClick={updateFriends}>Refresh</button>
     </div>
   )
 }
