@@ -33,6 +33,7 @@ export default function AddFriend() {
             : <p>Failed to add friend!</p>
             : ''
         }
+        <p>My Code: {currentUser.friendCode}</p>
     </div>
   )
 }

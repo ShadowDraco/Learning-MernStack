@@ -37,7 +37,7 @@ export default function FriendList() {
       
       <p>Friends: </p>
 
-      <ul className="friend-list flex small-container center">
+      <ul className="friend-list small-container">
 
         { friends ? 
           friends.map((friend, i) => {

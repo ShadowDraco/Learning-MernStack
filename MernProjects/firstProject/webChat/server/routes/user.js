@@ -22,7 +22,7 @@ async function createNewUser(username, password) {
     friendCode + Math.random(10)  
 
     try {
-        await new User({username: username, password: password, friendCode: friendCode, friendList: {}, messages: {}}).save()
+        await new User({username: username, password: password, friendCode: friendCode, friendList: {}, messages: {}, chatCodes: {}}).save()
         console.log('user created')
         return(true)
     } catch(err) {
@@ -53,8 +53,13 @@ router.post('/add-friend', async (req, res) => {
     let friend = await User.findOne({friendCode: req.body.friendCode})
     let currentUser = await User.findOne({_id: req.body.currentUser._id})
 
-    const added = await User.updateOne(currentUser, { $push: {friendList: friend } })
-    const adding = await User.updateOne(friend, { $push: {friendList: currentUser } })
+    let chatCode = `${Math.random(10) + Math.random(10) - Math.random(10)}${Math.random(10) + Math.random(10) - Math.random(10)}`
+
+    const addedFriend = await User.updateOne({ _id: currentUser._id }, { $push: {friendList: friend }} )
+    const addedChatCode = await User.updateOne({ _id: currentUser._id }, { $push: { chatCodes: { friend: friend, code: chatCode }}} )
+    const addingUser = await User.updateOne({ _id: friend._id }, { $push: {friendList: currentUser } } )
+    const addingChatCode = await User.updateOne({ _id: friend._id }, { $push: { chatCodes: { friend: currentUser, code: chatCode }}} )
+
     res.send('updated friends list')
 })
 
@@ -66,15 +71,21 @@ router.post('/message', async (req, res) => {
 
     let user = await User.findOne({_id: userId})
     let friend = await User.findOne({ friendCode: friendCode})
-    let messageToSend = { from: user.username, message: message }
+    
+    let chatCode
+    findCode = user.chatCodes.forEach((code, i) => {
+        if (i > 0 && code.friend.friendCode === friend.friendCode) { 
+            chatCode = code.code
+        }
+    })
+    console.log(chatCode, 'final')
+    let messageToSend = { from: user.username, message: message, chatCode: chatCode }
 
     let userMessage = await User.updateOne( { _id: user._id }, { $push: { messages: messageToSend }})
 
     let friendMessage = await User.updateOne( { _id: friend._id }, { $push: { messages: messageToSend }})
-    console.log(friend)
  
     res.send('updated messages')
-
 
 })
 
@@ -85,7 +96,7 @@ router.get('/friend/:code', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    console.log('displaying friends list')
+    console.log('updating user')
     let user = await User.find({ _id: req.params.id})
     res.json(user[0])
     

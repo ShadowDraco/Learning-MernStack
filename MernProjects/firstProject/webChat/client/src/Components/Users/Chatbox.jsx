@@ -9,14 +9,25 @@ export default function Chatbox() {
     const { currentUser, setCurrentUser } = useContext(UserContext)
 
     const [messageToSend, setMessageToSend] = useState('')
+    const [currentChatCode, setCurrentChatCode] = useState()
 
     useEffect(() => {
-        currentChatter ? console.log('successful getting chatter') : console.log('no chatter yet')
+        updateUser()
+    }, [])
+
+    useEffect(() => {
+        getChatCode()
+    }, [currentChatter])
+
+
+// setinterval(updateUszer)
+
+    function updateUser() {
         axios.get(`/api/user/${currentUser._id}`)
         .then(res => {
             setCurrentUser(res.data)
         })
-    }, [currentChatter])
+    }
 
     function updateMessageToSend(e) {
         setMessageToSend(e.target.value)
@@ -26,11 +37,19 @@ export default function Chatbox() {
         console.log('sending message')
         axios.post(`/api/user/message`, { user: currentUser._id, friend: currentChatter.friendCode, message: messageToSend })
         .then(res => {
-            axios.get(`/api/user/${currentUser._id}`)
-            .then(res => {
-                setCurrentUser(res.data)
-            })
+            updateUser()
         })
+    }
+
+    function getChatCode() {
+        console.log('getting chat code')
+        currentUser.chatCodes ? 
+        currentUser.chatCodes.map((code, i) => {
+            i > 0 ?
+            code.friend.friendCode === currentChatter.friendCode ? setCurrentChatCode(code.code) : ''
+            : ''
+        })
+        : ''
     }
 
   return (
@@ -44,12 +63,16 @@ export default function Chatbox() {
 
                     <ul className="messages">
                     { currentUser.messages ? 
-                    currentUser.messages.map(message => {
-                        return(
-                            <li key={`${Math.random(10)} ${message.message}`} className={message.from === currentUser.username ? 'my-message' : 'friend-message'}><p>{message.message}</p></li>
-                        )
-                    })
-                    : ''
+                        currentChatCode ? 
+                            currentUser.messages.map((message, i) => {
+                
+                                return (
+                                    message.chatCode === currentChatCode ? 
+                                    i > 0 ? <li key={`${Math.random(10)} ${message.message}`} className={`${message.from === currentUser.username ? 'my-message' : 'friend-message'} flex`}><p>{message.message}</p></li>
+                                    : '' : ''
+                                )
+                            })
+                    : 'no chat code' : ''
                     }
                     </ul>
                 </div>

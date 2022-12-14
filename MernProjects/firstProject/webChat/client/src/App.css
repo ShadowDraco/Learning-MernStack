@@ -4,6 +4,7 @@
     --black3: rgb(60, 60, 60);
 
     --gray: rgb(75, 75, 75);
+    --text-gray: rgb(209, 209, 209);
 }
 
 body {
@@ -11,6 +12,7 @@ body {
     margin: 0;
     display: block; 
     background-color: var(--black3);
+    color:var(--text-gray)
 }
 
 ul {
@@ -43,17 +45,19 @@ ul {
 .messages li p {
     background-color: var(--black2);
     border-radius: 0.5em;
-    width:fit-content;
+    width:50%;
+    padding:0.5em;
 }
 
 .my-message {
-    text-align: right;
-    padding-right:0.5em;
+    justify-content: right;
+    align-items: right;
+    text-align:right;
 }
 
 .friend-message {
     justify-content: left;
-    padding-left:0.5em;
+    align-items: left;
 }
 
 .flex {

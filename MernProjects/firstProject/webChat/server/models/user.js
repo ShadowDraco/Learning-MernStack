@@ -7,6 +7,7 @@ const User = new Schema({
     friendCode: Number, 
     friendList: Array,
     messages: Array,
+    chatCodes: Array,
 })
 
 module.exports = mongoose.model('User', User)
