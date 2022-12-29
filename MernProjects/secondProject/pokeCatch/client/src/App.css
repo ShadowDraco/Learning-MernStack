@@ -6,6 +6,12 @@ body {
   background-color: rgb(43, 43, 49);
 }
 
+.loginSignupButton {
+  position: relative;
+  margin-left: 0;
+  left: 42%;
+}
+
 .flex {
   display: flex;
 }

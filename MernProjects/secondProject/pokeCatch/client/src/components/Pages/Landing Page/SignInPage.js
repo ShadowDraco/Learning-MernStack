@@ -20,13 +20,13 @@ export default function SignInPage() {
     <Container className="SignIn bg-dark flex flex-column flex-center p-3">
       <h1 className="text-light bg-gray p-3"> Welcome to Poke Catch! </h1>
 
-      <Container className="Forms bg-dark p-1 w-75">
+      <Container className="Forms bg-dark p-1 w-50">
         {signingUp ? <Greeting /> : <LoginMessage />}
 
         {signingUp ? <SignupForm /> : <LoginForm />}
 
         <Button
-          className="bg-gray text-info text-center"
+          className="bg-gray text-info loginSignupButton"
           onClick={changeSigningUp}
         >
           {signingUp ? "Or log in?" : " Sign up?"}

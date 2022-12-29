@@ -22,6 +22,15 @@ app.use(function (req, res, next) {
   next()
 })
 
+async function connect() {
+  await mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  db = mongoose.connection
+  console.log("database connected".blue)
+}
+
 // get home
 app.get("/", (req, res) => {
   console.log("Home route accessed".blue)
@@ -39,4 +48,5 @@ app.use("/user", userRouter)
 
 app.listen(port, (req, res) => {
   console.log(`listening on port `.gray, `${port}`.yellow)
+  connect()
 })
