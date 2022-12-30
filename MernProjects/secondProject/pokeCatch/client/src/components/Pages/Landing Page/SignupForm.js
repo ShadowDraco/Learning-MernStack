@@ -34,7 +34,7 @@ export default function SignupForm() {
   }
 
   return (
-    <Form action={"POST"}>
+    <Form>
       <Form.Group className="mb-2" controlId="SignupUsername">
         <Form.Label className="text-light">Username:</Form.Label>
         <Form.Control
@@ -61,6 +61,7 @@ export default function SignupForm() {
       <Button variant="primary" type="submit" onClick={submitSignup}>
         Submit
       </Button>
+
       {successfulSignup ? (
         successfulSignup === true ? (
           <p className="text-success">Success</p>
