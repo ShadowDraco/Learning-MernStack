@@ -39,19 +39,25 @@ async function createNewUser(username, password) {
 }
 
 async function loginUser(username, password) {
+  let status
   try {
     let foundUser = await User.findOne({
       username: username,
       password: password,
     })
 
-    console.log("found user!".green)
-    return { user: foundUser, status: "success" }
+    if (foundUser) {
+      console.log("found user!".green)
+      status = "success"
+    } else {
+      console.log("did not find user".red)
+      status = "failed"
+    }
+    return { user: foundUser, status: status }
   } catch (error) {
     console.log("error finding user".red)
     console.log(error)
-
-    return { status: "failed to find user" }
+    return { status: status }
   }
 }
 
@@ -69,10 +75,76 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   console.log("attempting log in".yellow)
-  console.log(`${req.body}`.red)
 
   let loggedUser = await loginUser(req.body.username, req.body.password)
   res.json(loggedUser)
+})
+
+async function updateUser(user) {
+  return await User.findOne({ _id: user._id })
+}
+
+async function getNewItemQuantity(user, item, quantity) {
+  let newQuantity
+  let didStackItem = false
+  let foundItem = false
+  let newItem
+
+  user.bag.forEach(bagItem => {
+    if (bagItem.name === item.name) {
+      foundItem = true
+      newItem = bagItem
+      return
+    }
+  })
+
+  if (foundItem) {
+    console.log("adding to previous quantity")
+    newQuantity = newItem.quantity + quantity
+    didStackItem = true
+  } else {
+    console.log("quanity remains, no stacking")
+  }
+
+  return { newQuantity: newQuantity, didStackItem: didStackItem }
+}
+
+async function addItemToBag(user, item, quantity) {
+  // check the user's bag and get a quantity for item stacking
+  let itemQuantityResults = await getNewItemQuantity(user, item, quantity)
+
+  if (itemQuantityResults.didStackItem) {
+    return await User.updateOne(
+      { _id: user._id, "bag.name": item.name },
+      { $set: { "bag.$.quantity": itemQuantityResults.newQuantity } }
+    )
+  } else {
+    return await User.updateOne({ _id: user._id }, { $push: { bag: item } })
+  }
+}
+
+router.post("/add-item", async (req, res) => {
+  console.log("adding item".yellow)
+  let user = req.body.user
+
+  try {
+    let addedItem = await addItemToBag(user, req.body.item, req.body.quantity)
+    console.log("added item".green)
+
+    res.send({
+      updatedUser: await updateUser(user),
+      addedItem: addedItem,
+      status: "successfully added item",
+    })
+  } catch (error) {
+    console.log("error adding item".red)
+    console.log(error)
+    res.send({
+      status: "failed to add item",
+      error: error,
+      updatedUser: await updateUser(user),
+    })
+  }
 })
 
 module.exports = router

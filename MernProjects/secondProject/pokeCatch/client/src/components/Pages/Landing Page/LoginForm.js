@@ -28,7 +28,7 @@ export default function SignupForm() {
         password: currentPassword,
       })
       .then(res => {
-        console.log(res.data.status)
+        console.log(res.data)
         if (res.data.status === "success") {
           setSuccessfulLogin(true)
           setCurrentUser(res.data.user)

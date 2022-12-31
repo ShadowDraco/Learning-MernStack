@@ -18,17 +18,20 @@ function App() {
   const [displayPokemon, setDisplayPokemon] = useState()
   const [displayGenera, setDisplayGenera] = useState()
 
+  // Check if there is a display pokemon
   useEffect(() => {
     sessionStorage.getItem("DISPLAYPOKEMON")
       ? fetchDisplayPokemon()
       : getDisplayPokemon()
   }, [])
 
+  // get the display pokemon from session storage
   function fetchDisplayPokemon() {
     setDisplayPokemon(JSON.parse(sessionStorage.getItem("DISPLAYPOKEMON")))
     setDisplayGenera(JSON.parse(sessionStorage.getItem("DISPLAYGENERA")))
   }
 
+  // get the display pokemon from the API
   function getDisplayPokemon() {
     console.log("getting display pokemon")
     let pokemonId = Math.floor(Math.random(247) * 100) + 1
