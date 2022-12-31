@@ -20,8 +20,8 @@ export default function ChooseStarterPokemon() {
       : getStarterPokemon()
   }, [])
 
-  function fetchStarterPokemon() {
-    setStarterPokemon(JSON.parse(sessionStorage.getItem("STARTERS")))
+  async function fetchStarterPokemon() {
+    await setStarterPokemon(JSON.parse(sessionStorage.getItem("STARTERS")))
     console.log("fetched the starters")
     setAllStartersFetched(true)
   }

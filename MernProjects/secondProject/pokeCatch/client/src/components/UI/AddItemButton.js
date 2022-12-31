@@ -28,7 +28,7 @@ export default function AddItemButton() {
         .get(`https://pokeapi.co/api/v2/item/${itemToAdd}`)
         .then(res => {
           requestedItem = res.data
-          requestedItem.quantity = 1
+          requestedItem.quantity = quantityToAdd
         })
 
       axios

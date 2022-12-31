@@ -31,13 +31,10 @@ export default function LoggedIn() {
   return (
     <Container className="mt-0 p-3 flex flex-column">
       <WelcomeMessage />
-
       {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
-
       <hr className="text-light"></hr>
-
       <Bag />
-
+      <AddItemButton />
       <Container className="flex flex-center w-25">
         <SaveUserButton />
       </Container>
