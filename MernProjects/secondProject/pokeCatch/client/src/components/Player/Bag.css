@@ -1,0 +1,7 @@
+.bag-item {
+  background-color: rgb(43, 43, 49);
+}
+
+.bag-item:hover {
+  background-color: rgb(55, 55, 59);
+}

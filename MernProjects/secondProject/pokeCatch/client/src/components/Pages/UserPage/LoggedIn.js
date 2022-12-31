@@ -31,11 +31,12 @@ export default function LoggedIn() {
     <Container className="mt-0 p-3 flex flex-column">
       <WelcomeMessage />
 
-      <Container>
-        <SaveUserButton />
-        <AddItemButton />
-      </Container>
       <Bag />
+      <AddItemButton />
+
+      <Container className="flex flex-center w-25">
+        <SaveUserButton />
+      </Container>
     </Container>
   )
 }

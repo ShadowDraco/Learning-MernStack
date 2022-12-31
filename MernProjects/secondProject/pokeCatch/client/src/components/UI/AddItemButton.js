@@ -13,6 +13,8 @@ export default function AddItemButton() {
   const [playingAnimation, setPlayingAnimation] = useState(false)
   const [spinnerVariant, setSpinnerVariant] = useState("success")
 
+  const [itemToAdd, setItemToAdd] = useState("")
+
   async function addItem() {
     setPlayingAnimation(true)
     // add the current user to the session storage of the browser
@@ -21,11 +23,14 @@ export default function AddItemButton() {
       setSpinnerVariant("success") // change spinner to green
 
       let requestedItem
-      await axios.get("https://pokeapi.co/api/v2/item/ultra-ball").then(res => {
-        requestedItem = res.data
-        requestedItem.quantity = 20
-      })
+      await axios
+        .get(`https://pokeapi.co/api/v2/item/${itemToAdd}`)
+        .then(res => {
+          requestedItem = res.data
+          requestedItem.quantity = 1
+        })
 
+      console.log(requestedItem)
       axios
         .post("http://localhost:5000/user/add-item", {
           user: currentUser,
@@ -50,11 +55,20 @@ export default function AddItemButton() {
     }
   }
 
+  function changeItemToAdd(e) {
+    setItemToAdd(e.target.value)
+  }
+
   return (
     <Container className="flex">
       <Button className="btn-sm btn-dark" onClick={addItem}>
         Add Item!
       </Button>
+      <input
+        className="w-25"
+        value={itemToAdd}
+        onChange={changeItemToAdd}
+      ></input>
       {playingAnimation ? (
         <Spinner animation="grow" variant={spinnerVariant} />
       ) : (

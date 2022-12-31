@@ -1,12 +1,14 @@
 import { useContext } from "react"
 
 import { PokemonContext } from "../../App"
+import "./DisplayPokemon.css"
 
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 
 export default function DisplayPokemon() {
-  const { displayPokemon, displayGenera } = useContext(PokemonContext)
+  const { displayPokemon, displayGenera, getDisplayPokemon } =
+    useContext(PokemonContext)
 
   // take the first letter to upper case then re-insert the rest of the string
   function Captialize(str) {
@@ -14,12 +16,13 @@ export default function DisplayPokemon() {
   }
 
   return (
-    <Container className="flex flex-center m-3 p-3 bg-gray w-50">
-      <Card className="bg-secondary">
+    <Container className=" flex flex-center m-3 p-3 bg-gray w-50">
+      <Card className="displayPokemonCard">
         <Card.Img
           variant="top"
           src={`${displayPokemon.sprites.front_default}`}
           alt={`Front view of ${displayPokemon.name}`}
+          onClick={getDisplayPokemon}
         ></Card.Img>
         <Card.Body>
           <Card.Title>{`${displayPokemon.order}. ${Captialize(

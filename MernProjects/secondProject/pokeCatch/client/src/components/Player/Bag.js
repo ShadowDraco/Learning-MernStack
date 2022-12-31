@@ -5,6 +5,9 @@ import Container from "react-bootstrap/Container"
 import Image from "react-bootstrap/Image"
 import Button from "react-bootstrap/Button"
 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger"
+import Tooltip from "react-bootstrap/Tooltip"
+
 export default function Bag() {
   const { currentUser } = useContext(UserContext)
 
@@ -23,18 +26,26 @@ export default function Bag() {
         {bagOpen
           ? currentUser.bag.map((item, i) => {
               return i > 0 ? (
-                <Container
-                  key={item.name}
-                  className="text-light bg-gray flex flex-column w-25"
+                <OverlayTrigger
+                  key={`${item.name} tooltip`}
+                  placement="top"
+                  overlay={
+                    <Tooltip>{item.flavor_text_entries[3].text}</Tooltip>
+                  }
                 >
-                  {item.quantity}:
-                  <Image
-                    src={`${item.sprites.default}`}
-                    alt={`${item.name}`}
-                    style={{ width: "3rem" }}
-                  ></Image>
-                  <p>{item.name}</p>
-                </Container>
+                  <Container
+                    key={item.name}
+                    className="text-light bg-gray flex flex-column w-25 bag-item"
+                  >
+                    {item.quantity}:
+                    <Image
+                      src={`${item.sprites.default}`}
+                      alt={`${item.name}`}
+                      style={{ width: "3rem" }}
+                    ></Image>
+                    <p>{item.name}</p>
+                  </Container>
+                </OverlayTrigger>
               ) : (
                 ""
               )

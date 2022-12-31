@@ -55,7 +55,9 @@ function App() {
 
   return (
     <Container className="App bg-dark flex">
-      <PokemonContext.Provider value={{ displayPokemon, displayGenera }}>
+      <PokemonContext.Provider
+        value={{ displayPokemon, displayGenera, getDisplayPokemon }}
+      >
         <UserContext.Provider
           value={{ userLoggedIn, setUserLoggedIn, currentUser, setCurrentUser }}
         >
