@@ -17,6 +17,11 @@ export default function Bag() {
     setBagOpen(!bagOpen)
   }
 
+  // take the first letter to upper case then re-insert the rest of the string
+  function Capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+
   return (
     <Container className="">
       <Button onClick={changeBagOpen}>
@@ -43,7 +48,7 @@ export default function Bag() {
                       alt={`${item.name}`}
                       style={{ width: "3rem" }}
                     ></Image>
-                    <p>{item.name}</p>
+                    <p>{Capitalize(item.name)}</p>
                   </Container>
                 </OverlayTrigger>
               ) : (
