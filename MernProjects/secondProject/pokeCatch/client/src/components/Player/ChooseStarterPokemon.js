@@ -67,7 +67,7 @@ export default function ChooseStarterPokemon() {
   function choosePokemon(e) {
     console.log(e.target)
 
-    const newPokemon = JSON.parse(e.target.pokemon)
+    const newPokemon = starterPokemon[i]
 
     newPokemon.push({
       stats: [...e.target.pokemon.stats, { level: 5, xp: 0, xp_cap: 10 }],
@@ -92,14 +92,14 @@ export default function ChooseStarterPokemon() {
         Choose your starter Pokemon!
       </h1>
       <Container className="flex flex-center">
-        {starterPokemon.map(pokemon => {
+        {starterPokemon.map((pokemon, i) => {
           return (
             <Card key={pokemon.name} className="starterPokemonCard">
               <Card.Img
                 variant="top"
                 src={`${pokemon.sprites.front_default}`}
                 alt={`Front view of ${pokemon.name}`}
-                pokemon={JSON.stringify(pokemon)}
+                pokemon={i}
                 onClick={choosePokemon}
               ></Card.Img>
               <Card.Body>
