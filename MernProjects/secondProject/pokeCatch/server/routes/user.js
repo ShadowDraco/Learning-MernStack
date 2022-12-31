@@ -112,7 +112,7 @@ async function getNewItemQuantity(user, item, quantity) {
 async function addItemToBag(user, item, quantity) {
   // check the user's bag and get a quantity for item stacking
   let itemQuantityResults = await getNewItemQuantity(user, item, quantity)
-  
+
   if (itemQuantityResults.didStackItem) {
     return await User.updateOne(
       { _id: user._id, "bag.name": item.name },
