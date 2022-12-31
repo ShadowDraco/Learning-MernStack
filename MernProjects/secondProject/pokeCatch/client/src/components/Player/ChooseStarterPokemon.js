@@ -68,6 +68,8 @@ export default function ChooseStarterPokemon() {
     const newPokemon = starterPokemon[i]
     console.log(newPokemon)
     newPokemon.stats.push({ level: 5, xp: 0, xp_cap: 10 })
+    newPokemon.isStarter = true
+    newPokemon.isInTeam = true
 
     axios
       .post("http://localhost:5000/user/add-pokemon-to-team", {
