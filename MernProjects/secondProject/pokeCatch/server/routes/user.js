@@ -28,6 +28,7 @@ async function createNewUser(username, password) {
       team: {},
       bag: {},
       box: {},
+      choseStarterPokemon: false,
     }).save()
     console.log("new user created".green)
     return { status: "Success!", newUser: newUser }
@@ -145,6 +146,34 @@ router.post("/add-item", async (req, res) => {
     console.log(error)
     res.send({
       status: "failed to add item",
+      error: error,
+      updatedUser: await updateUser(user),
+    })
+  }
+})
+
+router.post("/add-pokemon-to-team", async (req, res) => {
+  console.log("adding a pokemon to user's team".yellow)
+
+  let user = await updateUser(req.body.user)
+
+  let addedPokemon
+  try {
+    addedPokemon = await User.updateOne(
+      { _id: user._id },
+      { $push: { team: req.body.pokemon }, $set: { choseStarterPokemon: true } }
+    )
+    console.log("added pokemon")
+    res.send({
+      status: "succesfully added pokemon to team",
+      addedPokemon: addedPokemon,
+      updatedUser: await updateUser(user),
+    })
+  } catch (error) {
+    console.log("error adding pokemon to team")
+    console.log(error)
+    res.send({
+      status: "failed to add pokemon",
       error: error,
       updatedUser: await updateUser(user),
     })

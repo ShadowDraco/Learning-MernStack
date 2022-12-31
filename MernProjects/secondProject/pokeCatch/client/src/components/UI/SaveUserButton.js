@@ -35,7 +35,7 @@ export default function SaveUserButton() {
 
   return (
     <Container className="flex">
-      <Button className="btn-sm btn-info" onClick={saveUser}>
+      <Button className="btn-info" onClick={saveUser}>
         Save Game!
       </Button>
       {playingAnimation ? (

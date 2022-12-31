@@ -1,0 +1,7 @@
+.starterPokemonCard {
+  background-color: rgb(100, 100, 100);
+  transition: 500ms;
+}
+.starterPokemonCard:hover {
+  background: rgba(100, 100, 100, 0.5);
+}

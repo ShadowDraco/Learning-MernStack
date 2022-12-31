@@ -10,6 +10,8 @@ import { useEffect } from "react"
 export const UserContext = createContext()
 // Store the pokemon that have already been fetched from the api
 export const PokemonContext = createContext()
+// simple utility like capitalize function to be shared
+export const UtilityContext = createContext() // doesn't work with capitlize function??
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false)
@@ -17,6 +19,7 @@ function App() {
 
   const [displayPokemon, setDisplayPokemon] = useState()
   const [displayGenera, setDisplayGenera] = useState()
+  const [starterPokemon, setStarterPokemon] = useState([])
 
   // Check if there is a display pokemon
   useEffect(() => {
@@ -24,6 +27,11 @@ function App() {
       ? fetchDisplayPokemon()
       : getDisplayPokemon()
   }, [])
+
+  // take the first letter to upper case then re-insert the rest of the string
+  function Captialize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
 
   // get the display pokemon from session storage
   function fetchDisplayPokemon() {
@@ -55,15 +63,28 @@ function App() {
 
   return (
     <Container className="App bg-dark flex">
-      <PokemonContext.Provider
-        value={{ displayPokemon, displayGenera, getDisplayPokemon }}
-      >
-        <UserContext.Provider
-          value={{ userLoggedIn, setUserLoggedIn, currentUser, setCurrentUser }}
+      <UtilityContext.Provider value={{ Captialize }}>
+        <PokemonContext.Provider
+          value={{
+            displayPokemon,
+            displayGenera,
+            getDisplayPokemon,
+            starterPokemon,
+            setStarterPokemon,
+          }}
         >
-          {userLoggedIn ? <LoggedIn /> : <SignInPage />}
-        </UserContext.Provider>
-      </PokemonContext.Provider>
+          <UserContext.Provider
+            value={{
+              userLoggedIn,
+              setUserLoggedIn,
+              currentUser,
+              setCurrentUser,
+            }}
+          >
+            {userLoggedIn ? <LoggedIn /> : <SignInPage />}
+          </UserContext.Provider>
+        </PokemonContext.Provider>
+      </UtilityContext.Provider>
     </Container>
   )
 }

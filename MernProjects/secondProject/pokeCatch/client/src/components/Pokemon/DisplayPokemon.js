@@ -11,7 +11,7 @@ export default function DisplayPokemon() {
     useContext(PokemonContext)
 
   // take the first letter to upper case then re-insert the rest of the string
-  function Captialize(str) {
+  function Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
@@ -25,7 +25,7 @@ export default function DisplayPokemon() {
           onClick={getDisplayPokemon}
         ></Card.Img>
         <Card.Body>
-          <Card.Title>{`${displayPokemon.order}. ${Captialize(
+          <Card.Title>{`${displayPokemon.order}. ${Capitalize(
             displayPokemon.name
           )}`}</Card.Title>
           <Card.Text className="bg-dark text-secondary p-1">

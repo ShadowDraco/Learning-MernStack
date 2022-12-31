@@ -7,6 +7,7 @@ import WelcomeMessage from "./WelcomeMessage"
 import SaveUserButton from "../../UI/SaveUserButton"
 import AddItemButton from "../../UI/AddItemButton"
 import Bag from "../../Player/Bag"
+import ChooseStarterPokemon from "../../Player/ChooseStarterPokemon"
 
 export default function LoggedIn() {
   const { currentUser } = useContext(UserContext)
@@ -31,8 +32,11 @@ export default function LoggedIn() {
     <Container className="mt-0 p-3 flex flex-column">
       <WelcomeMessage />
 
+      {!currentUser.choseFirstPokemon ? <ChooseStarterPokemon /> : ""}
+
+      <hr className="text-light"></hr>
+
       <Bag />
-      <AddItemButton />
 
       <Container className="flex flex-center w-25">
         <SaveUserButton />

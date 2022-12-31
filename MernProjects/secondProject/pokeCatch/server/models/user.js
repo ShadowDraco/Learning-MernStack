@@ -10,6 +10,7 @@ const User = new Schema({
   team: Array, // current pokemon team
   bag: Array, // items the user has
   box: Array, // the pokemon not currently being used
+  choseStarterPokemon: Boolean,
 })
 
 module.exports = mongoose.model("User", User) // the model is created and exported from the schematic
