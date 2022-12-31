@@ -14,6 +14,7 @@ export default function AddItemButton() {
   const [spinnerVariant, setSpinnerVariant] = useState("success")
 
   const [itemToAdd, setItemToAdd] = useState("")
+  const [quantityToAdd, setQuantityToAdd] = useState(1)
 
   async function addItem() {
     setPlayingAnimation(true)
@@ -30,12 +31,11 @@ export default function AddItemButton() {
           requestedItem.quantity = 1
         })
 
-      console.log(requestedItem)
       axios
         .post("http://localhost:5000/user/add-item", {
           user: currentUser,
           item: requestedItem,
-          quantity: requestedItem.quantity,
+          quantity: quantityToAdd,
         })
         .then(res => {
           console.log("finished add item request")
@@ -45,7 +45,7 @@ export default function AddItemButton() {
           setPlayingAnimation(false)
         })
     } catch (error) {
-      console.log("error while saving")
+      console.log("error requesting item")
       setSpinnerVariant("danger") // set spinner to red
 
       // allow the spinner to go for 2 seconds then stop
@@ -58,22 +58,33 @@ export default function AddItemButton() {
   function changeItemToAdd(e) {
     setItemToAdd(e.target.value)
   }
+  function changeQuantityToAdd(e) {
+    setQuantityToAdd(parseInt(e.target.value))
+  }
 
   return (
     <Container className="flex">
-      <Button className="btn-sm btn-dark" onClick={addItem}>
-        Add Item!
-      </Button>
       <input
-        className="w-25"
+        style={{ width: "4rem" }}
+        value={quantityToAdd}
+        onChange={changeQuantityToAdd}
+        placeholder="Amount:"
+        type="number"
+      ></input>
+      <input
+        style={{ width: "6rem" }}
         value={itemToAdd}
         onChange={changeItemToAdd}
+        placeholder="Item:"
       ></input>
       {playingAnimation ? (
         <Spinner animation="grow" variant={spinnerVariant} />
       ) : (
         ""
       )}
+      <Button className="btn-sm btn-secondary" onClick={addItem}>
+        Add Item!
+      </Button>
     </Container>
   )
 }

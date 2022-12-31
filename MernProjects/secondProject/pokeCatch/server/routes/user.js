@@ -112,7 +112,7 @@ async function getNewItemQuantity(user, item, quantity) {
 async function addItemToBag(user, item, quantity) {
   // check the user's bag and get a quantity for item stacking
   let itemQuantityResults = await getNewItemQuantity(user, item, quantity)
-
+  
   if (itemQuantityResults.didStackItem) {
     return await User.updateOne(
       { _id: user._id, "bag.name": item.name },
@@ -128,7 +128,11 @@ router.post("/add-item", async (req, res) => {
   let user = req.body.user
 
   try {
-    let addedItem = await addItemToBag(user, req.body.item, req.body.quantity)
+    let addedItem = await addItemToBag(
+      user,
+      req.body.item,
+      parseInt(req.body.quantity) // parse becasue req becomes string
+    )
     console.log("added item".green)
 
     res.send({
