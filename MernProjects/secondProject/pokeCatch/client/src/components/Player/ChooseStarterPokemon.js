@@ -32,6 +32,7 @@ export default function ChooseStarterPokemon() {
     const starters = ["charmander", "bulbasaur", "squirtle"]
 
     const pokemon = []
+    let currentStarter
 
     for (const starter in starters) {
       await axios
@@ -39,19 +40,17 @@ export default function ChooseStarterPokemon() {
         .then(res => {
           console.log("got a starter pokemon!")
 
-          let currentStarter = res.data
-
-          // get the pokemon's genera
-          axios.get(res.data.species.url).then(res => {
-            currentStarter.genera = res.data.genera[7].genus
-          })
-          console.log(currentStarter.name)
-          pokemon.push(currentStarter)
+          currentStarter = res.data
         })
+      // get the pokemon's genera
+      await axios.get(currentStarter.species.url).then(res => {
+        currentStarter.genera = res.data.genera[7].genus
+
+        console.log(currentStarter.name)
+        pokemon.push(currentStarter)
+      })
     }
-    pokemon.map(poke => {
-      console.log(poke.name)
-    })
+
     setStarterPokemon([...starterPokemon, pokemon])
 
     sessionStorage.setItem("STARTERS", JSON.stringify(pokemon))
@@ -64,16 +63,11 @@ export default function ChooseStarterPokemon() {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-  function choosePokemon(e) {
-    console.log(e.target)
-
+  function choosePokemon(i) {
+    console.log(i)
     const newPokemon = starterPokemon[i]
-
-    newPokemon.push({
-      stats: [...e.target.pokemon.stats, { level: 5, xp: 0, xp_cap: 10 }],
-    })
-
     console.log(newPokemon)
+    newPokemon.stats.push({ level: 5, xp: 0, xp_cap: 10 })
 
     axios
       .post("http://localhost:5000/user/add-pokemon-to-team", {
@@ -99,8 +93,9 @@ export default function ChooseStarterPokemon() {
                 variant="top"
                 src={`${pokemon.sprites.front_default}`}
                 alt={`Front view of ${pokemon.name}`}
-                pokemon={i}
-                onClick={choosePokemon}
+                onClick={() => {
+                  choosePokemon(i)
+                }}
               ></Card.Img>
               <Card.Body>
                 <Card.Title>{`${pokemon.order}. ${Capitalize(

@@ -157,26 +157,35 @@ router.post("/add-pokemon-to-team", async (req, res) => {
 
   let user = await updateUser(req.body.user)
 
-  let addedPokemon
-  try {
-    addedPokemon = await User.updateOne(
-      { _id: user._id },
-      { $push: { team: req.body.pokemon }, $set: { choseStarterPokemon: true } }
-    )
-    console.log("added pokemon")
-    res.send({
-      status: "succesfully added pokemon to team",
-      addedPokemon: addedPokemon,
-      updatedUser: await updateUser(user),
-    })
-  } catch (error) {
-    console.log("error adding pokemon to team")
-    console.log(error)
-    res.send({
-      status: "failed to add pokemon",
-      error: error,
-      updatedUser: await updateUser(user),
-    })
+  // if the user has already chosen a starter skip this
+  if (user.choseStarterPokemon) {
+    console.log("user already chose a starter".red)
+    res.send({ updatedUser: user, message: "already chose starter" })
+  } else {
+    let addedPokemon
+    try {
+      addedPokemon = await User.updateOne(
+        { _id: user._id },
+        {
+          $push: { team: req.body.pokemon },
+          $set: { choseStarterPokemon: true },
+        }
+      )
+      console.log("added pokemon")
+      res.send({
+        status: "succesfully added pokemon to team",
+        addedPokemon: addedPokemon,
+        updatedUser: await updateUser(user),
+      })
+    } catch (error) {
+      console.log("error adding pokemon to team")
+      console.log(error)
+      res.send({
+        status: "failed to add pokemon",
+        error: error,
+        updatedUser: await updateUser(user),
+      })
+    }
   }
 })
 

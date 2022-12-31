@@ -32,7 +32,7 @@ export default function LoggedIn() {
     <Container className="mt-0 p-3 flex flex-column">
       <WelcomeMessage />
 
-      {!currentUser.choseFirstPokemon ? <ChooseStarterPokemon /> : ""}
+      {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
 
       <hr className="text-light"></hr>
 
