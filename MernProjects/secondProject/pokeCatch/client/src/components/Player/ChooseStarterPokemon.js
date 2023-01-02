@@ -64,10 +64,27 @@ export default function ChooseStarterPokemon() {
   }
 
   function choosePokemon(i) {
-    console.log(i)
     const newPokemon = starterPokemon[i]
-    console.log(newPokemon)
-    newPokemon.stats.push({ level: 5, xp: 0, xp_cap: 10 })
+
+    const hp = newPokemon.stats[0].base_stat
+    const attack = newPokemon.stats[1].base_stat
+    const defense = newPokemon.stats[2].base_stat
+    const special_attack = newPokemon.stats[3].base_stat
+    const special_defense = newPokemon.stats[4].base_stat
+    const speed = newPokemon.stats[5].base_stat
+
+    newPokemon.stats.push({
+      level: 5,
+      xp: 0,
+      xp_cap: 10,
+      max_hp: hp,
+      hp: hp,
+      attack: attack,
+      defense: defense,
+      special_attack: special_attack,
+      special_defense: special_defense,
+      speed: speed,
+    })
     newPokemon.isStarter = true
     newPokemon.isInTeam = true
 

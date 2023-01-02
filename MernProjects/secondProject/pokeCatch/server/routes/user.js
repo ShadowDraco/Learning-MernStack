@@ -124,8 +124,8 @@ async function addItemToBag(user, item, quantity) {
   }
 }
 
-router.post("/add-item", async (req, res) => {
-  console.log("adding item".yellow)
+router.post("/add-item-to-bag", async (req, res) => {
+  console.log("adding item to bag".yellow)
   let user = req.body.user
 
   try {
@@ -139,7 +139,7 @@ router.post("/add-item", async (req, res) => {
     res.send({
       updatedUser: await updateUser(user),
       addedItem: addedItem,
-      status: "successfully added item",
+      status: "successfully added item to bag",
     })
   } catch (error) {
     console.log("error adding item".red)
