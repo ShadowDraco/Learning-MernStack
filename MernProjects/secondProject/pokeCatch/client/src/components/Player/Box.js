@@ -1,12 +1,12 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 
+import "./Box.css"
+import Capitalize from "../Utility"
+
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
-
-import "./Box.css"
-
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 import ProgressBar from "react-bootstrap/ProgressBar"
@@ -18,11 +18,6 @@ export default function Box() {
 
   function changeBoxOpen(e) {
     setBoxOpen(!boxOpen)
-  }
-
-  // take the first letter to upper case then re-insert the rest of the string
-  function Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
   function showPokemonStats(pokemon) {

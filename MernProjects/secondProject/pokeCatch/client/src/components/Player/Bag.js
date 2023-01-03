@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 
+import Capitalize from "../Utility"
+
 import Container from "react-bootstrap/Container"
 import Image from "react-bootstrap/Image"
 import Button from "react-bootstrap/Button"
@@ -15,11 +17,6 @@ export default function Bag() {
 
   function changeBagOpen(e) {
     setBagOpen(!bagOpen)
-  }
-
-  // take the first letter to upper case then re-insert the rest of the string
-  function Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
   return (

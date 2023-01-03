@@ -4,6 +4,7 @@ import axios from "axios"
 import { UserContext } from "../../App"
 import { PokemonContext } from "../../App"
 import "./ChooseStarterPokemon.css"
+import Capitalize from "../Utility"
 
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
@@ -59,11 +60,6 @@ export default function ChooseStarterPokemon() {
     console.log("done getting starters")
     setAllStartersFetched(true)
     setPlayingAnimation(false)
-  }
-
-  // take the first letter to upper case then re-insert the rest of the string
-  function Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
   async function choosePokemon(i) {
