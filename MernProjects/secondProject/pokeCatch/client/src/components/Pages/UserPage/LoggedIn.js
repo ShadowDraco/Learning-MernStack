@@ -22,10 +22,6 @@ export default function LoggedIn() {
     previousPlayer ? console.log("session storage exists") : saveUser()
   }, [])
 
-  useEffect(() => {
-    console.log("user has been updated")
-  }, [currentUser])
-
   function saveUser() {
     // add the current user to the session storage of the browser
     sessionStorage.setItem("PLAYER", JSON.stringify(currentUser))

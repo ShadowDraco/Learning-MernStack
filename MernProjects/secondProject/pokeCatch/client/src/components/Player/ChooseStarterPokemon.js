@@ -75,6 +75,7 @@ export default function ChooseStarterPokemon() {
     const special_attack = newPokemon.stats[3].base_stat
     const special_defense = newPokemon.stats[4].base_stat
     const speed = newPokemon.stats[5].base_stat
+    const id = `${5}${hp}${attack}${defense}${special_attack}${special_defense}${speed}`
 
     setPlayingAnimation(true)
     setSpinnerVariant("success")
@@ -89,12 +90,13 @@ export default function ChooseStarterPokemon() {
       special_attack: special_attack,
       special_defense: special_defense,
       speed: speed,
+      id: id,
     })
     newPokemon.isStarter = true
     newPokemon.isInTeam = true
 
     await axios
-      .post("http://localhost:5000/user/add-pokemon-to-team", {
+      .post("http://localhost:5000/user/choose-starter", {
         user: currentUser,
         pokemon: newPokemon,
       })

@@ -152,8 +152,8 @@ router.post("/add-item-to-bag", async (req, res) => {
   }
 })
 
-router.post("/add-pokemon-to-team", async (req, res) => {
-  console.log("adding a pokemon to user's team".yellow)
+router.post("/choose-starter", async (req, res) => {
+  console.log("choosing user's starter".yellow)
 
   let user = await updateUser(req.body.user)
 
@@ -171,7 +171,7 @@ router.post("/add-pokemon-to-team", async (req, res) => {
           $set: { choseStarterPokemon: true },
         }
       )
-      console.log("added pokemon")
+      console.log("chose starter pokemon")
       res.send({
         status: "succesfully added pokemon to team",
         addedPokemon: addedPokemon,

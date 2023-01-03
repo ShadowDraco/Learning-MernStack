@@ -30,16 +30,16 @@ export default function Box() {
   }
 
   return (
-    <Container className="box">
+    <Container className="flex">
       <Button onClick={changeBoxOpen}>
         {boxOpen ? "Close Box" : "Open Box"}
       </Button>
-      <Container className="flex">
+      <Container className="box">
         {boxOpen
           ? currentUser.box.map((poke, i) => {
               return i > 0 ? (
                 <OverlayTrigger
-                  key={`${poke.name} level ${poke.stats.level} xp ${poke.stats.xp} tooltip`}
+                  key={`${poke.name} ${poke.stats[6].id} tooltip`}
                   placement="top"
                   overlay={<Tooltip>{poke.genera}</Tooltip>}
                 >

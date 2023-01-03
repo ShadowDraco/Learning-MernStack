@@ -1,4 +1,4 @@
-.voxPokemonCard {
+.boxPokemonCard {
   background-color: rgb(100, 100, 100);
   transition: 500ms;
 }
@@ -8,5 +8,5 @@
 
 .box {
   display: flex;
-  flex: auto;
+  flex-wrap: wrap;
 }
