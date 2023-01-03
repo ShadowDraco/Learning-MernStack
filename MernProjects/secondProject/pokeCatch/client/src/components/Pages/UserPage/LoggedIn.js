@@ -9,6 +9,8 @@ import AddItemButton from "../../UI/AddItemButton"
 import Bag from "../../Player/Bag"
 import ChooseStarterPokemon from "../../Player/ChooseStarterPokemon"
 import Team from "../../Player/Team"
+import AddPokemonButton from "../../UI/AddPokemonButton"
+import Box from "../../Player/Box"
 
 export default function LoggedIn() {
   const { currentUser } = useContext(UserContext)
@@ -35,8 +37,11 @@ export default function LoggedIn() {
       {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
       <hr className="text-light"></hr>
       <Bag />
-      <Team />
       <AddItemButton />
+      <Team />
+      <Box />
+      <AddPokemonButton />
+
       <Container className="flex flex-center w-25">
         <SaveUserButton />
       </Container>

@@ -31,7 +31,7 @@ export default function AddItemButton() {
           requestedItem.quantity = quantityToAdd
         })
 
-      axios
+      await axios
         .post("http://localhost:5000/user/add-item-to-bag", {
           user: currentUser,
           item: requestedItem,
@@ -88,15 +88,3 @@ export default function AddItemButton() {
     </Container>
   )
 }
-
-/* 
-
-item: {
-            name: "beal-berry",
-            description: "heals 10 hp",
-            function: "heal",
-            function_amount: 10,
-            quantity: 1,
-          },
-
-*/

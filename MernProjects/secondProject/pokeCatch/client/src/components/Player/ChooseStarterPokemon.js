@@ -7,10 +7,14 @@ import "./ChooseStarterPokemon.css"
 
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
+import Spinner from "react-bootstrap/Spinner"
 
 export default function ChooseStarterPokemon() {
   const { currentUser, setCurrentUser } = useContext(UserContext)
   const { starterPokemon, setStarterPokemon } = useContext(PokemonContext)
+
+  const [playingAnimation, setPlayingAnimation] = useState(false)
+  const [spinnerVariant, setSpinnerVariant] = useState("success")
 
   const [allStartersFetched, setAllStartersFetched] = useState(false)
 
@@ -33,29 +37,28 @@ export default function ChooseStarterPokemon() {
 
     const pokemon = []
     let currentStarter
+    setPlayingAnimation(true)
+    setSpinnerVariant("success")
 
     for (const starter in starters) {
       await axios
         .get(`https://pokeapi.co/api/v2/pokemon/${starters[starter]}`)
         .then(res => {
-          console.log("got a starter pokemon!")
-
           currentStarter = res.data
         })
       // get the pokemon's genera
       await axios.get(currentStarter.species.url).then(res => {
         currentStarter.genera = res.data.genera[7].genus
-
-        console.log(currentStarter.name)
         pokemon.push(currentStarter)
       })
     }
 
-    setStarterPokemon([...starterPokemon, pokemon])
+    await setStarterPokemon([...starterPokemon, pokemon])
 
     sessionStorage.setItem("STARTERS", JSON.stringify(pokemon))
     console.log("done getting starters")
     setAllStartersFetched(true)
+    setPlayingAnimation(false)
   }
 
   // take the first letter to upper case then re-insert the rest of the string
@@ -63,7 +66,7 @@ export default function ChooseStarterPokemon() {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-  function choosePokemon(i) {
+  async function choosePokemon(i) {
     const newPokemon = starterPokemon[i]
 
     const hp = newPokemon.stats[0].base_stat
@@ -73,6 +76,8 @@ export default function ChooseStarterPokemon() {
     const special_defense = newPokemon.stats[4].base_stat
     const speed = newPokemon.stats[5].base_stat
 
+    setPlayingAnimation(true)
+    setSpinnerVariant("success")
     newPokemon.stats.push({
       level: 5,
       xp: 0,
@@ -88,7 +93,7 @@ export default function ChooseStarterPokemon() {
     newPokemon.isStarter = true
     newPokemon.isInTeam = true
 
-    axios
+    await axios
       .post("http://localhost:5000/user/add-pokemon-to-team", {
         user: currentUser,
         pokemon: newPokemon,
@@ -97,6 +102,7 @@ export default function ChooseStarterPokemon() {
         console.log(res.data)
         setCurrentUser(res.data.updatedUser)
       })
+    setPlayingAnimation(false)
   }
 
   return allStartersFetched ? (
@@ -128,6 +134,11 @@ export default function ChooseStarterPokemon() {
           )
         })}
       </Container>
+      {playingAnimation ? (
+        <Spinner animation="grow" variant={spinnerVariant} />
+      ) : (
+        ""
+      )}
     </Container>
   ) : (
     ""

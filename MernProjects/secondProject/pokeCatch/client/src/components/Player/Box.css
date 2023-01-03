@@ -1,0 +1,12 @@
+.voxPokemonCard {
+  background-color: rgb(100, 100, 100);
+  transition: 500ms;
+}
+.boxPokemonCard:hover {
+  background: rgba(100, 100, 100, 0.5);
+}
+
+.box {
+  display: flex;
+  flex: auto;
+}

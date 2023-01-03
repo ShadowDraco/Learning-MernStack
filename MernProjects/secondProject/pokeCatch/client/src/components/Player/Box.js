@@ -5,19 +5,19 @@ import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
 
-import "./Team.css"
+import "./Box.css"
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import Tooltip from "react-bootstrap/Tooltip"
 import ProgressBar from "react-bootstrap/ProgressBar"
 
-export default function Team() {
+export default function Box() {
   const { currentUser } = useContext(UserContext)
 
-  const [teamOpen, setTeamOpen] = useState(false)
+  const [boxOpen, setBoxOpen] = useState(false)
 
-  function changeTeamOpen(e) {
-    setTeamOpen(!teamOpen)
+  function changeBoxOpen(e) {
+    setBoxOpen(!boxOpen)
   }
 
   // take the first letter to upper case then re-insert the rest of the string
@@ -30,20 +30,20 @@ export default function Team() {
   }
 
   return (
-    <Container className="">
-      <Button onClick={changeTeamOpen}>
-        {teamOpen ? "Close Team" : "Open Team"}
+    <Container className="box">
+      <Button onClick={changeBoxOpen}>
+        {boxOpen ? "Close Box" : "Open Box"}
       </Button>
       <Container className="flex">
-        {teamOpen
-          ? currentUser.team.map((poke, i) => {
+        {boxOpen
+          ? currentUser.box.map((poke, i) => {
               return i > 0 ? (
                 <OverlayTrigger
                   key={`${poke.name} level ${poke.stats.level} xp ${poke.stats.xp} tooltip`}
                   placement="top"
                   overlay={<Tooltip>{poke.genera}</Tooltip>}
                 >
-                  <Card className="teamPokemonCard">
+                  <Card className="boxPokemonCard">
                     <Card.Img
                       variant="top"
                       src={`${poke.sprites.front_default}`}
@@ -57,7 +57,7 @@ export default function Team() {
                         poke.name
                       )}`}</Card.Title>
                       <Card.Text className="bg-dark text-secondary p-1">
-                        Level: {poke.stats[6].level} | Exp: {poke.stats[6].xp}
+                        Level: {poke.stats[6].level}
                       </Card.Text>
                       <ProgressBar
                         variant="success"
