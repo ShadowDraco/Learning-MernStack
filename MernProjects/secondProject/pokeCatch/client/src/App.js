@@ -65,7 +65,7 @@ function App() {
   }
 
   return (
-    <Container className="App bg-dark flex">
+    <Container className="App bg-dark flex flex-center m-0 p-0">
       <RequestContext.Provider
         value={{
           playingAnimation,

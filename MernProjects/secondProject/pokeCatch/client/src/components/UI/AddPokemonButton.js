@@ -99,16 +99,16 @@ export default function AddPokemonButton() {
   }
 
   return (
-    <Container className="flex">
+    <Container className="flex m-0  mt-1 w-auto">
       <input
-        style={{ width: "4rem" }}
+        style={{ width: "3rem" }}
         value={levelToAdd}
         onChange={changeLevelToAdd}
         placeholder="Level:"
         type="number"
       ></input>
       <input
-        style={{ width: "6rem" }}
+        style={{ width: "5rem" }}
         value={pokemonToAdd}
         onChange={changePokemonToAdd}
         placeholder="Pokemon:"

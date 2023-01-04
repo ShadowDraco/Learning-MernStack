@@ -20,11 +20,11 @@ export default function Bag() {
   }
 
   return (
-    <Container className="">
+    <Container className="flex flex-column">
       <Button onClick={changeBagOpen}>
         {bagOpen ? "Close Bag" : "Open Bag"}
       </Button>
-      <Container className="flex">
+      <Container className="flex justify-content-evenly flex-wrap bg-gray">
         {bagOpen
           ? currentUser.bag.map((item, i) => {
               return i > 0 ? (
@@ -37,13 +37,14 @@ export default function Bag() {
                 >
                   <Container
                     key={item.name}
-                    className="text-light bg-gray flex flex-column w-25 bag-item"
+                    className="text-light bg-gray w-auto p-1 m-1 border-bottom border-2"
                   >
                     {item.quantity}:
                     <Image
                       src={`${item.sprites.default}`}
                       alt={`${item.name}`}
                       style={{ width: "3rem" }}
+                      className="flex p-0 m-0"
                     ></Image>
                     <p>{Capitalize(item.name)}</p>
                   </Container>

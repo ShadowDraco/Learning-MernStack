@@ -1,7 +1,6 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 
-import showPokemonStats from "../Utility/ShowPokemonStats"
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
 import PokemonCard from "../Pokemon/PokemonCard"
@@ -16,7 +15,7 @@ export default function Team() {
   }
 
   return (
-    <Container className="">
+    <Container className="flex flex-column">
       <Button onClick={changeTeamOpen}>
         {teamOpen ? "Close Team" : "Open Team"}
       </Button>
@@ -28,9 +27,7 @@ export default function Team() {
                   pokemon={poke}
                   index={i}
                   type="team"
-                  onClick={() => {
-                    showPokemonStats(poke)
-                  }}
+                  key={i}
                 />
               ) : (
                 ""

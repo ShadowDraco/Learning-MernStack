@@ -1,3 +1,6 @@
+import { useContext } from "react"
+
+import { PokemonStats } from "../Pages/UserPage/LoggedIn"
 import capitalize from "../Utility/Capitlize"
 
 import Card from "react-bootstrap/Card"
@@ -6,6 +9,8 @@ import Tooltip from "react-bootstrap/Tooltip"
 import ProgressBar from "react-bootstrap/ProgressBar"
 
 export default function PokemonCard(props) {
+  const { showPokemonStats } = useContext(PokemonStats)
+
   return (
     <OverlayTrigger
       key={
@@ -16,19 +21,29 @@ export default function PokemonCard(props) {
       placement="top"
       overlay={<Tooltip>{props.pokemon.genera}</Tooltip>}
     >
-      <Card className={`${props.type}PokemonCard`}>
+      <Card className={`${props.type}PokemonCard pokemon-card`}>
         <Card.Img
           variant="top"
           src={`${props.pokemon.sprites.front_default}`}
           alt={`Front view of ${props.pokemon.name}`}
-          onClick={props.onClick}
+          onClick={() => {
+            {
+              props.type !== "starter"
+                ? showPokemonStats(props.pokemon)
+                : console.log("cannot show stats for this pokemon")
+            }
+          }}
+          className="card-img"
         ></Card.Img>
         <Card.Body>
-          <Card.Title>{`${props.index}. ${capitalize(
-            props.pokemon.name
-          )}`}</Card.Title>
+          <Card.Title>
+            {props.type !== "starter"
+              ? `${props.index}`
+              : `${props.pokemon.order}`}
+            . {capitalize(props.pokemon.name)}
+          </Card.Title>
           <Card.Text className="bg-dark text-secondary p-1">
-            {props.type != "starter"
+            {props.type !== "starter"
               ? `Level: ${props.pokemon.stats[6].level}`
               : ""}
             {props.type === "team"

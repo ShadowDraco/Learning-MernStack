@@ -2,10 +2,9 @@ import { useState, useContext, useEffect } from "react"
 import axios from "axios"
 
 import { UserContext, PokemonContext, RequestContext } from "../../App"
-import PokemonCard from "../Pokemon/PokemonCard"
+import PokemonCard from "./PokemonCard"
 
 import Container from "react-bootstrap/Container"
-import Spinner from "react-bootstrap/Spinner"
 
 export default function ChooseStarterPokemon() {
   const { currentUser, setCurrentUser } = useContext(UserContext)
@@ -16,9 +15,11 @@ export default function ChooseStarterPokemon() {
   const [allStartersFetched, setAllStartersFetched] = useState(false)
 
   useEffect(() => {
-    sessionStorage.getItem("STARTERS")
-      ? fetchStarterPokemon()
-      : getStarterPokemon()
+    ;(async () => {
+      sessionStorage.getItem("STARTERS")
+        ? fetchStarterPokemon()
+        : getStarterPokemon()
+    })()
   }, [])
 
   async function fetchStarterPokemon() {
@@ -67,7 +68,9 @@ export default function ChooseStarterPokemon() {
     const special_attack = newPokemon.stats[3].base_stat
     const special_defense = newPokemon.stats[4].base_stat
     const speed = newPokemon.stats[5].base_stat
-    const id = `${5}${hp}${attack}${defense}${special_attack}${special_defense}${speed}`
+    const id = `${
+      newPokemon.name
+    }${5}${hp}${attack}${defense}${special_attack}${special_defense}${speed}`
 
     setPlayingAnimation(true)
     setSpinnerVariant("success")
@@ -108,6 +111,7 @@ export default function ChooseStarterPokemon() {
         {starterPokemon.map((pokemon, i) => {
           return (
             <PokemonCard
+              key={i}
               onClick={() => {
                 choosePokemon(i)
               }}

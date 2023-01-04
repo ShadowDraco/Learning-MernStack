@@ -15,20 +15,21 @@ export default function Box() {
     setBoxOpen(!boxOpen)
   }
 
-  function showPokemonStats(pokemon) {
-    console.log("showing stats for", pokemon)
-  }
-
   return (
-    <Container className="flex">
+    <Container className="flex flex-column">
       <Button onClick={changeBoxOpen}>
         {boxOpen ? "Close Box" : "Open Box"}
       </Button>
-      <Container className="box">
+      <Container className=" flex flex-wrap">
         {boxOpen
           ? currentUser.box.map((poke, i) => {
               return i > 0 ? (
-                <PokemonCard pokemon={poke} index={i} type="box" />
+                <PokemonCard
+                  key={i}
+                  pokemon={poke}
+                  index={i}
+                  type="box"
+                />
               ) : (
                 ""
               )

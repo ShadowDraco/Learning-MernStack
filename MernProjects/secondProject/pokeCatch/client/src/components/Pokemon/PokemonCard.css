@@ -1,14 +1,10 @@
+/* all indiviudal types of cards */
 .boxPokemonCard {
   background-color: rgb(100, 100, 100);
   transition: 500ms;
 }
 .boxPokemonCard:hover {
   background: rgba(100, 100, 100, 0.5);
-}
-
-.box {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .displayPokemonCard {
@@ -33,4 +29,25 @@
 }
 .starterPokemonCard:hover {
   background: rgba(100, 100, 100, 0.5);
+}
+
+.statsPokemonCard {
+  background-color: rgb(100, 100, 100);
+  transition: 500ms;
+
+  min-width: 10rem;
+  max-width: 30%;
+}
+.statsPokemonCard:hover {
+  background: rgba(100, 100, 100, 0.5);
+}
+
+/* all cards */
+
+.pokemon-card {
+  min-width: 8rem;
+  width: 20%;
+  max-width: 25%;
+  max-height: 20rem;
+  min-height: 16rem;
 }
