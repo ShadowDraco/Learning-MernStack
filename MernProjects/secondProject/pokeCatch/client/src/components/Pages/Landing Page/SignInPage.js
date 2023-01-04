@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from "react"
-import { UserContext, PokemonContext } from "../../../App"
+import { UserContext, PokemonContext, RequestContext } from "../../../App"
 
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
+import Spinner from "react-bootstrap/Spinner"
 
 import SignupForm from "./SignupForm"
 import LoginForm from "./LoginForm"
@@ -13,6 +14,7 @@ import DisplayPokemon from "../../Pokemon/DisplayPokemon"
 export default function SignInPage() {
   const { setCurrentUser, setUserLoggedIn } = useContext(UserContext)
   const { displayPokemon } = useContext(PokemonContext)
+  const { playingAnimation, spinnerVariant } = useContext(RequestContext)
 
   const [signingUp, setSigningUp] = useState(true)
 
@@ -52,6 +54,11 @@ export default function SignInPage() {
         {signingUp ? <Greeting /> : <LoginMessage />}
 
         {signingUp ? <SignupForm /> : <LoginForm />}
+        {playingAnimation ? (
+          <Spinner animation="grow" variant={spinnerVariant} />
+        ) : (
+          ""
+        )}
       </Container>
       {/* One time per session grab a random pokemon and display it! */}
       {displayPokemon ? <DisplayPokemon /> : ""}
@@ -62,6 +69,7 @@ export default function SignInPage() {
       >
         {signingUp ? "Log in?" : " Sign up?"}
       </Button>
+
       {/*if there is a previous session allow users to restore it */}
       {canRestorePreviousSession ? (
         <Container className="flex flex-center border border-warning mt-3">

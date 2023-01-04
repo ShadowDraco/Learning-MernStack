@@ -1,15 +1,9 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 
-import Capitalize from "../Utility"
-import "./Team.css"
-
+import showPokemonStats from "../Utility/ShowPokemonStats"
 import Container from "react-bootstrap/Container"
-import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
-import OverlayTrigger from "react-bootstrap/OverlayTrigger"
-import Tooltip from "react-bootstrap/Tooltip"
-import ProgressBar from "react-bootstrap/ProgressBar"
 import PokemonCard from "../Pokemon/PokemonCard"
 
 export default function Team() {
@@ -30,7 +24,14 @@ export default function Team() {
         {teamOpen
           ? currentUser.team.map((poke, i) => {
               return i > 0 ? (
-                <PokemonCard pokemon={poke} index={i} type="team" />
+                <PokemonCard
+                  pokemon={poke}
+                  index={i}
+                  type="team"
+                  onClick={() => {
+                    showPokemonStats(poke)
+                  }}
+                />
               ) : (
                 ""
               )

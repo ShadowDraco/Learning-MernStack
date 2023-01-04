@@ -1,21 +1,17 @@
 import { useState, useContext, useEffect } from "react"
 import axios from "axios"
 
-import { UserContext } from "../../App"
-import { PokemonContext } from "../../App"
-import "./ChooseStarterPokemon.css"
-import Capitalize from "../Utility"
+import { UserContext, PokemonContext, RequestContext } from "../../App"
+import PokemonCard from "../Pokemon/PokemonCard"
 
 import Container from "react-bootstrap/Container"
-import Card from "react-bootstrap/Card"
 import Spinner from "react-bootstrap/Spinner"
 
 export default function ChooseStarterPokemon() {
   const { currentUser, setCurrentUser } = useContext(UserContext)
   const { starterPokemon, setStarterPokemon } = useContext(PokemonContext)
 
-  const [playingAnimation, setPlayingAnimation] = useState(false)
-  const [spinnerVariant, setSpinnerVariant] = useState("success")
+  const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
 
   const [allStartersFetched, setAllStartersFetched] = useState(false)
 
@@ -111,32 +107,17 @@ export default function ChooseStarterPokemon() {
       <Container className="flex flex-center">
         {starterPokemon.map((pokemon, i) => {
           return (
-            <Card key={pokemon.name} className="starterPokemonCard">
-              <Card.Img
-                variant="top"
-                src={`${pokemon.sprites.front_default}`}
-                alt={`Front view of ${pokemon.name}`}
-                onClick={() => {
-                  choosePokemon(i)
-                }}
-              ></Card.Img>
-              <Card.Body>
-                <Card.Title>{`${pokemon.order}. ${Capitalize(
-                  pokemon.name
-                )}`}</Card.Title>
-                <Card.Text className="bg-dark text-secondary p-1">
-                  The {pokemon.genera}
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <PokemonCard
+              onClick={() => {
+                choosePokemon(i)
+              }}
+              pokemon={pokemon}
+              index={i}
+              type="starter"
+            />
           )
         })}
       </Container>
-      {playingAnimation ? (
-        <Spinner animation="grow" variant={spinnerVariant} />
-      ) : (
-        ""
-      )}
     </Container>
   ) : (
     ""

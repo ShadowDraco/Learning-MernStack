@@ -1,13 +1,15 @@
 import axios from "axios"
 import { useState, useContext } from "react"
 
-import { UserContext } from "../../../App"
+import { UserContext, RequestContext } from "../../../App"
 
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
 export default function SignupForm() {
   const { setCurrentUser, setUserLoggedIn } = useContext(UserContext)
+  const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
+
   const [currentUsername, setCurrentUsername] = useState("")
   const [currentPassword, setCurrentPassword] = useState("")
   const [successfulLogin, setSuccessfulLogin] = useState()
@@ -20,24 +22,37 @@ export default function SignupForm() {
     setCurrentPassword(e.target.value)
   }
 
-  function submitLogin(e) {
+  async function submitLogin(e) {
     e.preventDefault()
-    axios
-      .post("http://localhost:5000/user/login", {
-        username: currentUsername,
-        password: currentPassword,
-      })
-      .then(res => {
-        console.log(res.data)
-        if (res.data.status === "success") {
-          setSuccessfulLogin(true)
-          setCurrentUser(res.data.user)
-          console.log(res.data.user)
-          setUserLoggedIn(true)
-        } else {
-          setSuccessfulLogin(false)
-        }
-      })
+    setPlayingAnimation(true)
+    try {
+      setSpinnerVariant("success")
+      await axios
+        .post("http://localhost:5000/user/login", {
+          username: currentUsername,
+          password: currentPassword,
+        })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.status === "success") {
+            setSuccessfulLogin(true)
+            setCurrentUser(res.data.user)
+            setUserLoggedIn(true)
+          } else {
+            setSuccessfulLogin(false)
+          }
+
+          setPlayingAnimation(false)
+        })
+    } catch (error) {
+      console.log("error logging in user", error)
+      setSpinnerVariant("danger") // set spinner to red
+
+      // allow the spinner to go for 2 seconds then stop
+      setTimeout(() => {
+        setPlayingAnimation(false)
+      }, 2000)
+    }
   }
 
   return (

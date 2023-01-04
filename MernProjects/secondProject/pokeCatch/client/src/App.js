@@ -10,8 +10,8 @@ import { useEffect } from "react"
 export const UserContext = createContext()
 // Store the pokemon that have already been fetched from the api
 export const PokemonContext = createContext()
-// simple utility like capitalize function to be shared
-export const UtilityContext = createContext() // doesn't work with capitlize function??
+// if requests are made by user display a spinner
+export const RequestContext = createContext()
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false)
@@ -20,6 +20,9 @@ function App() {
   const [displayPokemon, setDisplayPokemon] = useState()
   const [displayGenera, setDisplayGenera] = useState()
   const [starterPokemon, setStarterPokemon] = useState([])
+
+  const [playingAnimation, setPlayingAnimation] = useState(false)
+  const [spinnerVariant, setSpinnerVariant] = useState("success")
 
   // Check if there is a display pokemon
   useEffect(() => {
@@ -63,7 +66,14 @@ function App() {
 
   return (
     <Container className="App bg-dark flex">
-      <UtilityContext.Provider value={{ Captialize }}>
+      <RequestContext.Provider
+        value={{
+          playingAnimation,
+          setPlayingAnimation,
+          spinnerVariant,
+          setSpinnerVariant,
+        }}
+      >
         <PokemonContext.Provider
           value={{
             displayPokemon,
@@ -84,7 +94,7 @@ function App() {
             {userLoggedIn ? <LoggedIn /> : <SignInPage />}
           </UserContext.Provider>
         </PokemonContext.Provider>
-      </UtilityContext.Provider>
+      </RequestContext.Provider>
     </Container>
   )
 }

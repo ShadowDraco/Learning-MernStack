@@ -4,13 +4,12 @@ import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
 import Spinner from "react-bootstrap/Spinner"
 
-import { UserContext } from "../../App"
+import { UserContext, RequestContext } from "../../App"
 
 export default function SaveUserButton() {
   const { currentUser } = useContext(UserContext)
 
-  const [playingAnimation, setPlayingAnimation] = useState(false)
-  const [spinnerVariant, setSpinnerVariant] = useState("success")
+  const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
 
   async function saveUser() {
     setPlayingAnimation(true)
@@ -38,11 +37,6 @@ export default function SaveUserButton() {
       <Button className="btn-info" onClick={saveUser}>
         Save Game!
       </Button>
-      {playingAnimation ? (
-        <Spinner animation="grow" variant={spinnerVariant} />
-      ) : (
-        ""
-      )}
     </Container>
   )
 }

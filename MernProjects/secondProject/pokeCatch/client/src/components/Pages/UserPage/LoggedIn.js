@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react"
-import { UserContext } from "../../../App"
+import { UserContext, RequestContext } from "../../../App"
 
 import Container from "react-bootstrap/Container"
+import Spinner from "react-bootstrap/Spinner"
 
 import WelcomeMessage from "./WelcomeMessage"
 import SaveUserButton from "../../UI/SaveUserButton"
@@ -14,6 +15,7 @@ import Box from "../../Player/Box"
 
 export default function LoggedIn() {
   const { currentUser } = useContext(UserContext)
+  const { playingAnimation, spinnerVariant } = useContext(RequestContext)
 
   useEffect(() => {
     // check if there is session storage for a player
@@ -33,14 +35,20 @@ export default function LoggedIn() {
       {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
       <hr className="text-light"></hr>
       <Bag />
-      <AddItemButton />
       <Team />
       <Box />
-      <AddPokemonButton />
+      {currentUser.username === "admin" ? <AddItemButton /> : ""}
+      {currentUser.username === "admin" ? <AddPokemonButton /> : ""}
 
       <Container className="flex flex-center w-25">
         <SaveUserButton />
       </Container>
+
+      {playingAnimation ? (
+        <Spinner animation="grow" variant={spinnerVariant} />
+      ) : (
+        ""
+      )}
     </Container>
   )
 }

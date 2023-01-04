@@ -1,7 +1,0 @@
-.teamPokemonCard {
-  background-color: rgb(100, 100, 100);
-  transition: 500ms;
-}
-.teamPokemonCard:hover {
-  background: rgba(100, 100, 100, 0.5);
-}

@@ -3,15 +3,12 @@ import axios from "axios"
 
 import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
-import Spinner from "react-bootstrap/Spinner"
 
-import { UserContext } from "../../App"
+import { UserContext, RequestContext } from "../../App"
 
 export default function AddPokemonButton() {
   const { currentUser, setCurrentUser } = useContext(UserContext)
-
-  const [playingAnimation, setPlayingAnimation] = useState(false)
-  const [spinnerVariant, setSpinnerVariant] = useState("success")
+  const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
 
   const [pokemonToAdd, setPokemonToAdd] = useState("")
   const [levelToAdd, setLevelToAdd] = useState(1)
@@ -116,11 +113,6 @@ export default function AddPokemonButton() {
         onChange={changePokemonToAdd}
         placeholder="Pokemon:"
       ></input>
-      {playingAnimation ? (
-        <Spinner animation="grow" variant={spinnerVariant} />
-      ) : (
-        ""
-      )}
       <Button className="btn-sm btn-secondary" onClick={addPokemon}>
         Add Pokemon!
       </Button>

@@ -1,11 +1,15 @@
 import axios from "axios"
+import { useState, useContext } from "react"
+
+import { RequestContext } from "../../../App"
+
 import React from "react"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
-import { useState } from "react"
-
 export default function SignupForm() {
+  const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
+
   const [currentUsername, setCurrentUsername] = useState("")
   const [currentPassword, setCurrentPassword] = useState("")
   const [successfulSignup, setSuccessfulSignUp] = useState()
@@ -18,19 +22,33 @@ export default function SignupForm() {
     setCurrentPassword(e.target.value)
   }
 
-  function submitSignup(e) {
+  async function submitSignup(e) {
     e.preventDefault()
-    axios
-      .post("http://localhost:5000/user/signup", {
-        username: currentUsername,
-        password: currentPassword,
-      })
-      .then(res => {
-        console.log(res.data)
-        res.data.status === "Success!"
-          ? setSuccessfulSignUp(true)
-          : setSuccessfulSignUp(false)
-      })
+    setPlayingAnimation(true)
+
+    try {
+      setSpinnerVariant("success")
+      await axios
+        .post("http://localhost:5000/user/signup", {
+          username: currentUsername,
+          password: currentPassword,
+        })
+        .then(res => {
+          console.log(res.data)
+          res.data.status === "Success!"
+            ? setSuccessfulSignUp(true)
+            : setSuccessfulSignUp(false)
+          setPlayingAnimation(false)
+        })
+    } catch (error) {
+      console.log("error signing up user", error)
+      setSpinnerVariant("danger") // set spinner to red
+
+      // allow the spinner to go for 2 seconds then stop
+      setTimeout(() => {
+        setPlayingAnimation(false)
+      }, 2000)
+    }
   }
 
   return (

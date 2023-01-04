@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 
-import Capitalize from "../Utility"
+import Capitalize from "../Utility/Capitlize"
 
 import Container from "react-bootstrap/Container"
 import Image from "react-bootstrap/Image"

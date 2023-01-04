@@ -1,7 +1,7 @@
 import { useContext } from "react"
 
 import { PokemonContext } from "../../App"
-import "./DisplayPokemon.css"
+import "./PokemonCard.css"
 
 import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
