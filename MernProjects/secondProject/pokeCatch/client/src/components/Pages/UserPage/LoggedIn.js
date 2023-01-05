@@ -71,11 +71,13 @@ export default function LoggedIn() {
       {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
       <hr className="text-light"></hr>
 
-      <Container className="flex flex-center w-100">
-        <Button onClick={changeBagOpen}>Bag</Button>
-        <Button onClick={changeTeamOpen}>Team</Button>
-        <Button onClick={changeBoxOpen}>Box</Button>
-        <SaveUserButton />
+      <Container className="flex flex-center flex-column">
+        <Container>
+          <Button onClick={changeBagOpen}>Bag</Button>
+          <Button onClick={changeTeamOpen}>Team</Button>
+          <Button onClick={changeBoxOpen}>Box</Button>
+          <SaveUserButton />
+        </Container>
 
         {currentUser.username === "admin" ? <CheatBar /> : ""}
 
