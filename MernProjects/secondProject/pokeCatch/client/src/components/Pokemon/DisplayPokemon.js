@@ -16,8 +16,9 @@ export default function DisplayPokemon() {
   }
 
   return (
-    <Container className=" flex flex-center m-3 p-3 bg-gray w-50">
-      <Card className="displayPokemonCard">
+    <Container className=" flex flex-center flex-column mt-3 mb-3 bg-dark">
+      <h5 className="text-light"> Preview your future discoveries! </h5>
+      <Card className="displayPokemonCard pokemon-card w-50">
         <Card.Img
           variant="top"
           src={`${displayPokemon.sprites.front_default}`}
@@ -28,7 +29,7 @@ export default function DisplayPokemon() {
           <Card.Title>{`${displayPokemon.order}. ${Capitalize(
             displayPokemon.name
           )}`}</Card.Title>
-          <Card.Text className="bg-dark text-secondary p-1">
+          <Card.Text className="bg-dark text-secondary">
             The {displayGenera}
           </Card.Text>
         </Card.Body>

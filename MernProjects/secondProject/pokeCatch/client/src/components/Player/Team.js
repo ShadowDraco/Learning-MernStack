@@ -1,40 +1,34 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { UserContext } from "../../App"
+import { UIContext } from "../Pages/UserPage/LoggedIn"
 
 import Container from "react-bootstrap/Container"
-import Button from "react-bootstrap/Button"
+import Offcanvas from "react-bootstrap/Offcanvas"
+
 import PokemonCard from "../Pokemon/PokemonCard"
 
 export default function Team() {
   const { currentUser } = useContext(UserContext)
-
-  const [teamOpen, setTeamOpen] = useState(false)
-
-  function changeTeamOpen(e) {
-    setTeamOpen(!teamOpen)
-  }
+  const { teamOpen, changeTeamOpen } = useContext(UIContext)
 
   return (
-    <Container className="flex flex-column">
-      <Button onClick={changeTeamOpen}>
-        {teamOpen ? "Close Team" : "Open Team"}
-      </Button>
-      <Container className="flex">
-        {teamOpen
-          ? currentUser.team.map((poke, i) => {
-              return i > 0 ? (
-                <PokemonCard
-                  pokemon={poke}
-                  index={i}
-                  type="team"
-                  key={i}
-                />
-              ) : (
-                ""
-              )
-            })
-          : ""}
-      </Container>
-    </Container>
+    <Offcanvas show={teamOpen} onHide={changeTeamOpen} className="w-75">
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title> {`${currentUser.username}'s team`}</Offcanvas.Title>
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+        <Container className="flex flex-wrap w-100">
+          {teamOpen
+            ? currentUser.team.map((poke, i) => {
+                return i > 0 ? (
+                  <PokemonCard pokemon={poke} index={i} type="team" key={i} />
+                ) : (
+                  ""
+                )
+              })
+            : ""}
+        </Container>
+      </Offcanvas.Body>
+    </Offcanvas>
   )
 }

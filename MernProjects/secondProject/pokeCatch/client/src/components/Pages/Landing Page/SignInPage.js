@@ -48,27 +48,33 @@ export default function SignInPage() {
   }
 
   return (
-    <Container className="SignIn bg-dark flex flex-column flex-center p-3">
-      <h1 className="text-light bg-gray p-3"> Welcome to Poke Catch! </h1>
-      <Container className="Forms bg-dark p-1 w-50">
-        {signingUp ? <Greeting /> : <LoginMessage />}
+    <Container className="signin bg-dark m-0 p-0 pt-3 pb-3 flex flex-column">
+      <h1 className="text-light bg-gray p-3 text-center">
+        {" "}
+        Welcome to Poke Catch!{" "}
+      </h1>
+      <Container className="Forms bg-dark p-1 flex">
+        <Container className="flex flex-column">
+          {signingUp ? <Greeting /> : <LoginMessage />}
 
-        {signingUp ? <SignupForm /> : <LoginForm />}
-        {playingAnimation ? (
-          <Spinner animation="grow" variant={spinnerVariant} />
-        ) : (
-          ""
-        )}
+          {signingUp ? <SignupForm /> : <LoginForm />}
+          {playingAnimation ? (
+            <Spinner animation="grow" variant={spinnerVariant} />
+          ) : (
+            ""
+          )}
+          <Button
+            className="btn-lg bg-gray text-info loginSignupButton mt-5"
+            onClick={changeSigningUp}
+          >
+            {signingUp ? "Log in?" : " Sign up?"}
+          </Button>
+        </Container>
+
+        {/* One time per session grab a random pokemon and display it! */}
+        {displayPokemon ? <DisplayPokemon /> : ""}
+        {/* Change between log in and sign up */}
       </Container>
-      {/* One time per session grab a random pokemon and display it! */}
-      {displayPokemon ? <DisplayPokemon /> : ""}
-      {/* Change between log in and sign up */}
-      <Button
-        className="btn-lg bg-gray text-info loginSignupButton"
-        onClick={changeSigningUp}
-      >
-        {signingUp ? "Log in?" : " Sign up?"}
-      </Button>
 
       {/*if there is a previous session allow users to restore it */}
       {canRestorePreviousSession ? (

@@ -1,8 +1,6 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 
-import Container from "react-bootstrap/Container"
 import Button from "react-bootstrap/Button"
-import Spinner from "react-bootstrap/Spinner"
 
 import { UserContext, RequestContext } from "../../App"
 
@@ -23,7 +21,7 @@ export default function SaveUserButton() {
         setPlayingAnimation(false)
       }, 1000)
     } catch (error) {
-      console.log("error while saving")
+      console.log("error while saving", error)
       setSpinnerVariant("danger") // set spinner to red
       // allow the spinner to go for 2 seconds then stop
       setTimeout(() => {
@@ -33,10 +31,8 @@ export default function SaveUserButton() {
   }
 
   return (
-    <Container className="flex">
-      <Button className="btn-info" onClick={saveUser}>
-        Save Game!
-      </Button>
-    </Container>
+    <Button className="btn-info" onClick={saveUser}>
+      Save!
+    </Button>
   )
 }

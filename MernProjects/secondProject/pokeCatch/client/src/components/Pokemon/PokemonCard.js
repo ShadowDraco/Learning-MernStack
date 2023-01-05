@@ -1,6 +1,6 @@
 import { useContext } from "react"
 
-import { PokemonStats } from "../Pages/UserPage/LoggedIn"
+import { UIContext } from "../Pages/UserPage/LoggedIn"
 import capitalize from "../Utility/Capitlize"
 
 import Card from "react-bootstrap/Card"
@@ -9,7 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import ProgressBar from "react-bootstrap/ProgressBar"
 
 export default function PokemonCard(props) {
-  const { showPokemonStats } = useContext(PokemonStats)
+  const { changePokemonStats } = useContext(UIContext)
 
   return (
     <OverlayTrigger
@@ -21,18 +21,20 @@ export default function PokemonCard(props) {
       placement="top"
       overlay={<Tooltip>{props.pokemon.genera}</Tooltip>}
     >
-      <Card className={`${props.type}PokemonCard pokemon-card`}>
+      <Card
+        className={`${props.type}PokemonCard pokemon-card`}
+        onClick={() => {
+          {
+            props.type !== "starter"
+              ? changePokemonStats(props.pokemon)
+              : console.log("cannot show stats for this pokemon")
+          }
+        }}
+      >
         <Card.Img
           variant="top"
           src={`${props.pokemon.sprites.front_default}`}
           alt={`Front view of ${props.pokemon.name}`}
-          onClick={() => {
-            {
-              props.type !== "starter"
-                ? showPokemonStats(props.pokemon)
-                : console.log("cannot show stats for this pokemon")
-            }
-          }}
           className="card-img"
         ></Card.Img>
         <Card.Body>
@@ -46,10 +48,6 @@ export default function PokemonCard(props) {
             {props.type !== "starter"
               ? `Level: ${props.pokemon.stats[6].level}`
               : ""}
-            {props.type === "team"
-              ? ` | Exp:
-            ${props.pokemon.stats[6].xp}`
-              : ""}
             {props.type === "starter" ? `${props.pokemon.genera}` : ""}
           </Card.Text>
           {props.type === "box" || props.type === "team" ? (
@@ -60,6 +58,18 @@ export default function PokemonCard(props) {
                 100
               }
               label={`${props.pokemon.stats[6].hp} / ${props.pokemon.stats[6].max_hp}`}
+            />
+          ) : (
+            ""
+          )}
+          {props.type === "team" ? (
+            <ProgressBar
+              variant="primary"
+              now={
+                (props.pokemon.stats[6].xp_cap / props.pokemon.stats[6].xp) *
+                100
+              }
+              label={`${props.pokemon.stats[6].xp} / ${props.pokemon.stats[6].xp_cap}`}
             />
           ) : (
             ""

@@ -39,7 +39,6 @@ export default function AddItemButton() {
         })
         .then(res => {
           console.log("finished add item request")
-          console.log(res.data)
           setCurrentUser(res.data.updatedUser)
 
           setPlayingAnimation(false)

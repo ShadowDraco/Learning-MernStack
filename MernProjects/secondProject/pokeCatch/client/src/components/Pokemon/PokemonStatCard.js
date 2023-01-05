@@ -1,6 +1,6 @@
 import { useContext } from "react"
 
-import { PokemonStats } from "../Pages/UserPage/LoggedIn"
+import { UIContext } from "../Pages/UserPage/LoggedIn"
 import capitalize from "../Utility/Capitlize"
 
 import Card from "react-bootstrap/Card"
@@ -9,7 +9,7 @@ import Tooltip from "react-bootstrap/Tooltip"
 import ProgressBar from "react-bootstrap/ProgressBar"
 
 export default function PokemonStatCard(props) {
-  const { showPokemonStats } = useContext(PokemonStats)
+  const { changePokemonStats } = useContext(UIContext)
 
   return (
     <OverlayTrigger
@@ -17,16 +17,16 @@ export default function PokemonStatCard(props) {
       placement="top"
       overlay={<Tooltip>{props.pokemon.genera}</Tooltip>}
     >
-      <Card className="statsPokemonCard">
+      <Card
+        className="statsPokemonCard"
+        onClick={() => {
+          changePokemonStats(props.pokemon)
+        }}
+      >
         <Card.Img
           variant="top"
           src={`${props.pokemon.sprites.front_default}`}
           alt={`Front view of ${props.pokemon.name}`}
-          onClick={() => {
-            {
-              showPokemonStats(props.pokemon)
-            }
-          }}
         ></Card.Img>
         <Card.Body>
           <Card.Title>

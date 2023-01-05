@@ -14,6 +14,11 @@ router.get("/", (req, res) => {
 
 // Require the user model to create a new user
 const User = require("../models/user")
+
+async function updateUser(user) {
+  return await User.findOne({ _id: user._id })
+}
+
 // Function to define new user creation
 async function createNewUser(username, password) {
   let friendCode = Math.random(3)
@@ -81,10 +86,6 @@ router.post("/login", async (req, res) => {
   res.json(loggedUser)
 })
 
-async function updateUser(user) {
-  return await User.findOne({ _id: user._id })
-}
-
 async function getNewItemQuantity(user, item, quantity) {
   let newQuantity
   let didStackItem = false
@@ -123,6 +124,31 @@ async function addItemToBag(user, item, quantity) {
     return await User.updateOne({ _id: user._id }, { $push: { bag: item } })
   }
 }
+
+router.post("/updateUser", async (req, res) => {
+  console.log("updating user".yellow)
+
+  let user = req.body.user
+  let status
+  try {
+    await User.updateOne(
+      { _id: user._id },
+      { $set: { team: user.team } },
+      { $set: { box: user.box } }
+    )
+
+    status = "success!"
+    console.log("successful update".green)
+  } catch (error) {
+    console.log("failed update".red)
+    status = "fail"
+    console.log(error)
+  }
+  res.send({
+    updatedUser: await updateUser(req.body.user),
+    status: status,
+  })
+})
 
 router.post("/add-item-to-bag", async (req, res) => {
   console.log("adding item to bag".yellow)

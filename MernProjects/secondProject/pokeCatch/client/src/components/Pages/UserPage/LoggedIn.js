@@ -3,6 +3,7 @@ import { UserContext, RequestContext } from "../../../App"
 
 import Container from "react-bootstrap/Container"
 import Spinner from "react-bootstrap/Spinner"
+import Button from "react-bootstrap/Button"
 
 import WelcomeMessage from "./WelcomeMessage"
 import SaveUserButton from "../../UI/SaveUserButton"
@@ -11,16 +12,32 @@ import ChooseStarterPokemon from "../../Pokemon/ChooseStarterPokemon"
 import Team from "../../Player/Team"
 import Box from "../../Player/Box"
 import CheatBar from "../../UI/CheatBar"
-import PokemonStatCard from "../../Pokemon/PokemonStatCard"
+import PokeStats from "../../Pokemon/PokeStats"
 
-export const PokemonStats = createContext()
+export const UIContext = createContext()
 
 export default function LoggedIn() {
   const { currentUser } = useContext(UserContext)
   const { playingAnimation, spinnerVariant } = useContext(RequestContext)
 
-  const [displayingPokemonStats, setDisplayingPokemonStats] = useState(false)
-  const [pokemonToDisplay, setPokemonToDisplay] = useState()
+  // UI changes and variables
+  const [bagOpen, setBagOpen] = useState(false)
+  const [teamOpen, setTeamOpen] = useState(false)
+  const [boxOpen, setBoxOpen] = useState(false)
+  const [pokemonStatsOpen, setPokemonStatsOpen] = useState(false)
+  const [pokemonStats, setPokemonStats] = useState()
+
+  function changeBoxOpen(e) {
+    setBoxOpen(!boxOpen)
+  }
+
+  function changeTeamOpen(e) {
+    setTeamOpen(!teamOpen)
+  }
+
+  function changeBagOpen(e) {
+    setBagOpen(!bagOpen)
+  }
 
   useEffect(() => {
     // check if there is session storage for a player
@@ -29,10 +46,18 @@ export default function LoggedIn() {
     previousPlayer ? console.log("session storage exists") : saveUser()
   }, [])
 
-  async function showPokemonStats(pokemon) {
+  function changePokemonStats(pokemon) {
     console.log("showing pokemon stats")
-    setPokemonToDisplay(pokemon)
-    setDisplayingPokemonStats(!displayingPokemonStats)
+
+    pokemon === pokemonStats
+      ? setPokemonStatsOpen(!pokemonStatsOpen)
+      : setPokemonStats(pokemon)
+  }
+
+  function closePokemonStats() {
+    setPokemonStatsOpen(false)
+    setBoxOpen(false)
+    setTeamOpen(false)
   }
 
   function saveUser() {
@@ -41,36 +66,38 @@ export default function LoggedIn() {
   }
 
   return (
-    <Container className="m-0 pt-3 pb-3 flex-column">
+    <Container className="flex flex-column flex-center pt-3 pb-3">
       <WelcomeMessage />
       {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
       <hr className="text-light"></hr>
 
-      <PokemonStats.Provider
-        value={{
-          setDisplayingPokemonStats,
-          displayingPokemonStats,
-          setPokemonToDisplay,
-          showPokemonStats,
-        }}
-      >
-        {displayingPokemonStats ? (
-          <PokemonStatCard pokemon={pokemonToDisplay} />
-        ) : (
-          ""
-        )}
+      <Container className="flex flex-center w-100">
+        <Button onClick={changeBagOpen}>Bag</Button>
+        <Button onClick={changeTeamOpen}>Team</Button>
+        <Button onClick={changeBoxOpen}>Box</Button>
+        <SaveUserButton />
 
-        <Container className="flex flex-column align-left w-100">
+        {currentUser.username === "admin" ? <CheatBar /> : ""}
+
+        <UIContext.Provider
+          value={{
+            bagOpen,
+            changeBagOpen,
+            teamOpen,
+            changeTeamOpen,
+            boxOpen,
+            changeBoxOpen,
+            pokemonStats,
+            pokemonStatsOpen,
+            changePokemonStats,
+            closePokemonStats,
+          }}
+        >
           <Bag />
           <Team />
           <Box />
-        </Container>
-      </PokemonStats.Provider>
-
-      {currentUser.username === "admin" ? <CheatBar /> : ""}
-
-      <Container className="flex flex-center w-25 mt-4">
-        <SaveUserButton />
+          {pokemonStats ? <PokeStats pokemon={pokemonStats} /> : ""}
+        </UIContext.Provider>
       </Container>
 
       {playingAnimation ? (
