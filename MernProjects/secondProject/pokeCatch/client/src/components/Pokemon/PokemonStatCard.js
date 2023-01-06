@@ -31,6 +31,10 @@ export default function PokemonStatCard(props) {
         <Card.Body>
           <Card.Title>
             {`${props.pokemon.order}. ${capitalize(props.pokemon.name)}`}
+            <br></br>
+            {props.pokemon.nickname
+              ? capitalize(props.pokemon.nickname)
+              : capitalize(props.pokemon.name)}
           </Card.Title>
           <Card.Text className="bg-dark text-secondary p-1">
             {`Level: ${props.pokemon.stats[6].level} | Exp: ${props.pokemon.stats[6].xp}`}

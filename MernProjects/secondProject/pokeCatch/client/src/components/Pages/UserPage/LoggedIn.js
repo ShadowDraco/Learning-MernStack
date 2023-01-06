@@ -72,14 +72,12 @@ export default function LoggedIn() {
       <hr className="text-light"></hr>
 
       <Container className="flex flex-center flex-column">
-        <Container>
+        <Container className="flex justify-content-evenly">
           <Button onClick={changeBagOpen}>Bag</Button>
           <Button onClick={changeTeamOpen}>Team</Button>
           <Button onClick={changeBoxOpen}>Box</Button>
           <SaveUserButton />
         </Container>
-
-        {currentUser.username === "admin" ? <CheatBar /> : ""}
 
         <UIContext.Provider
           value={{
@@ -101,6 +99,8 @@ export default function LoggedIn() {
           {pokemonStats ? <PokeStats pokemon={pokemonStats} /> : ""}
         </UIContext.Provider>
       </Container>
+
+      {currentUser.username === "admin" ? <CheatBar /> : ""}
 
       {playingAnimation ? (
         <Spinner animation="grow" variant={spinnerVariant} />

@@ -8,22 +8,23 @@ import Button from "react-bootstrap/Button"
 
 export default function TransferPokemonButton(props) {
   const { currentUser, setCurrentUser } = useContext(UserContext)
-  const { closePokemonStats } = useContext(UIContext)
+  const { changePokemonStats } = useContext(UIContext)
 
   const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
 
   async function transferPokemon() {
     setPlayingAnimation(true)
     // add the current user to the session storage of the browser
+    let user = currentUser
     try {
-      closePokemonStats()
+      changePokemonStats(props.pokemon)
       console.log("transfering pokemon")
       setPlayingAnimation(true)
       setSpinnerVariant("success") // change spinner to green
 
       let pokemon = props.pokemon
-      let team = currentUser.team
-      let box = currentUser.box
+      let team = user.team
+      let box = user.box
 
       if (pokemon.isInTeam) {
         for (let i = 0; i < team.length; i++) {
@@ -46,10 +47,11 @@ export default function TransferPokemonButton(props) {
       console.log("transfered")
 
       await axios
-        .post("http://localhost:5000/user/updateUser", { user: currentUser })
+        .post("http://localhost:5000/user/update-user-pokemon", {
+          user: user,
+        })
         .then(res => {
           console.log("updated user with database")
-          console.log(res.data)
           setCurrentUser(res.data.updatedUser)
 
           setPlayingAnimation(false)

@@ -5,33 +5,46 @@ import { UIContext } from "../Pages/UserPage/LoggedIn"
 import PokemonStatCard from "./PokemonStatCard"
 
 import Container from "react-bootstrap/Container"
-import Offcanvas from "react-bootstrap/Offcanvas"
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
 import TransferPokemonButton from "../UI/TransferPokemonButton"
+import RenamePokemonButton from "../UI/RenamePokemonButton"
 
 export default function PokeStats(props) {
   const { currentUser } = useContext(UserContext)
   const { pokemonStatsOpen, changePokemonStats } = useContext(UIContext)
 
   return (
-    <Offcanvas
+    <Modal
       show={pokemonStatsOpen}
       onHide={() => {
         changePokemonStats(props.pokemon)
       }}
     >
-      <Offcanvas.Header closeButton>
-        <Offcanvas.Title>
+      <Modal.Header closeButton>
+        <Modal.Title>
           {`${currentUser.username}'s ${props.pokemon.name}`}
-        </Offcanvas.Title>
-      </Offcanvas.Header>
-      <Offcanvas.Body>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <Container className="flex">
           <PokemonStatCard pokemon={props.pokemon} />
           <Container className="flex flex-column">
             <TransferPokemonButton pokemon={props.pokemon} />
+            <RenamePokemonButton pokemon={props.pokemon} />
           </Container>
         </Container>
-      </Offcanvas.Body>
-    </Offcanvas>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            changePokemonStats(props.pokemon)
+          }}
+        >
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }

@@ -125,7 +125,7 @@ async function addItemToBag(user, item, quantity) {
   }
 }
 
-router.post("/updateUser", async (req, res) => {
+router.post("/update-user-pokemon", async (req, res) => {
   console.log("updating user".yellow)
 
   let user = req.body.user
@@ -133,8 +133,7 @@ router.post("/updateUser", async (req, res) => {
   try {
     await User.updateOne(
       { _id: user._id },
-      { $set: { team: user.team } },
-      { $set: { box: user.box } }
+      { $set: { team: user.team }, $set: { box: user.box } }
     )
 
     status = "success!"

@@ -42,7 +42,10 @@ export default function PokemonCard(props) {
             {props.type !== "starter"
               ? `${props.index}`
               : `${props.pokemon.order}`}
-            . {capitalize(props.pokemon.name)}
+            .{" "}
+            {props.pokemon.nickname
+              ? capitalize(props.pokemon.nickname)
+              : capitalize(props.pokemon.name)}
           </Card.Title>
           <Card.Text className="bg-dark text-secondary p-1">
             {props.type !== "starter"
