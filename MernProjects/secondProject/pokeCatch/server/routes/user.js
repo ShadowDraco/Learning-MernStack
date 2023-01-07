@@ -125,27 +125,83 @@ async function addItemToBag(user, item, quantity) {
   }
 }
 
-router.post("/update-user-pokemon", async (req, res) => {
+router.post("/transfer-user-pokemon", async (req, res) => {
   console.log("updating user".yellow)
 
   let user = req.body.user
+  let pokemon = req.body.pokemon
+
+  let newPokemon = pokemon
+  newPokemon.isInTeam = !newPokemon.isInTeam
+
+  let isInTeam = req.body.isInTeam
   let status
+
   try {
-    await User.updateOne(
-      { _id: user._id },
-      { $set: { team: user.team }, $set: { box: user.box } }
-    )
+    if (isInTeam) {
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $pull: { team: pokemon },
+          $addToSet: { box: newPokemon },
+        }
+      )
+    } else {
+      await User.updateOne(
+        { _id: user._id },
+        {
+          $pull: { box: pokemon },
+          $addToSet: { team: newPokemon },
+        }
+      )
+    }
 
     status = "success!"
-    console.log("successful update".green)
+    console.log("successful transfer".green)
   } catch (error) {
-    console.log("failed update".red)
+    console.log("failed transfer".red)
     status = "fail"
     console.log(error)
   }
   res.send({
     updatedUser: await updateUser(req.body.user),
     status: status,
+  })
+})
+
+router.post("/rename-user-pokemon", async (req, res) => {
+  console.log("updating user".yellow)
+
+  let user = req.body.user
+  let pokemon = req.body.pokemon
+  let isInTeam = req.body.isInTeam
+  let status
+  let renamed
+
+  try {
+    if (isInTeam) {
+      renamed = await User.updateOne(
+        { _id: user._id, box: pokemon },
+        { $set: { "box.$.nickname": req.body.newNickname } }
+      )
+    } else {
+      renamed = await User.updateOne(
+        { _id: user._id, team: pokemon },
+        { $set: { "team.$.nickname": req.body.newNickname } }
+      )
+    }
+
+    status = "success!"
+    console.log("successful rename".green)
+  } catch (error) {
+    console.log("failed rename".red)
+    status = "fail"
+    console.log(error)
+  }
+  res.send({
+    updatedUser: await updateUser(req.body.user),
+    status: status,
+    renamed: renamed,
   })
 })
 

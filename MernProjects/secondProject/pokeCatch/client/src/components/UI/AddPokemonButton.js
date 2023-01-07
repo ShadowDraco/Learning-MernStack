@@ -58,7 +58,7 @@ export default function AddPokemonButton() {
           })
           const id = `${levelToAdd}${requestedPokemon.stats[6].hp}${requestedPokemon.stats[6].attack}${requestedPokemon.stats[6].defense}${requestedPokemon.stats[6].special_attack}${requestedPokemon.stats[6].special_defense}${requestedPokemon.stats[6].speed}`
 
-          requestedPokemon.stats[6].id = id
+          requestedPokemon.id = id
           requestedPokemon.isStarter = false
           requestedPokemon.isInTeam = false
         })

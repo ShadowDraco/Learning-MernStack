@@ -10,8 +10,8 @@ export default function SignupForm() {
   const { setCurrentUser, setUserLoggedIn } = useContext(UserContext)
   const { setPlayingAnimation, setSpinnerVariant } = useContext(RequestContext)
 
-  const [currentUsername, setCurrentUsername] = useState("")
-  const [currentPassword, setCurrentPassword] = useState("")
+  const [currentUsername, setCurrentUsername] = useState("admin")
+  const [currentPassword, setCurrentPassword] = useState("admin")
   const [successfulLogin, setSuccessfulLogin] = useState()
 
   function changeUsername(e) {

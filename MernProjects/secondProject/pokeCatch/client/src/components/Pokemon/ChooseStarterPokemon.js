@@ -85,8 +85,8 @@ export default function ChooseStarterPokemon() {
       special_attack: special_attack,
       special_defense: special_defense,
       speed: speed,
-      id: id,
     })
+    newPokemon.id = id
     newPokemon.isStarter = true
     newPokemon.isInTeam = true
 

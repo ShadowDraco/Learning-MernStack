@@ -90,24 +90,15 @@ export default function ChooseStarterPokemon() {
       <Container className="flex flex-center">
         {starterPokemon.map((pokemon, i) => {
           return (
-            <Card key={pokemon.name} className="starterPokemonCard">
-              <Card.Img
-                variant="top"
-                src={`${pokemon.sprites.front_default}`}
-                alt={`Front view of ${pokemon.name}`}
-                onClick={() => {
-                  choosePokemon(i)
-                }}
-              ></Card.Img>
-              <Card.Body>
-                <Card.Title>{`${pokemon.order}. ${Capitalize(
-                  pokemon.name
-                )}`}</Card.Title>
-                <Card.Text className="bg-dark text-secondary p-1">
-                  The {pokemon.genera}
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <PokemonCard
+              pokemon={pokemon}
+              index={i}
+              type="starter"
+              key={i}
+              onClick={() => {
+                choosePokemon(i)
+              }}
+            />
           )
         })}
       </Container>

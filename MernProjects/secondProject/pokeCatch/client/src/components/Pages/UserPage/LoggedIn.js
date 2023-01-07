@@ -54,12 +54,6 @@ export default function LoggedIn() {
       : setPokemonStats(pokemon)
   }
 
-  function closePokemonStats() {
-    setPokemonStatsOpen(false)
-    setBoxOpen(false)
-    setTeamOpen(false)
-  }
-
   function saveUser() {
     // add the current user to the session storage of the browser
     sessionStorage.setItem("PLAYER", JSON.stringify(currentUser))
@@ -68,8 +62,6 @@ export default function LoggedIn() {
   return (
     <Container className="flex flex-column flex-center pt-3 pb-3">
       <WelcomeMessage />
-      {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
-      <hr className="text-light"></hr>
 
       <Container className="flex flex-center flex-column">
         <Container className="flex justify-content-evenly">
@@ -90,9 +82,11 @@ export default function LoggedIn() {
             pokemonStats,
             pokemonStatsOpen,
             changePokemonStats,
-            closePokemonStats,
           }}
         >
+          {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
+          <hr className="text-light"></hr>
+
           <Bag />
           <Team />
           <Box />

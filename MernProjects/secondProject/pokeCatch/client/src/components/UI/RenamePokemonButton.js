@@ -30,32 +30,15 @@ export default function RenamePokemonButton(props) {
       setPlayingAnimation(true)
       setSpinnerVariant("success") // change spinner to green
 
-      let pokemon = props.pokemon
-      let team = user.team
-      let box = user.box
-
-      if (pokemon.isInTeam) {
-        for (let i = 0; i < team.length; i++) {
-          if (team[i] === pokemon) {
-            team[i].nickname = newNickname
-          }
-        }
-      } else {
-        for (let i = 0; i < box.length; i++) {
-          if (box[i] === pokemon) {
-            box[i].nickname = newNickname
-          }
-        }
-      }
-
-      console.log("renamed")
-
       await axios
-        .post("http://localhost:5000/user/update-user-pokemon", {
+        .post("http://localhost:5000/user/rename-user-pokemon", {
           user: user,
+          pokemon: props.pokemon,
+          isInTeam: props.pokemon.isInTeam,
+          newNickname: newNickname,
         })
         .then(res => {
-          console.log("updated user with database")
+          console.log("renamed pokemon", res.data)
           setCurrentUser(res.data.updatedUser)
 
           setPlayingAnimation(false)

@@ -22,37 +22,16 @@ export default function TransferPokemonButton(props) {
       setPlayingAnimation(true)
       setSpinnerVariant("success") // change spinner to green
 
-      let pokemon = props.pokemon
-      let team = user.team
-      let box = user.box
-
-      if (pokemon.isInTeam) {
-        for (let i = 0; i < team.length; i++) {
-          if (team[i] === pokemon) {
-            team.splice(i, 1)
-          }
-        }
-        pokemon.isInTeam = false
-        box.push(pokemon)
-      } else {
-        for (let i = 0; i < box.length; i++) {
-          if (box[i] === pokemon) {
-            box.splice(i, 1)
-          }
-        }
-        pokemon.isInTeam = true
-        team.push(pokemon)
-      }
-
-      console.log("transfered")
-
       await axios
-        .post("http://localhost:5000/user/update-user-pokemon", {
+        .post("http://localhost:5000/user/transfer-user-pokemon", {
           user: user,
+          pokemon: props.pokemon,
+          isInTeam: props.pokemon.isInTeam,
         })
         .then(res => {
-          console.log("updated user with database")
+          console.log("transfered pokemon")
           setCurrentUser(res.data.updatedUser)
+          console.log(res.data.status)
 
           setPlayingAnimation(false)
         })

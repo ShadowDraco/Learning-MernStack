@@ -27,7 +27,7 @@ export default function PokemonCard(props) {
           {
             props.type !== "starter"
               ? changePokemonStats(props.pokemon)
-              : console.log("cannot show stats for this pokemon")
+              : props.onClick()
           }
         }}
       >
