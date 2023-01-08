@@ -38,7 +38,7 @@ export default function RenamePokemonButton(props) {
           newNickname: newNickname,
         })
         .then(res => {
-          console.log("renamed pokemon", res.data)
+          console.log("renamed pokemon")
           setCurrentUser(res.data.updatedUser)
 
           setPlayingAnimation(false)
@@ -54,8 +54,8 @@ export default function RenamePokemonButton(props) {
   }
 
   return (
-    <Dropdown className="flex justify-content-end">
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+    <Dropdown className="flex flex-center">
+      <Dropdown.Toggle variant="info" id="dropdown-basic" className="w-100">
         Rename
       </Dropdown.Toggle>
 

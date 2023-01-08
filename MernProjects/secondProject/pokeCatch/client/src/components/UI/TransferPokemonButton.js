@@ -20,7 +20,7 @@ export default function TransferPokemonButton(props) {
       changePokemonStats(props.pokemon)
       console.log("transfering pokemon")
       setPlayingAnimation(true)
-      setSpinnerVariant("success") // change spinner to green
+      setSpinnerVariant("sauccess") // change spinner to green
 
       await axios
         .post("http://localhost:5000/user/transfer-user-pokemon", {

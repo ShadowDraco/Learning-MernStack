@@ -19,6 +19,11 @@ async function updateUser(user) {
   return await User.findOne({ _id: user._id })
 }
 
+router.post("/update", async (req, res) => {
+  console.log("updating user")
+  res.send({ updatedUser: await updateUser(req.body.user) })
+})
+
 // Function to define new user creation
 async function createNewUser(username, password) {
   let friendCode = Math.random(3)
@@ -139,18 +144,18 @@ router.post("/transfer-user-pokemon", async (req, res) => {
 
   try {
     if (isInTeam) {
-      await User.updateOne(
+      await User.updateMany(
         { _id: user._id },
         {
-          $pull: { team: pokemon },
+          $pull: { team: { id: pokemon.id } },
           $addToSet: { box: newPokemon },
         }
       )
     } else {
-      await User.updateOne(
+      await User.updateMany(
         { _id: user._id },
         {
-          $pull: { box: pokemon },
+          $pull: { box: { id: pokemon.id } },
           $addToSet: { team: newPokemon },
         }
       )
@@ -176,18 +181,21 @@ router.post("/rename-user-pokemon", async (req, res) => {
   let pokemon = req.body.pokemon
   let isInTeam = req.body.isInTeam
   let status
-  let renamed
 
   try {
     if (isInTeam) {
       renamed = await User.updateOne(
-        { _id: user._id, box: pokemon },
-        { $set: { "box.$.nickname": req.body.newNickname } }
+        { _id: user._id, "team.id": pokemon.id },
+        {
+          $set: { "team.$.nickname": req.body.newNickname },
+        }
       )
     } else {
       renamed = await User.updateOne(
-        { _id: user._id, team: pokemon },
-        { $set: { "team.$.nickname": req.body.newNickname } }
+        { _id: user._id, "box.id": pokemon.id },
+        {
+          $set: { "box.$.nickname": req.body.newNickname },
+        }
       )
     }
 
@@ -201,7 +209,38 @@ router.post("/rename-user-pokemon", async (req, res) => {
   res.send({
     updatedUser: await updateUser(req.body.user),
     status: status,
-    renamed: renamed,
+  })
+})
+
+router.post("/release-user-pokemon", async (req, res) => {
+  console.log("releasing user pokemon")
+  let user = req.body.user
+  let isInTeam = req.body.isInTeam
+  let pokemon = req.body.pokemon
+  let status
+
+  try {
+    if (isInTeam) {
+      await User.updateOne(
+        { _id: user._id },
+        { $pull: { team: { id: pokemon.id } } }
+      )
+    } else {
+      await User.updateOne(
+        { _id: user._id },
+        { $pull: { box: { id: pokemon.id } } }
+      )
+    }
+    status = "success!"
+    console.log("successful release".green)
+  } catch (error) {
+    console.log("failed release".red)
+    status = "fail"
+    console.log(error)
+  }
+  res.send({
+    updatedUser: await updateUser(req.body.user),
+    status: status,
   })
 })
 

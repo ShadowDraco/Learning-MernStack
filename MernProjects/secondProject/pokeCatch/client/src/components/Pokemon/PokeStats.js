@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal"
 import Button from "react-bootstrap/Button"
 import TransferPokemonButton from "../UI/TransferPokemonButton"
 import RenamePokemonButton from "../UI/RenamePokemonButton"
+import ReleasePokemonButton from "../UI/ReleasePokemonButton"
 
 export default function PokeStats(props) {
   const { currentUser } = useContext(UserContext)
@@ -29,9 +30,10 @@ export default function PokeStats(props) {
       <Modal.Body>
         <Container className="flex">
           <PokemonStatCard pokemon={props.pokemon} />
-          <Container className="flex flex-column">
+          <Container className="flex flex-column justify-content-evenly">
             <TransferPokemonButton pokemon={props.pokemon} />
             <RenamePokemonButton pokemon={props.pokemon} />
+            <ReleasePokemonButton pokemon={props.pokemon} />
           </Container>
         </Container>
       </Modal.Body>

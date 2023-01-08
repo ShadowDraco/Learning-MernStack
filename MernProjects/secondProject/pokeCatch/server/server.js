@@ -11,8 +11,8 @@ require("dotenv").config() // dot env for secret codes
 const mongoURI = process.env.MONGO_URI
 
 // allow the server to send and recieve json from requests
-app.use(express.json({ limit: "3mb" })) // limit allows for larger requests
-app.use(express.urlencoded({ limit: "3mb" }))
+app.use(express.json({ limit: "5mb" })) // limit allows for larger requests
+app.use(express.urlencoded({ limit: "5mb" }))
 // allow the server to bypass CORS
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")

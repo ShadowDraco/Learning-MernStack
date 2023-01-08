@@ -13,11 +13,13 @@ import Team from "../../Player/Team"
 import Box from "../../Player/Box"
 import CheatBar from "../../UI/CheatBar"
 import PokeStats from "../../Pokemon/PokeStats"
+import Canvas from "./Canvas"
+import axios from "axios"
 
 export const UIContext = createContext()
 
 export default function LoggedIn() {
-  const { currentUser } = useContext(UserContext)
+  const { currentUser, setCurrentUser } = useContext(UserContext)
   const { playingAnimation, spinnerVariant } = useContext(RequestContext)
 
   // UI changes and variables
@@ -26,6 +28,7 @@ export default function LoggedIn() {
   const [boxOpen, setBoxOpen] = useState(false)
   const [pokemonStatsOpen, setPokemonStatsOpen] = useState(false)
   const [pokemonStats, setPokemonStats] = useState()
+  const [canvasReady, setCanvasReady] = useState(true)
 
   function changeBoxOpen(e) {
     setBoxOpen(!boxOpen)
@@ -43,7 +46,7 @@ export default function LoggedIn() {
     // check if there is session storage for a player
     // if not then add session storage for this player
     let previousPlayer = JSON.parse(sessionStorage.getItem("PLAYER"))
-    previousPlayer ? console.log("session storage exists") : saveUser()
+    previousPlayer ? saveUser() : addPlayer()
   }, [])
 
   function changePokemonStats(pokemon) {
@@ -54,9 +57,24 @@ export default function LoggedIn() {
       : setPokemonStats(pokemon)
   }
 
-  function saveUser() {
-    // add the current user to the session storage of the browser
+  function addPlayer() {
+    // add a player to current session storage
     sessionStorage.setItem("PLAYER", JSON.stringify(currentUser))
+    console.log("added player to session storage")
+  }
+
+  async function saveUser() {
+    // request an update from the server
+    // add the current user to the session storage of the browser
+    console.log("saving user")
+    await axios
+      .post("http://localhost:5000/user/update", { user: currentUser })
+      .then(res => {
+        sessionStorage.setItem("PLAYER", JSON.stringify(res.data.updatedUser))
+        setCurrentUser(res.data.updatedUser)
+        setCanvasReady(true)
+      })
+    console.log("finished saving")
   }
 
   return (
@@ -69,6 +87,10 @@ export default function LoggedIn() {
           <Button onClick={changeTeamOpen}>Team</Button>
           <Button onClick={changeBoxOpen}>Box</Button>
           <SaveUserButton />
+        </Container>
+
+        <Container className="flex flex-center mt-3">
+          <Canvas />
         </Container>
 
         <UIContext.Provider

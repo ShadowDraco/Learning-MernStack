@@ -45,7 +45,7 @@ function App() {
   // get the display pokemon from the API
   function getDisplayPokemon() {
     console.log("getting display pokemon")
-    let pokemonId = Math.floor(Math.random(247) * 100) + 1
+    let pokemonId = Math.floor(Math.random(1153) * 100) + 1
 
     axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`).then(res => {
       // set the display pokemon
