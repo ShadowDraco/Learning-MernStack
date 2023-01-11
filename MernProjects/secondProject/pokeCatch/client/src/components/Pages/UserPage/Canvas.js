@@ -9,8 +9,11 @@ const Canvas = props => {
     const canvas = canvasRef.current
     const context = canvas.getContext("2d")
 
+    canvasRef.current.addEventListener("click", props.handleclicks)
+
     const render = () => {
       draw(context)
+      canvasRef.current.focus()
     }
     render()
   }, [draw])
