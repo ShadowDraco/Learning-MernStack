@@ -14,11 +14,34 @@ export default function CanvasManager() {
   const [playerSize, setPlayerSize] = useState(15)
   const [position, setPosition] = useState({ x: 200, y: 200 })
 
+  const [tallGrassPositions, setTallGrassPositions] = useState([])
+
+  useEffect(() => {
+    placeTallGrass()
+  }, [])
+
   useEffect(() => {
     setTimeout(() => {
       setCanMove(true)
     }, 100)
   }, [canMove])
+
+  function placeTallGrass() {
+    let tallGrass = []
+
+    for (let i = 0; i < 5; i++) {
+      let centerXPostion = Math.floor(Math.random(400) * 100) + 1
+      let centerYPostion = Math.floor(Math.random(400) * 100) + 1
+
+      for (let j = 0; i < 10; i++) {
+        tallGrass.push({
+          x: Math.floor(Math.random(50) * 100) + centerXPostion,
+          y: Math.floor(Math.random(50) * 100) + centerYPostion,
+        })
+      }
+    }
+    setTallGrassPositions(tallGrass)
+  }
 
   function handleclicks(e) {
     if (canMove) {
@@ -34,6 +57,11 @@ export default function CanvasManager() {
 
     ctx.fillStyle = "#FF11FF"
     ctx.fillRect(position.x, position.y, playerSize, playerSize)
+
+    tallGrassPositions.map(grass => {
+      ctx.fillStyle = "#009900"
+      ctx.fillRect(grass.x, grass.y, 15, 15)
+    })
   }
 
   return (
