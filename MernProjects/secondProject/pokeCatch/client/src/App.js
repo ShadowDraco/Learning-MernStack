@@ -31,11 +31,6 @@ function App() {
       : getDisplayPokemon()
   }, [])
 
-  // take the first letter to upper case then re-insert the rest of the string
-  function Captialize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
-  }
-
   // get the display pokemon from session storage
   function fetchDisplayPokemon() {
     setDisplayPokemon(JSON.parse(sessionStorage.getItem("DISPLAYPOKEMON")))

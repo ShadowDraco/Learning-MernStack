@@ -13,7 +13,7 @@ import Team from "../../Player/Team"
 import Box from "../../Player/Box"
 import CheatBar from "../../UI/CheatBar"
 import PokeStats from "../../Pokemon/PokeStats"
-import Canvas from "./Canvas"
+import CanvasManager from "./GameManager"
 import axios from "axios"
 
 export const UIContext = createContext()
@@ -89,9 +89,13 @@ export default function LoggedIn() {
           <SaveUserButton />
         </Container>
 
-        <Container className="flex flex-center mt-3">
-          <Canvas />
-        </Container>
+        {canvasReady ? (
+          <Container className="flex flex-center mt-3">
+            <CanvasManager />
+          </Container>
+        ) : (
+          ""
+        )}
 
         <UIContext.Provider
           value={{

@@ -1,28 +1,20 @@
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 const Canvas = props => {
+  const { draw, ...rest } = props
+
   const canvasRef = useRef(null)
-
-  const draw = ctx => {
-    let halfWidth = ctx.canvas.width / 2
-    let halfHeight = ctx.canvas.height / 2
-
-    let playerSize = 15
-
-    ctx.fillStyle = "#000000"
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-
-    ctx.fillStyle = "#FF11FF"
-    ctx.fillRect(halfWidth, halfHeight, playerSize, playerSize)
-  }
 
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext("2d")
-    // first fraw
-    draw(context)
+
+    const render = () => {
+      draw(context)
+    }
+    render()
   }, [draw])
 
-  return <canvas ref={canvasRef} width={400} height={400} />
+  return <canvas ref={canvasRef} {...rest} />
 }
 export default Canvas
