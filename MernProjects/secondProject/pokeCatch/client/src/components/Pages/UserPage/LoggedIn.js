@@ -89,14 +89,6 @@ export default function LoggedIn() {
           <SaveUserButton />
         </Container>
 
-        {canvasReady ? (
-          <Container className="flex flex-center mt-3">
-            <CanvasManager />
-          </Container>
-        ) : (
-          ""
-        )}
-
         <UIContext.Provider
           value={{
             bagOpen,
@@ -112,6 +104,14 @@ export default function LoggedIn() {
         >
           {!currentUser.choseStarterPokemon ? <ChooseStarterPokemon /> : ""}
           <hr className="text-light"></hr>
+
+          {canvasReady ? (
+            <Container className="flex flex-center mt-3">
+              <CanvasManager />
+            </Container>
+          ) : (
+            ""
+          )}
 
           <Bag />
           <Team />

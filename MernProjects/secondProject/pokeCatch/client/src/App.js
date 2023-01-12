@@ -38,25 +38,27 @@ function App() {
   }
 
   // get the display pokemon from the API
-  function getDisplayPokemon() {
+  async function getDisplayPokemon() {
     console.log("getting display pokemon")
     let pokemonId = Math.floor(Math.random(1153) * 100) + 1
 
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`).then(res => {
-      // set the display pokemon
-      setDisplayPokemon(res.data)
-      // get the pokemon's description
-      axios.get(res.data.species.url).then(res => {
-        setDisplayGenera(res.data.genera[7].genus)
-        // add description to session storage
-        sessionStorage.setItem(
-          "DISPLAYGENERA",
-          JSON.stringify(res.data.genera[7].genus)
-        )
+    await axios
+      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+      .then(res => {
+        // set the display pokemon
+        setDisplayPokemon(res.data)
+        // get the pokemon's description
+        axios.get(res.data.species.url).then(res => {
+          setDisplayGenera(res.data.genera[7].genus)
+          // add description to session storage
+          sessionStorage.setItem(
+            "DISPLAYGENERA",
+            JSON.stringify(res.data.genera[7].genus)
+          )
+        })
+        // add display pokemon to sessions storage
+        sessionStorage.setItem("DISPLAYPOKEMON", JSON.stringify(res.data))
       })
-      // add display pokemon to sessions storage
-      sessionStorage.setItem("DISPLAYPOKEMON", JSON.stringify(res.data))
-    })
   }
 
   return (
