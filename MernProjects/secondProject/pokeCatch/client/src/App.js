@@ -61,6 +61,72 @@ function App() {
       })
   }
 
+  async function requestPokemon(pokemonId, levelToAdd) {
+    let requestedPokemon
+
+    setPlayingAnimation(true)
+    setSpinnerVariant("success")
+    console.log("requesting a pokemon")
+
+    try {
+      await axios
+        .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+        .then(res => {
+          requestedPokemon = res.data
+          const hp = requestedPokemon.stats[0].base_stat
+          const max_hp =
+            hp + Math.floor((Math.random(2) * 100 * levelToAdd) / hp)
+          const attack = requestedPokemon.stats[1].base_stat
+          const defense = requestedPokemon.stats[2].base_stat
+          const special_attack = requestedPokemon.stats[3].base_stat
+          const special_defense = requestedPokemon.stats[4].base_stat
+          const speed = requestedPokemon.stats[5].base_stat
+
+          requestedPokemon.stats.push({
+            level: levelToAdd,
+            xp: 0,
+            xp_cap: (10 * levelToAdd) / 5,
+            max_hp: max_hp,
+            hp: max_hp,
+            attack:
+              attack + Math.floor((Math.random(2) * 100 * levelToAdd) / attack),
+            defense:
+              defense +
+              Math.floor((Math.random(2) * 100 * levelToAdd) / defense),
+            special_attack:
+              special_attack +
+              Math.floor((Math.random(2) * 100 * levelToAdd) / special_attack),
+            special_defense:
+              special_defense +
+              Math.floor((Math.random(2) * 100 * levelToAdd) / special_defense),
+            speed:
+              speed + Math.floor((Math.random(3) * 100 * levelToAdd) / speed),
+          })
+          const id = `${levelToAdd}${requestedPokemon.stats[6].hp}${requestedPokemon.stats[6].attack}${requestedPokemon.stats[6].defense}${requestedPokemon.stats[6].special_attack}${requestedPokemon.stats[6].special_defense}${requestedPokemon.stats[6].speed}`
+
+          requestedPokemon.id = id
+          requestedPokemon.isStarter = false
+          requestedPokemon.isInTeam = false
+        })
+
+      // get the pokemon's genera
+      await axios.get(requestedPokemon.species.url).then(res => {
+        requestedPokemon.genera = res.data.genera[7].genus
+      })
+      console.log("success!")
+    } catch (error) {
+      console.log("error requesting pokemon", error)
+      setSpinnerVariant("danger") // set spinner to red
+
+      // allow the spinner to go for 2 seconds then stop
+      setTimeout(() => {
+        setPlayingAnimation(false)
+      }, 2000)
+    }
+
+    return requestedPokemon
+  }
+
   return (
     <Container className="App bg-dark">
       <RequestContext.Provider
@@ -69,6 +135,7 @@ function App() {
           setPlayingAnimation,
           spinnerVariant,
           setSpinnerVariant,
+          requestPokemon,
         }}
       >
         <PokemonContext.Provider

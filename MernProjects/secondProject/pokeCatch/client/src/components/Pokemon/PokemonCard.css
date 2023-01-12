@@ -42,6 +42,19 @@
   background: rgba(100, 100, 100, 0.5);
 }
 
+.battlePokemonCard {
+  background-color: rgb(92, 77, 77);
+  transition: 500ms;
+}
+.battlePokemonCard:hover {
+  background: rgba(100, 100, 100, 0.5);
+}
+
+.true {
+  background-color: rgb(170, 57, 57);
+  transition: 500ms;
+}
+
 /* all cards */
 
 .pokemon-card {

@@ -244,6 +244,31 @@ router.post("/release-user-pokemon", async (req, res) => {
   })
 })
 
+router.post("/update-after-battle", async (req, res) => {
+  console.log("updating after battle")
+  let user = req.body.user
+  let pokemon = req.body.pokemon
+  let status
+
+  try {
+    await User.updateOne(
+      { _id: user._id, "team.id": pokemon.id },
+      { $set: { "team.$.stats": pokemon.stats } }
+    )
+
+    status = "success!"
+    console.log("successful update".green)
+  } catch (error) {
+    console.log("failed release".red)
+    status = "fail"
+    console.log(error)
+  }
+  res.send({
+    updatedUser: await updateUser(req.body.user),
+    status: status,
+  })
+})
+
 router.post("/add-item-to-bag", async (req, res) => {
   console.log("adding item to bag".yellow)
   let user = req.body.user

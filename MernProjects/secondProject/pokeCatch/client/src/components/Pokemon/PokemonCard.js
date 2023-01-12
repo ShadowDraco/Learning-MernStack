@@ -22,10 +22,10 @@ export default function PokemonCard(props) {
       overlay={<Tooltip>{props.pokemon.genera}</Tooltip>}
     >
       <Card
-        className={`${props.type}PokemonCard pokemon-card`}
+        className={`${props.type}PokemonCard pokemon-card ${props.pokemon.beingAttacked}`}
         onClick={() => {
           {
-            props.type !== "starter"
+            props.type !== "starter" && props.type !== "battle"
               ? changePokemonStats(props.pokemon)
               : props.onClick()
           }
@@ -53,7 +53,7 @@ export default function PokemonCard(props) {
               : ""}
             {props.type === "starter" ? `${props.pokemon.genera}` : ""}
           </Card.Text>
-          {props.type === "box" || props.type === "team" ? (
+          {props.type !== "starter" ? (
             <ProgressBar
               variant="success"
               now={

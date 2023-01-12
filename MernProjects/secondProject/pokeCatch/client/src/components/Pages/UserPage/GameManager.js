@@ -1,38 +1,30 @@
-import { useState, useContext, createContext, useRef, useEffect } from "react"
-import axios from "axios"
+import { useState, useContext, useEffect, createContext } from "react"
+
+import { RequestContext, UserContext } from "../../../App"
 
 import Canvas from "./Canvas"
 
 import Container from "react-bootstrap/Container"
-import PokemonCard from "../../Pokemon/PokemonCard"
+
+import Battle from "../../Pokemon/Battle"
+
+export const EncounterContext = createContext()
 
 export default function CanvasManager() {
-  const [canMoveTimer, setCanMoveTimer] = useState(false)
-  const [canMove, setCanMove] = useState(false)
-  const [canEncounter, setCanEncounter] = useState(false)
-  const [width, setWidth] = useState(400)
-  const [height, setHeight] = useState(400)
-  const [halfWidth, setHalfWidth] = useState(width / 2)
-  const [halfHeight, setHalfHeight] = useState(height / 2)
-
   const [pokemonEncountered, setPokemonEncountered] = useState(false)
-  const [encounteredPokemon, setEncounteredPokemon] = useState()
+  const [encounteredPokemon, setEncounteredPokemon] = useState(null)
 
-  const [playerSize, setPlayerSize] = useState(15)
   const [position, setPosition] = useState({ x: 200, y: 200 })
 
   const [tallGrassPositions, setTallGrassPositions] = useState([])
 
+  const { setPlayingAnimation, setSpinnerVariant, requestPokemon } =
+    useContext(RequestContext)
+  const { currentUser } = useContext(UserContext)
+
   useEffect(() => {
     placeTallGrass()
   }, [])
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCanMove(true)
-      setCanMoveTimer(false)
-    }, 500)
-  }, [canMoveTimer])
 
   function placeTallGrass() {
     let tallGrass = []
@@ -50,35 +42,28 @@ export default function CanvasManager() {
 
   async function getEncounteredPokemon() {
     console.log("encountering pokemon")
+    setPlayingAnimation(true)
+    setSpinnerVariant("success")
+
     let pokemonId = Math.floor(Math.random(1153) * 100) + 1
-    let pokemon
+    let requestedPokemon = await requestPokemon(
+      pokemonId,
+      Math.floor(
+        Math.random(currentUser.team[1].stats[6].level / 2) * 10 +
+          currentUser.team[1].stats[6].level / 2
+      )
+    )
 
-    await axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-      .then(res => {
-        // set the pokemon
-        pokemon = res.data
-        // get the pokemon's description
-        axios.get(res.data.species.url).then(res => {
-          pokemon.genera = res.data.genera[7].genus
-        })
-      })
-    console.log(pokemon)
-
-    setEncounteredPokemon(pokemon)
+    setEncounteredPokemon(requestedPokemon)
     setPokemonEncountered(true)
+    setPlayingAnimation(false)
   }
 
   function tryToEncounterPokemon() {
     let chance = Math.floor(Math.random(100) * 100) + 1
-    console.log(chance)
 
     if (chance > 80) {
       getEncounteredPokemon()
-      setCanEncounter(false)
-      setCanMove(false)
-    } else {
-      setCanEncounter(true)
     }
   }
 
@@ -89,22 +74,16 @@ export default function CanvasManager() {
         pos.y - tallGrassPositions[grass].y < 15
       ) {
         tryToEncounterPokemon()
-        setCanEncounter(false)
-        setCanMove(false)
         return
       }
     }
   }
 
   function handleclicks(e) {
-    if (pokemonEncountered) return
-    if (canMoveTimer) return
-    if (canMove) {
+    if (encounteredPokemon === null && !pokemonEncountered) {
       let pos = { x: e.offsetX, y: e.offsetY }
       checkGrass(pos)
       setPosition(pos)
-      setCanMoveTimer(true)
-      setCanMove(false)
     }
   }
 
@@ -126,28 +105,30 @@ export default function CanvasManager() {
     })
 
     ctx.fillStyle = "#FF11FF"
-    ctx.fillRect(position.x - 7, position.y - 7, playerSize, playerSize)
+    ctx.fillRect(position.x - 7, position.y - 7, 15, 15)
   }
 
   return (
-    <Container>
-      <Canvas
-        draw={draw}
-        width={width}
-        height={height}
-        handleclicks={handleclicks}
-      />
-      {pokemonEncountered ? (
-        <Container>
-          <PokemonCard
-            pokemon={encounteredPokemon}
-            index={encounteredPokemon.order}
-            type="starter"
-          />
-        </Container>
+    <Container className="flex flex-center">
+      {!pokemonEncountered ? (
+        <Canvas
+          draw={draw}
+          width={400}
+          height={400}
+          handleclicks={handleclicks}
+        />
       ) : (
-        ""
+        "Battle!"
       )}
+      <EncounterContext.Provider
+        value={{
+          setEncounteredPokemon,
+          setPokemonEncountered,
+          encounteredPokemon,
+        }}
+      >
+        {pokemonEncountered ? <Battle /> : ""}
+      </EncounterContext.Provider>
     </Container>
   )
 }
