@@ -3,6 +3,8 @@ import { UserContext } from "../../App"
 import axios from "axios"
 
 import Container from "react-bootstrap/Container"
+import Button from "react-bootstrap/Button"
+
 import PokemonCard from "./PokemonCard"
 
 import { RequestContext } from "../../App"
@@ -91,6 +93,35 @@ export default function Battle() {
     await updateAfterBattle(user)
   }
 
+  async function catchPokemon() {
+    try {
+      console.log("catching pokemon")
+      setPlayingAnimation(true)
+      setSpinnerVariant("success") // change spinner to green
+
+      await axios
+        .post("http://localhost:5000/user/catch-pokemon", {
+          user: currentUser,
+          pokemon: encounteredPokemon,
+        })
+        .then(res => {
+          console.log("Caught Pokemon")
+          setCurrentUser(res.data.updatedUser)
+
+          setPlayingAnimation(false)
+          setEncounteredPokemon(null)
+          setPokemonEncountered(false)
+        })
+    } catch (error) {
+      console.log("error while catching pokemon", error)
+      setSpinnerVariant("danger") // set spinner to red
+      // allow the spinner to go for 2 seconds then stop
+      setTimeout(() => {
+        setPlayingAnimation(false)
+      }, 2000)
+    }
+  }
+
   return (
     <Container className="flex flex-center">
       <PokemonCard pokemon={currentUser.team[1]} index={1} type="team" />
@@ -103,6 +134,9 @@ export default function Battle() {
           attackWildPokemon()
         }}
       />
+      <Button className="btn-warning" onClick={catchPokemon}>
+        Poke-ball
+      </Button>
     </Container>
   )
 }

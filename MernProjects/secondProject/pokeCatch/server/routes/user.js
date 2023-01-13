@@ -259,7 +259,33 @@ router.post("/update-after-battle", async (req, res) => {
     status = "success!"
     console.log("successful update".green)
   } catch (error) {
-    console.log("failed release".red)
+    console.log("failed update".red)
+    status = "fail"
+    console.log(error)
+  }
+  res.send({
+    updatedUser: await updateUser(req.body.user),
+    status: status,
+  })
+})
+
+router.post("/catch-pokemon", async (req, res) => {
+  console.log("catching pokemon")
+  let user = req.body.user
+  let pokemon = req.body.pokemon
+  let status
+
+  try {
+    if (user.team.length < 7) {
+      await User.updateOne({ _id: user._id }, { $push: { team: pokemon } })
+    } else {
+      await User.updateOne({ _id: user._id }, { $push: { box: pokemon } })
+    }
+
+    status = "success!"
+    console.log("successful catch".green)
+  } catch (error) {
+    console.log("failed catch".red)
     status = "fail"
     console.log(error)
   }
