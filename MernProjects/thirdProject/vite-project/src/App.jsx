@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import "./App.css"
 import Home from "./components/Home"
-import Profile from "./components/Profile"
 import Contact from "./components/Contact"
 
 function App() {
