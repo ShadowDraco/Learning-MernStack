@@ -1,1 +1,1 @@
-WDS react photoshop tutorial
+WebDevSimplified react photoshop tutorial
